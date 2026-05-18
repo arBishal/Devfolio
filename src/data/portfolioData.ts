@@ -13,9 +13,9 @@ export const portfolioData: PortfolioData = {
   // Personal Info
   // ----------------------------------------------------------
   personal: {
-    fullName: "Ashikur Rahman",
+    fullName: "Ashikur Rahman Bishal",
     shortName: "Bishal",
-    title: "Frontend-focused Software Engineer",
+    title: "Software Engineer",
     username: "arBishal",
     location: "Dhaka, Bangladesh",
     education: [

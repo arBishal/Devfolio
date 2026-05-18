@@ -1,22 +1,42 @@
-import { useState, useEffect, useRef, useCallback, Suspense, lazy } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { CommandLine } from "@/components/CommandLine";
 import { TerminalOutput } from "@/components/TerminalOutput";
 import { TerminalHeader } from "@/components/TerminalHeader";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { useCommandExecutor } from "@/hooks/useCommandExecutor";
+import type { ThemeName } from "@/themes/themes";
 
-// Lazy-load heavy visual effects so they don't block the initial terminal render
-const FirefliesCanvas = lazy(() => import("@/components/FirefliesCanvas").then(m => ({ default: m.FirefliesCanvas })));
-const MatrixRainCanvas = lazy(() => import("@/components/MatrixRainCanvas").then(m => ({ default: m.MatrixRainCanvas })));
-const StarfieldCanvas = lazy(() => import("@/components/StarfieldCanvas").then(m => ({ default: m.StarfieldCanvas })));
-const CatCompanion = lazy(() => import("@/components/CatCompanion").then(m => ({ default: m.CatCompanion })));
+interface TerminalProps {
+  currentThemeName: ThemeName;
+  currentThemeNameRef: React.MutableRefObject<ThemeName>;
+  setCurrentThemeName: React.Dispatch<React.SetStateAction<ThemeName>>;
+  currentEffect: string | null;
+  currentEffectRef: React.MutableRefObject<string | null>;
+  setCurrentEffect: React.Dispatch<React.SetStateAction<string | null>>;
+  clearEffect: () => void;
+  isMeowActive: boolean;
+  setIsMeowActive: React.Dispatch<React.SetStateAction<boolean>>;
+  onToggleView: () => void;
+}
 
 /**
- * Root component — owns layout, theme attribute, scroll-to-latest logic,
- * and mobile focus/collapse handling. Delegates all command logic to
- * useCommandExecutor and renders child components for each UI region.
+ * Root terminal component — owns layout, scroll-to-latest logic,
+ * and mobile focus/collapse handling. All theme/effect/meow state
+ * is owned by App.tsx and passed in as props so it persists across
+ * Terminal ↔ Minimal view switches.
  */
-export function Terminal() {
+export function Terminal({
+  currentThemeName,
+  currentThemeNameRef,
+  setCurrentThemeName,
+  currentEffect,
+  currentEffectRef,
+  setCurrentEffect,
+  clearEffect,
+  isMeowActive,
+  setIsMeowActive,
+  onToggleView,
+}: TerminalProps) {
   const [isClosed, setIsClosed] = useState(false);
   const [isCommandsOpen, setIsCommandsOpen] = useState(true);
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -37,12 +57,19 @@ export function Terminal() {
     commandHistory,
     historyIndex,
     setHistoryIndex,
+    executeCommand,
+  } = useCommandExecutor({
+    setIsCommandsOpen,
     currentThemeName,
+    currentThemeNameRef,
+    setCurrentThemeName,
     currentEffect,
+    currentEffectRef,
+    setCurrentEffect,
     clearEffect,
     isMeowActive,
-    executeCommand,
-  } = useCommandExecutor({ setIsCommandsOpen });
+    setIsMeowActive,
+  });
 
   useEffect(() => {
     const pane = terminalRef.current;
@@ -82,7 +109,6 @@ export function Terminal() {
   if (isClosed) {
     return (
       <div
-        data-theme={currentThemeName}
         className="bg-t-bg text-t-text font-mono min-h-dvh h-dvh flex items-center justify-center"
       >
         <div className="text-center space-y-4">
@@ -99,15 +125,9 @@ export function Terminal() {
   }
 
   return (
-    <div data-theme={currentThemeName} className="bg-t-bg text-t-text font-mono min-h-dvh">
-      <Suspense fallback={null}>
-        {currentEffect === "fireflies" && <FirefliesCanvas onComplete={clearEffect} />}
-        {currentEffect === "matrix-rain" && <MatrixRainCanvas onComplete={clearEffect} />}
-        {currentEffect === "starfield" && <StarfieldCanvas onComplete={clearEffect} />}
-        {isMeowActive && <CatCompanion />}
-      </Suspense>
+    <div className="bg-t-bg text-t-text font-mono min-h-dvh">
       <div className="h-dvh flex flex-col">
-        <TerminalHeader onClose={() => setIsClosed(true)} />
+        <TerminalHeader onClose={() => setIsClosed(true)} onToggleView={onToggleView} />
         <WelcomeScreen
           onCommandClick={executeCommand}
           isCommandsOpen={isCommandsOpen}

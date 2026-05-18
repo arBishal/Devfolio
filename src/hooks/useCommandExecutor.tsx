@@ -18,8 +18,6 @@ import {
 } from "@/commands/misc";
 
 import { useTerminalHistory } from "./useTerminalHistory";
-import { useTheme } from "./useTheme";
-import { useActiveEffect } from "./useActiveEffect";
 
 import type { OutputLine, CommandContext, CommandHandler } from "@/types/terminal";
 
@@ -32,6 +30,16 @@ const MAX_HISTORY = 400;
 
 export interface CommandExecutorOptions {
   setIsCommandsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // Shared state from App.tsx — owned externally so theme/effect persist across view switches
+  currentThemeName: ThemeName;
+  currentThemeNameRef: React.MutableRefObject<ThemeName>;
+  setCurrentThemeName: React.Dispatch<React.SetStateAction<ThemeName>>;
+  currentEffect: string | null;
+  currentEffectRef: React.MutableRefObject<string | null>;
+  setCurrentEffect: React.Dispatch<React.SetStateAction<string | null>>;
+  clearEffect: () => void;
+  isMeowActive: boolean;
+  setIsMeowActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface CommandExecutor {
@@ -39,11 +47,6 @@ export interface CommandExecutor {
   commandHistory: string[];
   historyIndex: number;
   setHistoryIndex: (index: number) => void;
-  currentThemeName: ThemeName;
-  currentEffect: string | null;
-  clearEffect: () => void;
-  isMeowActive: boolean;
-  setIsMeowActive: React.Dispatch<React.SetStateAction<boolean>>;
   executeCommand: (cmd: string) => void;
 }
 
@@ -56,15 +59,17 @@ export interface CommandExecutor {
  * them to the appropriate `CommandHandler` in the registry, injecting a
  * unified `CommandContext` to keep the handlers modular and decoupled.
  */
-export function useCommandExecutor({ setIsCommandsOpen }: CommandExecutorOptions): CommandExecutor {
+export function useCommandExecutor({
+  setIsCommandsOpen,
+  currentThemeName, currentThemeNameRef, setCurrentThemeName,
+  currentEffect, currentEffectRef, setCurrentEffect,
+  isMeowActive, setIsMeowActive,
+}: CommandExecutorOptions): CommandExecutor {
   const {
     history, setHistory,
     commandHistory, commandHistoryRef, setCommandHistory,
     historyIndex, setHistoryIndex,
   } = useTerminalHistory();
-
-  const { currentThemeName, currentThemeNameRef, setCurrentThemeName } = useTheme();
-  const { currentEffect, currentEffectRef, setCurrentEffect, clearEffect, isMeowActive, setIsMeowActive } = useActiveEffect();
 
   const executeCommand = useCallback((cmd: string) => {
     function push(type: OutputLine["type"], content: OutputLine["content"]) {
@@ -159,5 +164,5 @@ export function useCommandExecutor({ setIsCommandsOpen }: CommandExecutorOptions
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { history, commandHistory, historyIndex, setHistoryIndex, currentThemeName, currentEffect, clearEffect, isMeowActive, setIsMeowActive, executeCommand };
+  return { history, commandHistory, historyIndex, setHistoryIndex, executeCommand };
 }
