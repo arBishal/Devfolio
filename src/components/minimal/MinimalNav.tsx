@@ -94,6 +94,7 @@ export function MinimalNav({
   const handleEffectChange = (value: string) => {
     if (value === "") clearEffect();
     else setCurrentEffect(value);
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -109,7 +110,7 @@ export function MinimalNav({
       {/* ── Sidebar (Desktop fixed, Mobile slide-out) ──────────────────────── */}
       <aside
         className={`
-          flex flex-col fixed top-0 left-0 h-dvh w-1/2 px-[5vw] pt-16 pb-8 md:px-8 border-r border-t-border bg-t-bg z-50
+          flex flex-col fixed top-0 left-0 h-dvh w-1/2 px-[5vw] pt-16 pb-8 md:px-8 border-r border-t-border bg-t-bg/60 backdrop-blur-md z-50
           transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-[90%] md:translate-x-0"}
           md:w-56 lg:w-64
@@ -122,7 +123,7 @@ export function MinimalNav({
             md:hidden absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2
             w-8 h-8
             border border-t-border
-            bg-t-bg
+            bg-t-bg/80 backdrop-blur-sm
             rounded-full
             flex items-center justify-center
             text-t-muted hover:text-t-text
@@ -177,7 +178,7 @@ export function MinimalNav({
             <p className="text-t-muted text-xs lg:text-sm opacity-60">theme</p>
             <select
               value={currentThemeName}
-              onChange={(e) => setCurrentThemeName(e.target.value as ThemeName)}
+              onChange={(e) => { setCurrentThemeName(e.target.value as ThemeName); setIsMobileMenuOpen(false); }}
               className="w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors focus:outline-none"
             >
               {themeNames.map((t) => (
