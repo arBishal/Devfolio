@@ -8,11 +8,11 @@ export function AboutSection() {
         <p key={i}>{line}</p>
       ))}
       <div className="pt-2 md:pt-4 space-y-1">
-        <p className="text-t-muted text-xs md:text-sm capitalize">location</p>
+        <p className="text-t-accent2 text-sm md:text-base capitalize">location</p>
         <p>{location}</p>
       </div>
       <div className="space-y-1 md:space-y-2">
-        <p className="text-t-muted text-xs md:text-sm capitalize">education</p>
+        <p className="text-t-accent2 text-sm md:text-base capitalize">education</p>
         {education.map((line, i) => (
           <p key={i}>{line}</p>
         ))}

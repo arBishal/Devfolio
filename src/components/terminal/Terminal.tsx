@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { CommandLine } from "@/components/CommandLine";
-import { TerminalOutput } from "@/components/TerminalOutput";
-import { TerminalHeader } from "@/components/TerminalHeader";
-import { WelcomeScreen } from "@/components/WelcomeScreen";
+import { CommandLine } from "@/components/terminal/CommandLine";
+import { TerminalOutput } from "@/components/terminal/TerminalOutput";
+import { TerminalHeader } from "@/components/terminal/TerminalHeader";
+import { WelcomeScreen } from "@/components/terminal/WelcomeScreen";
 import { useCommandExecutor } from "@/hooks/useCommandExecutor";
 import type { ThemeName } from "@/themes/themes";
 

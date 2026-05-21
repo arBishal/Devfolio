@@ -107,7 +107,7 @@ export function CatCompanion() {
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 pointer-events-none z-50 text-t-accent font-mono text-xs leading-tight whitespace-pre"
+      className="fixed top-0 left-0 pointer-events-none z-[9999] text-t-accent font-mono text-xs leading-tight whitespace-pre"
     >
       {awakeCat}
     </div>

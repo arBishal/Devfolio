@@ -9,9 +9,7 @@
 import type { PortfolioData } from "@/types/portfolio";
 
 export const portfolioData: PortfolioData = {
-  // ----------------------------------------------------------
-  // Personal Info
-  // ----------------------------------------------------------
+  // Personal Info --------------------------------------------
   personal: {
     fullName: "Ashikur Rahman Bishal",
     shortName: "Bishal",
@@ -23,35 +21,29 @@ export const portfolioData: PortfolioData = {
       "Shahjalal University of Science & Technology",
     ],
     bio: [
-      "A frontend-leaning software engineer crafting seamless, user-first experiences—driven by detail, design, and a dash of storytelling.",
-      "Currently, at Dynamic Solution Innovators Ltd., supporting the digital operations of 190+ financial institutions, including credit unions and banks, impacting over 85+ million end users.",
+      "A software engineer crafting seamless, user-first experiences—driven by detail, design, and a dash of storytelling; powered by human curiosity, and aplified by AI-assisted workflows. Currently, at Dynamic Solution Innovators Ltd., supporting the digital operations of 190+ financial institutions, including credit unions and banks, impacting over 85+ million end users.",
       "Engineering digital solutions for millions by day; chasing ideas through code, visuals, and words by night. Has a strong affinity for building fun, visually striking products that feel as good as they look. Always creating. Always telling stories.",
     ],
     portfolioVersion: "v1.0.0",
   },
 
-  // ----------------------------------------------------------
-  // Resume
-  // ----------------------------------------------------------
+  // Resume ---------------------------------------------------
   resume: {
     filePath: "/Resume_of_Ashikur_Rahman_Bishal.pdf",
     downloadFilename: "Resume_of_Ashikur_Rahman_Bishal.pdf",
   },
 
-  // ----------------------------------------------------------
-  // Skills
-  // ----------------------------------------------------------
+  // Skills ---------------------------------------------------
   skills: {
-    programming: ["JavaScript", "TypeScript", "C++"],
-    webStack: ["React.js", "Next.js", "Vue.js", "HTML5", "CSS3", "TailwindCSS"],
+    programming: ["JavaScript", "TypeScript", "C++", "Java"],
+    webStack: ["React.js", "Next.js", "Vue.js", "Meteor.js", "HTML5", "CSS3", "TailwindCSS"],
     databases: ["Oracle", "PostgreSQL", "MongoDB"],
     tools: ["Git", "SVN", "Postman", "JIRA", "Datadog", "Claude Code", "Antigravity", "Figma"],
+    aiWorkflows: ["Claude Code", "Antigravity"],
     practices: ["Agile (SCRUM)", "Cross-Team Collaboration"],
   },
 
-  // ----------------------------------------------------------
-  // Projects
-  // ----------------------------------------------------------
+  // Projects -------------------------------------------------
   projects: [
     {
       name: "Terminal-Devfolio",
@@ -69,9 +61,7 @@ export const portfolioData: PortfolioData = {
     },
   ],
 
-  // ----------------------------------------------------------
-  // Work Experience
-  // ----------------------------------------------------------
+  // Work Experience ------------------------------------------
   experience: [
     {
       title: "Assistant Software Engineer",
@@ -106,9 +96,7 @@ export const portfolioData: PortfolioData = {
     },
   ],
 
-  // ----------------------------------------------------------
-  // Contact
-  // ----------------------------------------------------------
+  // Contact --------------------------------------------------
   contact: {
     email: "m.arbishal@gmail.com",
     links: [
@@ -128,14 +116,12 @@ export const portfolioData: PortfolioData = {
         display: "linkedin.com/in/arBishal",
       },
     ],
-    note: "Open to new opportunities and collaborations. Feel free to reach out! 👋",
+    note: "Open to new opportunities and collaborations. Feel free to reach out!",
   },
 
-  // ----------------------------------------------------------
-  // Blog Links
-  // ----------------------------------------------------------
+  // Blog Links -----------------------------------------------
   blog: {
-    tagline: "📝 Writing about software development, web technologies, and engineering practices.",
+    tagline: "Writing about software development, web technologies, and engineering practices.",
     links: [
       {
         label: "Medium",

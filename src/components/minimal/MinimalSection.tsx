@@ -16,11 +16,14 @@ export function MinimalSection({ id, title, children }: MinimalSectionProps) {
   return (
     <section
       id={id}
-      className="py-10 md:py-14 border-t border-t-border first:border-t-0"
+      className="py-6 md:py-8 scroll-mt-16"
     >
-      <h2 className="text-t-accent text-xs md:text-sm uppercase tracking-widest mb-6 md:mb-8">
-        {title}
-      </h2>
+      <div className="flex items-center gap-4 mb-6 md:mb-8">
+        <h2 className="text-t-accent text-sm md:text-base uppercase tracking-widest whitespace-nowrap">
+          {title}
+        </h2>
+        <div className="h-px bg-t-border flex-1"></div>
+      </div>
       {children}
     </section>
   );

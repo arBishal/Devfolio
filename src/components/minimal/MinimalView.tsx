@@ -17,6 +17,8 @@ interface MinimalViewProps {
   currentEffect: string | null;
   setCurrentEffect: Dispatch<SetStateAction<string | null>>;
   clearEffect: () => void;
+  isMeowActive: boolean;
+  setIsMeowActive: Dispatch<SetStateAction<boolean>>;
   onToggleView: () => void;
 }
 
@@ -34,6 +36,8 @@ export function MinimalView({
   currentEffect,
   setCurrentEffect,
   clearEffect,
+  isMeowActive,
+  setIsMeowActive,
   onToggleView,
 }: MinimalViewProps) {
   const handleResumeDownload = () => {
@@ -48,6 +52,8 @@ export function MinimalView({
         currentEffect={currentEffect}
         setCurrentEffect={setCurrentEffect}
         clearEffect={clearEffect}
+        isMeowActive={isMeowActive}
+        setIsMeowActive={setIsMeowActive}
         onToggleView={onToggleView}
       />
 
@@ -55,7 +61,7 @@ export function MinimalView({
       <div className="md:ml-56 lg:ml-64 relative">
 
         {/* GitHub style Header */}
-        <header className="md:sticky top-0 z-30 bg-t-bg/95 backdrop-blur-sm border-b border-t-border px-6 ml-[5vw] md:ml-0 md:px-12 lg:px-20 h-16 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-t-bg/95 backdrop-blur-sm border-b border-t-border px-6 ml-[5vw] md:ml-0 md:px-12 lg:px-20 h-16 flex items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-0 sm:gap-2 items-start sm:items-center text-sm md:text-base whitespace-nowrap overflow-hidden pr-4">
             <span className="text-t-text font-medium flex-shrink-0">{portfolioData.personal.fullName}</span>
             <span className="text-t-muted flex-shrink-0 hidden sm:inline">/</span>
@@ -63,10 +69,11 @@ export function MinimalView({
           </div>
           <button
             onClick={handleResumeDownload}
-            className="text-xs bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0"
+            className="text-xs md:text-sm  bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0"
           >
-            <span className="inline">Resume</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+            <span className="md:hidden">Resume</span>
+            <span className="hidden md:inline">Download Resume</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
           </button>
         </header>
 
@@ -76,16 +83,16 @@ export function MinimalView({
             <AboutSection />
           </MinimalSection>
 
+          <MinimalSection id="experience" title="Experience">
+            <ExperienceSection />
+          </MinimalSection>
+
           <MinimalSection id="skills" title="Skills">
             <SkillsSection />
           </MinimalSection>
 
           <MinimalSection id="projects" title="Projects">
             <ProjectsSection />
-          </MinimalSection>
-
-          <MinimalSection id="experience" title="Experience">
-            <ExperienceSection />
           </MinimalSection>
 
           <MinimalSection id="blog" title="Blog">

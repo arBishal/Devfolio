@@ -29,6 +29,7 @@ export interface Skills {
   webStack: string[];
   databases: string[];
   tools: string[];
+  aiWorkflows: string[];
   practices: string[];
 }
 

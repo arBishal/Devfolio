@@ -17,6 +17,15 @@ const NAV_SECTIONS = [
     ),
   },
   {
+    id: "experience",
+    label: "Experience",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="7" width="20" height="14" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+      </svg>
+    ),
+  },
+  {
     id: "skills",
     label: "Skills",
     icon: (
@@ -32,15 +41,6 @@ const NAV_SECTIONS = [
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
         <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
-      </svg>
-    ),
-  },
-  {
-    id: "experience",
-    label: "Experience",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="7" width="20" height="14" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
       </svg>
     ),
   },
@@ -70,6 +70,8 @@ interface MinimalNavProps {
   currentEffect: string | null;
   setCurrentEffect: Dispatch<SetStateAction<string | null>>;
   clearEffect: () => void;
+  isMeowActive: boolean;
+  setIsMeowActive: Dispatch<SetStateAction<boolean>>;
   onToggleView: () => void;
 }
 
@@ -87,6 +89,8 @@ export function MinimalNav({
   currentEffect,
   setCurrentEffect,
   clearEffect,
+  isMeowActive,
+  setIsMeowActive,
   onToggleView,
 }: MinimalNavProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -173,6 +177,16 @@ export function MinimalNav({
             </svg>
           </button>
 
+          {/* Toggle Cat */}
+          <button
+            onClick={() => setIsMeowActive((prev) => !prev)}
+            className="w-full flex items-center justify-between text-sm text-t-muted hover:text-t-text transition-colors cursor-pointer"
+            aria-label={isMeowActive ? "Dismiss Cat Companion" : "Summon Cat Companion"}
+          >
+            {isMeowActive ? "Dismiss Cat" : "Summon Cat"}
+          </button>
+
+
           {/* Theme picker */}
           <div className="space-y-1">
             <p className="text-t-muted text-xs lg:text-sm opacity-60">theme</p>
@@ -201,7 +215,6 @@ export function MinimalNav({
               ))}
             </select>
           </div>
-
         </div>
       </aside>
 

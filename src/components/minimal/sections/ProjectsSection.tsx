@@ -4,9 +4,9 @@ export function ProjectsSection() {
   return (
     <div className="space-y-6 md:space-y-10">
       {portfolioData.projects.map((project, i) => (
-        <div key={project.name} className={i !== 0 ? "pt-6 md:pt-10 border-t border-t-border" : ""}>
+        <div key={project.name}>
           <div className="flex items-baseline justify-between gap-4 flex-wrap">
-            <p className="text-t-accent2 text-sm md:text-lg font-medium">{project.name}</p>
+            <p className="text-t-accent2 text-sm md:text-base font-medium">{project.name}</p>
             <a
               href={project.link}
               target="_blank"

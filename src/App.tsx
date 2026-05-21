@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from "react";
-import { Terminal } from "@/components/Terminal";
+import { Terminal } from "@/components/terminal/Terminal";
 import { MinimalView } from "@/components/minimal/MinimalView";
 import { useTheme } from "@/hooks/useTheme";
 import { useActiveEffect } from "@/hooks/useActiveEffect";
@@ -75,6 +75,8 @@ export default function App() {
           currentEffect={currentEffect}
           setCurrentEffect={setCurrentEffect}
           clearEffect={clearEffect}
+          isMeowActive={isMeowActive}
+          setIsMeowActive={setIsMeowActive}
           onToggleView={toggleView}
         />
       )}
