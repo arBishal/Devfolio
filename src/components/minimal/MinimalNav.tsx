@@ -1,6 +1,5 @@
 import { themeNames } from "@/themes/themes";
 import { AVAILABLE_EFFECTS } from "@/data/staticData";
-import { portfolioData } from "@/data/portfolioData";
 import { useState } from "react";
 import type { ThemeName } from "@/themes/themes";
 import type { Dispatch, SetStateAction } from "react";

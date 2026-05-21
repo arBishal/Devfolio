@@ -12,13 +12,7 @@ export interface Experience {
   achievements: string[];
 }
 
-export interface ContactLink {
-  label: string;
-  url: string;
-  display: string;
-}
-
-export interface BlogLink {
+export interface ExternalLink {
   label: string;
   url: string;
   display: string;
@@ -51,13 +45,13 @@ export interface Resume {
 
 export interface Contact {
   email: string;
-  links: ContactLink[];
+  links: ExternalLink[];
   note: string;
 }
 
 export interface Blog {
   tagline: string;
-  links: BlogLink[];
+  links: ExternalLink[];
 }
 
 export interface PortfolioData {

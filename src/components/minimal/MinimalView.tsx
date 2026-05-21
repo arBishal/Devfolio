@@ -69,7 +69,7 @@ export function MinimalView({
           </div>
           <button
             onClick={handleResumeDownload}
-            className="text-xs md:text-sm  bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0"
+            className="text-xs md:text-sm bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0"
           >
             <span className="md:hidden">Resume</span>
             <span className="hidden md:inline">Download Resume</span>

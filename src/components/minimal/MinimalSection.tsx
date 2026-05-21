@@ -9,8 +9,8 @@ interface MinimalSectionProps {
 /**
  * Reusable section wrapper for the minimal portfolio view.
  * Each section gets an id for anchor-scroll navigation, a consistent
- * heading style, and generous vertical spacing with a thin top border
- * separating it from the previous section.
+ * heading style (title on the left, horizontal line filling the rest),
+ * and vertical spacing between sections.
  */
 export function MinimalSection({ id, title, children }: MinimalSectionProps) {
   return (
