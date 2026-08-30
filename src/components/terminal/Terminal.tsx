@@ -127,7 +127,7 @@ export function Terminal({
   return (
     <div className="bg-t-bg text-t-text font-mono min-h-dvh">
       <div className="h-dvh flex flex-col">
-        <TerminalHeader onClose={() => setIsClosed(true)} onToggleView={onToggleView} />
+        <TerminalHeader onClose={() => setIsClosed(true)} />
         <WelcomeScreen
           onCommandClick={executeCommand}
           isCommandsOpen={isCommandsOpen}
@@ -154,15 +154,29 @@ export function Terminal({
         </div>
 
         {/* Footer */}
-        <div className="py-2 text-center text-t-muted text-sm bg-t-bg border-t border-t-border flex-shrink-0">
-          {/* Desktop tip */}
-          <p className="hidden [@media(pointer:fine)]:block">
+        <div className="px-4 py-2 text-t-muted text-sm bg-t-bg border-t border-t-border flex-shrink-0 flex items-center justify-between">
+          {/* Desktop tip — hidden on mobile */}
+          <p className="hidden md:block">
             Tip: ↑/↓ to navigate history • Tab for autocomplete
           </p>
-          {/* Touch tip */}
-          <p className="block [@media(pointer:fine)]:hidden">
+          {/* Touch tip — hidden on mobile, hidden on desktop */}
+          <p className="hidden">
             Tip: Double-tap for autocomplete
           </p>
+          {/* Switch to stoick mode — icon + label on all sizes */}
+          <button
+            onClick={onToggleView}
+            className="flex items-center gap-1.5 text-t-muted hover:text-t-text transition-colors text-sm cursor-pointer ml-auto md:ml-0"
+            aria-label="Switch to stoick mode"
+            title="Switch to stoick mode"
+          >
+            <svg width="18" height="18" viewBox="4 4 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="8" y1="15" x2="16" y2="15" />
+              <line x1="9" y1="9" x2="9" y2="9" strokeWidth="3" strokeLinecap="round" />
+              <line x1="15" y1="9" x2="15" y2="9" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+            <span>switch to stoick mode</span>
+          </button>
         </div>
       </div>
     </div>

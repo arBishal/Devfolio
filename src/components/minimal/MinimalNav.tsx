@@ -113,7 +113,7 @@ export function MinimalNav({
       {/* ── Sidebar (Desktop fixed, Mobile slide-out) ──────────────────────── */}
       <aside
         className={`
-          flex flex-col fixed top-0 left-0 h-dvh w-1/2 px-[5vw] pt-16 pb-8 md:px-8 border-r border-t-border bg-t-bg/60 backdrop-blur-md z-50
+          flex flex-col fixed top-0 left-0 h-dvh w-2/3 border-r border-t-border bg-t-bg/60 backdrop-blur-md z-50
           transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-[90%] md:translate-x-0"}
           md:w-56 lg:w-64
@@ -143,8 +143,23 @@ export function MinimalNav({
           </svg>
         </button>
 
+        {/* ── Mode logo — aligns with right-side header ─────────────── */}
+        <div className="px-[8vw] md:px-8 h-16 flex items-center border-b border-t-border flex-shrink-0">
+          <button
+            onClick={onToggleView}
+            className="flex items-center gap-2 text-t-text hover:text-t-accent transition-colors cursor-pointer group"
+            aria-label="Switch to terminal mode"
+            title="Switch to terminal mode"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity">
+              <polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" />
+            </svg>
+            <span className="text-sm">switch to terminal</span>
+          </button>
+        </div>
+
         {/* Section links */}
-        <nav className="flex-1 overflow-y-auto">
+        <nav className="flex-1 overflow-y-auto px-[8vw] md:px-8 pt-4">
           <ul className="space-y-1 lg:space-y-2">
             {NAV_SECTIONS.map(({ id, label, icon }) => (
               <li key={id}>
@@ -162,21 +177,7 @@ export function MinimalNav({
         </nav>
 
         {/* Controls at bottom */}
-        <div className="py-6 space-y-4">
-
-          {/* Switch to terminal view */}
-          <button
-            onClick={onToggleView}
-            className="w-full flex items-center gap-2 text-sm text-t-muted hover:text-t-text transition-colors cursor-pointer"
-            aria-label="Switch to terminal view"
-          >
-            Terminal View
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" />
-            </svg>
-          </button>
-
-          {/* Toggle Cat */}
+        <div className="px-[8vw] md:px-8 py-6 pb-8 space-y-4">
           <button
             onClick={() => setIsMeowActive((prev) => !prev)}
             className="w-full flex items-center justify-between text-sm text-t-muted hover:text-t-text transition-colors cursor-pointer"
@@ -184,7 +185,6 @@ export function MinimalNav({
           >
             {isMeowActive ? "Dismiss Cat" : "Summon Cat"}
           </button>
-
 
           {/* Theme picker */}
           <div className="space-y-1">
