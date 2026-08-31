@@ -19,6 +19,8 @@ const COMMAND_REGISTRY: CommandEntry[] = [
     { name: "skills",     description: "View my technical skills",  hidden: false },
     { name: "experience", description: "View work experience",      hidden: false },
     { name: "projects",   description: "Browse my projects",        hidden: false },
+    { name: "publications",description: "View my research publications",hidden: false },
+    { name: "interests",  description: "View my interests",         hidden: false },
     { name: "resume",     description: "Download my resume",        hidden: false },
     { name: "contact",    description: "Get contact information",   hidden: false },
     { name: "blog",       description: "Read my articles",          hidden: false },

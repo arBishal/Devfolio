@@ -2,7 +2,8 @@ export interface Project {
   name: string;
   description: string;
   tech: string[];
-  link: string;
+  github?: string;
+  live?: string;
 }
 
 export interface Experience {
@@ -54,12 +55,27 @@ export interface Blog {
   links: ExternalLink[];
 }
 
+export interface Publication {
+  title: string;
+  status: string;
+  year: string;
+  journal: string;
+  authors: string;
+}
+
+export interface Interests {
+  researchFocus: string;
+  creativePursuits: string;
+}
+
 export interface PortfolioData {
   personal: Personal;
   resume: Resume;
   skills: Skills;
   projects: Project[];
   experience: Experience[];
+  publications: Publication[];
+  interests: Interests;
   contact: Contact;
   blog: Blog;
 }

@@ -4,6 +4,8 @@ import { AboutSection } from "@/components/minimal/sections/AboutSection";
 import { SkillsSection } from "@/components/minimal/sections/SkillsSection";
 import { ProjectsSection } from "@/components/minimal/sections/ProjectsSection";
 import { ExperienceSection } from "@/components/minimal/sections/ExperienceSection";
+import { PublicationsSection } from "@/components/minimal/sections/PublicationsSection";
+import { InterestsSection } from "@/components/minimal/sections/InterestsSection";
 import { ContactSection } from "@/components/minimal/sections/ContactSection";
 import { BlogSection } from "@/components/minimal/sections/BlogSection";
 import { portfolioData } from "@/data/portfolioData";
@@ -93,6 +95,14 @@ export function MinimalView({
 
           <MinimalSection id="projects" title="Projects">
             <ProjectsSection />
+          </MinimalSection>
+
+          <MinimalSection id="publications" title="Publications">
+            <PublicationsSection />
+          </MinimalSection>
+
+          <MinimalSection id="interests" title="Interests">
+            <InterestsSection />
           </MinimalSection>
 
           <MinimalSection id="blog" title="Blog">

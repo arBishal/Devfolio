@@ -29,8 +29,8 @@ export const portfolioData: PortfolioData = {
 
   // Resume ---------------------------------------------------
   resume: {
-    filePath: "/Resume_of_Ashikur_Rahman_Bishal.pdf",
-    downloadFilename: "Resume_of_Ashikur_Rahman_Bishal.pdf",
+    filePath: "/Résumé_of_Ashikur_Rahman_Bishal.pdf",
+    downloadFilename: "Résumé_of_Ashikur_Rahman_Bishal.pdf",
   },
 
   // Skills ---------------------------------------------------
@@ -38,8 +38,8 @@ export const portfolioData: PortfolioData = {
     programming: ["JavaScript", "TypeScript", "C++", "Java"],
     webStack: ["React.js", "Next.js", "Vue.js", "Meteor.js", "HTML5", "CSS3", "TailwindCSS"],
     databases: ["Oracle", "PostgreSQL", "MongoDB"],
-    tools: ["Git", "SVN", "Postman", "JIRA", "Datadog", "Claude Code", "Antigravity", "Figma"],
-    aiWorkflows: ["Claude Code", "Antigravity"],
+    tools: ["Git", "SVN", "Postman", "JIRA", "Datadog", "Claude Code", "Antigravity", "Codex", "Figma"],
+    aiWorkflows: ["Claude Code", "Antigravity", "Codex"],
     practices: ["Agile (SCRUM)", "Cross-Team Collaboration"],
   },
 
@@ -50,51 +50,72 @@ export const portfolioData: PortfolioData = {
       description:
         "This is the very thing you are visiting right now, my developer portfolio living inside a terminal.",
       tech: ["TypeScript", "React.js", "TailwindCSS"],
-      link: "https://github.com/arBishal/Terminal-Devfolio",
+      github: "https://github.com/arBishal/Terminal-Devfolio",
+    },
+    {
+      name: "FRONTEND 101",
+      description:
+        "An interactive simulation platform teaching frontend fundamentals through live, manipulable demonstrations paired with written explanations. Structured topics from first principles to composition.",
+      tech: ["TypeScript", "Next.js", "TailwindCSS", "Shiki", "Claude Code"],
+      github: "https://github.com/arBishal/frontend-101",
+      live: "https://frontend101.arbishal.com",
     },
     {
       name: "Fireflies",
       description:
-        "This is a tribute to the near-extinction fireflies. Implemented an interactive canvas simulation of fireflies with physics-based movement and mouse/touch interaction.",
+        "This is a tribute to the near-extinction fireflies. An interactive firefly simulation, preserving their magic through generative motion and flickering light. Implemented touch/cursor reactive physics—fireflies drift, pulse, and gently attract or scatter based on interaction; with real-time controls for population, radius, speed, etc.",
       tech: ["JavaScript", "Vue.js", "TailwindCSS", "Canvas API"],
-      link: "https://github.com/arBishal/Fireflies",
+      github: "https://github.com/arBishal/Fireflies",
+      live: "https://fireflies.arbishal.com",
     },
   ],
 
   // Work Experience ------------------------------------------
   experience: [
     {
-      title: "Assistant Software Engineer",
-      period: "July 2024 – Present",
+      title: "Software Development Unit",
+      period: "April 2023 – Present",
       company: "Dynamic Solution Innovators Ltd.",
       achievements: [
-        "Designed and implemented a keep-alive mechanism that capped API traffic to ≤ 2 req/min, reducing server load while maintaining seamless session continuity.",
-        "Built scalable, modular, and responsive interfaces with reusable components following best practices.",
-        "Collaborated closely with backend developers and QA engineers to ensure rapid bug resolution across multiple client-facing applications.",
-        "Diagnosed and fixed logic discrepancies between implementation and business requirements, optimizing application performance.",
-        "Provided real-time support by swiftly identifying and resolving critical issues, maintaining system stability.",
-      ],
-    },
-    {
-      title: "Junior Software Engineer",
-      period: "April 2023 – June 2024",
-      company: "Dynamic Solution Innovators Ltd.",
-      achievements: [
-        "Processed and handled crucial bulk data for banking systems adhering to data privacy standards.",
-        "Migrated client banking systems from legacy monolithic architectures to modern multi-tenant platforms, conducting in-depth analysis of existing codebases.",
-        "Collaborated with UX designers to turn Figma prototypes into responsive, mobile-first interfaces with seamless cross-device experiences.",
+        "Accelerated development workflows by integrating AI-assisted tooling, cutting repetitive overhead and shipping features faster across multiple projects.",
+        "Mentored junior engineers through structured technical coaching, including hands-on code reviews, pair programming, and knowledge-sharing sessions, improving overall team capability.",
+        "Performed in-depth security auditing and applied mitigation strategies to resolve application-level vulnerabilities.",
+        "Proactively built helper tools adopted across the team to automate repetitive workflows; increasing efficiency, and reducing delivery time.",
+        "Identified and resolved critical performance bottlenecks across multiple applications, optimizing API call efficiency, reducing unnecessary network calls.",
+        "Demonstrated strong accountability and data ethics in handling sensitive, and bulk banking data; strictly adhering to data privacy standards and regulatory compliance requirements.",
+        "Led migration of legacy monolithic architecture to a modern multi-tenant platform, delivering a fully tested and documented transition across multiple services with zero critical disruptions.",
+        "Collaborated with cross-functional and distributed teams across multiple projects to deliver reliable, scalable, and maintainable software solutions.",
+        "Consistently produced clean, well-structured code and comprehensive documentation, upholding high engineering standards to support long-term maintainability and team knowledge sharing.",
       ],
     },
     {
       title: "Research Intern",
       period: "January 2022 – October 2022",
-      company: "A Blockchain Empowered e-KYC and Reputation System (Bangladesh Govt. Project)",
+      company: "Ministry of ICT Division",
       achievements: [
-        "Analyzed credit scores assigned to banks to assess financial standing and risk factors.",
-        "Engineered reputation score algorithms leveraging banking data.",
+        "Formulated the mathematical scoring model for a financial reputation engine, deriving logarithmic scoring functions over money transfer, loan repayment, and bill payment behaviour.",
+        "Designed the aggregation function combining these scores with account age, bounded to a normalized range using a modified sigmoid transformation.",
+        "Implemented the engine as recursive time-indexed algorithms with thorough documentation.",
       ],
     },
   ],
+
+  // Publications ---------------------------------------------
+  publications: [
+    {
+      title: "A Blockchain Empowered & Reputation Integrated e-KYC System",
+      status: "UNDER REVIEW",
+      year: "2026",
+      journal: "Blockchain: Research and Applications (Elsevier) · Manuscript Number: BCRA-D-26-00874",
+      authors: "Md Yeasin Ali, Abrar Fahim, Romana Mahjabin Eshita, Kiriti Mukherjee, Md. Ashikur Rahman Bishal, Md. Masum Alam Nahid, Mohammad Jabed Morshed Chowdhury, Mohammad Shahriar Rahman, and Md Sadek Ferdous"
+    }
+  ],
+
+  // Interests ------------------------------------------------
+  interests: {
+    researchFocus: "Blockchain & Distributed Systems, Practical AI Applications for Productivity",
+    creativePursuits: "Storytelling & Creative Writing, Graphic Design, Photography"
+  },
 
   // Contact --------------------------------------------------
   contact: {

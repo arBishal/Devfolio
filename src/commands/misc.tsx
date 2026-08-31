@@ -1,7 +1,7 @@
 import { portfolioData } from "@/data/portfolioData";
 // Force HMR
 import { downloadFile } from "@/utils/download";
-import { renderAbout, renderContact, renderExperience, renderResume } from "./portfolio";
+import { renderAbout, renderContact, renderExperience, renderResume, renderPublications, renderInterests } from "./portfolio";
 import type { CommandHandler } from "@/types/terminal";
 
 export function renderLs() {
@@ -13,6 +13,8 @@ export function renderLs() {
             <p>-rw-r--r--  1 {u} users  2048 Jan 14 2026{" "}<span className="text-t-accent">about.txt</span></p>
             <p>-rw-r--r--  1 {u} users  1024 Jan 14 2026{" "}<span className="text-t-accent">contact.txt</span></p>
             <p>-rw-r--r--  1 {u} users  3072 Jan 14 2026{" "}<span className="text-t-accent">experience.log</span></p>
+            <p>-rw-r--r--  1 {u} users  1536 Jan 14 2026{" "}<span className="text-t-accent">publications.md</span></p>
+            <p>-rw-r--r--  1 {u} users  1024 Jan 14 2026{" "}<span className="text-t-accent">interests.txt</span></p>
             <p>-rw-r--r--  1 {u} users  512  Jan 14 2026{" "}<span className="text-t-accent">resume.pdf</span></p>
         </div>
     );
@@ -115,6 +117,8 @@ export const handleCat: CommandHandler = (args, ctx) => {
         "about.txt":      () => ctx.push("result", renderAbout()),
         "contact.txt":    () => ctx.push("result", renderContact()),
         "experience.log": () => ctx.push("result", renderExperience()),
+        "publications.md":() => ctx.push("result", renderPublications()),
+        "interests.txt":  () => ctx.push("result", renderInterests()),
         "resume.pdf":     () => { downloadFile(portfolioData.resume.filePath, portfolioData.resume.downloadFilename); ctx.push("result", renderResume()); },
     };
     const handler = fileRoutes[filename];

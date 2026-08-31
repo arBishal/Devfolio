@@ -5,6 +5,7 @@ import type { ThemeName } from "@/themes/themes";
 // Command renderers and handlers
 import {
   renderAbout, renderSkills, renderProjects, renderExperience,
+  renderPublications, renderInterests,
   renderResume, renderContact, renderBlog,
 } from "@/commands/portfolio";
 import { downloadFile } from "@/utils/download";
@@ -41,6 +42,8 @@ const HANDLERS: Record<string, CommandHandler> = {
   "skills": (a, c) => c.push("result", renderSkills()),
   "projects": (a, c) => c.push("result", renderProjects()),
   "experience": (a, c) => c.push("result", renderExperience()),
+  "publications": (a, c) => c.push("result", renderPublications()),
+  "interests": (a, c) => c.push("result", renderInterests()),
   "resume": (a, c) => { downloadFile(portfolioData.resume.filePath, portfolioData.resume.downloadFilename); c.push("result", renderResume()); },
   "contact": (a, c) => c.push("result", renderContact()),
   "blog": (a, c) => c.push("result", renderBlog()),
