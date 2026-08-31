@@ -1,6 +1,6 @@
 # Terminal Devfolio
 
-A fully interactive, terminal-style developer portfolio built with React, TypeScript, Vite and Tailwind CSS v4. Every section of the portfolio is accessible by typing commands — exactly like a real terminal.
+A dual-mode developer portfolio built with React, TypeScript, Vite and Tailwind CSS v4. Explore the interactive **Terminal Mode** by typing commands just like a real terminal, or switch to the clean, graphical **Minimal View** for a more traditional, and simpler reading experience.
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript)](https://typescriptlang.org)
@@ -11,7 +11,8 @@ A fully interactive, terminal-style developer portfolio built with React, TypeSc
 
 ## Features
 
-- **Command-driven UI** — navigate the portfolio entirely through typed commands
+- **Dual UI Modes** — toggle seamlessly between a command-driven Terminal emulation and a clean Minimal UI
+- **Command-driven Terminal** — navigate the portfolio entirely through typed commands
 - **Inline ghost-text autocomplete** — first matching suggestion appears as you type; accept it with `Tab` or double-tap
 - **Command history** — navigate previous commands with `↑` / `↓`
 - **Visual effects** — ambient canvas animations triggered via `fun <effect>`; three effects available: `fireflies`, `matrix-rain` (Bangla + Katakana glyphs), and `starfield` (3D perspective); each effect has a status (`done` / `planning`) so only ready effects can be activated
@@ -29,6 +30,8 @@ A fully interactive, terminal-style developer portfolio built with React, TypeSc
 | `skills` | Technical skills by category |
 | `experience` | Work history and achievements |
 | `projects` | Project showcase with tech stack and links |
+| `publications` | Research publications and papers |
+| `interests` | Research focus and creative pursuits |
 | `resume` | Download resume as PDF |
 | `contact` | Email, phone, GitHub, LinkedIn |
 | `blog` | Links to blog platforms |
@@ -42,7 +45,7 @@ A fully interactive, terminal-style developer portfolio built with React, TypeSc
 | `clear` | Clear terminal output |
 | `history` | Show command history |
 
-Hidden / easter-egg commands: `ls`, `pwd`, `whoami`, `date`, `sudo`, `hack`, `hello`, `exit`, `hide`, `show`, and more.
+Hidden / easter-egg commands: `ls`, `pwd`, `whoami`, `date`, `sudo`, `hack`, `hello`, `exit`, `hide`, `show`, `meow`, and more.
 
 `echo <text>` echoes the text back. `cat <filename>` reads a virtual file (e.g. `cat about.txt`, `cat experience.log`, `cat resume.pdf`).
 
@@ -86,11 +89,17 @@ src/
 │   └── misc.tsx       # ls, pwd, whoami, date, sudo, hack, exit, hello …
 │
 ├── components/
-│   ├── Terminal.tsx          # Root layout, theme data-attr, scroll logic
-│   ├── TerminalHeader.tsx    # Title bar + close button
-│   ├── TerminalOutput.tsx    # Renders command history
-│   ├── WelcomeScreen.tsx     # Clickable command grid (collapsible)
-│   ├── CommandLine.tsx       # Input, inline ghost-text autocomplete, history nav
+│   ├── minimal/              # The traditional/stoic UI mode
+│   │   ├── MinimalView.tsx
+│   │   ├── MinimalNav.tsx
+│   │   └── sections/         # Individual sections (About, Projects, etc.)
+│   ├── terminal/             # The terminal emulator UI mode
+│   │   ├── Terminal.tsx      # Terminal root layout
+│   │   ├── TerminalHeader.tsx
+│   │   ├── TerminalOutput.tsx
+│   │   ├── CommandLine.tsx
+│   │   └── WelcomeScreen.tsx
+│   ├── CatCompanion.tsx      # Easter egg pet companion
 │   ├── FirefliesCanvas.tsx   # Canvas: ambient firefly particle animation
 │   ├── MatrixRainCanvas.tsx  # Canvas: Bangla + Katakana digital rain
 │   └── StarfieldCanvas.tsx   # Canvas: 3D perspective warp-speed starfield
