@@ -2,7 +2,8 @@ export interface Project {
   name: string;
   description: string;
   tech: string[];
-  link: string;
+  github?: string;
+  live?: string;
 }
 
 export interface Experience {
@@ -12,13 +13,7 @@ export interface Experience {
   achievements: string[];
 }
 
-export interface ContactLink {
-  label: string;
-  url: string;
-  display: string;
-}
-
-export interface BlogLink {
+export interface ExternalLink {
   label: string;
   url: string;
   display: string;
@@ -29,6 +24,7 @@ export interface Skills {
   webStack: string[];
   databases: string[];
   tools: string[];
+  aiWorkflows: string[];
   practices: string[];
 }
 
@@ -50,13 +46,26 @@ export interface Resume {
 
 export interface Contact {
   email: string;
-  links: ContactLink[];
+  links: ExternalLink[];
   note: string;
 }
 
 export interface Blog {
   tagline: string;
-  links: BlogLink[];
+  links: ExternalLink[];
+}
+
+export interface Publication {
+  title: string;
+  status: string;
+  year: string;
+  journal: string;
+  authors: string;
+}
+
+export interface Interests {
+  researchFocus: string;
+  creativePursuits: string;
 }
 
 export interface PortfolioData {
@@ -65,6 +74,8 @@ export interface PortfolioData {
   skills: Skills;
   projects: Project[];
   experience: Experience[];
+  publications: Publication[];
+  interests: Interests;
   contact: Contact;
   blog: Blog;
 }
