@@ -13,7 +13,7 @@ export const portfolioData: PortfolioData = {
   personal: {
     fullName: "Ashikur Rahman Bishal",
     shortName: "Bishal",
-    title: "Software Engineer",
+    title: "Coding Stories",
     username: "arBishal",
     location: "Dhaka, Bangladesh",
     education: [
@@ -46,14 +46,14 @@ export const portfolioData: PortfolioData = {
   // Projects -------------------------------------------------
   projects: [
     {
-      name: "Terminal-Devfolio",
+      name: "Devfolio",
       description:
         "This is the very thing you are visiting right now, my developer portfolio living inside a terminal; as well a minimal stoick mode.",
       tech: ["TypeScript", "React.js", "TailwindCSS"],
       github: "https://github.com/arBishal/Terminal-Devfolio",
     },
     {
-      name: "FRONTEND 101",
+      name: "Frontend 101",
       description:
         "An interactive simulation platform teaching frontend fundamentals through live, manipulable demonstrations paired with written explanations. Structured topics from first principles to composition.",
       tech: ["TypeScript", "Next.js", "TailwindCSS", "Shiki", "Claude Code"],
