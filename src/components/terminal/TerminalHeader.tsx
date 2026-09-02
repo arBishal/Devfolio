@@ -24,7 +24,7 @@ const closeIcon = (
 
 export function TerminalHeader({ onClose }: TerminalHeaderProps) {
   return (
-    <div className="px-4 pt-2 pb-1 flex-shrink-0 bg-t-header-bg border-b border-t-border relative">
+    <div className="px-4 py-2 shrink-0 bg-t-header-bg border-b border-t-border relative">
       {/* Row 1 — always: title left, close right */}
       <div className="flex items-center justify-between">
         <div className="text-t-header-text text-sm">
