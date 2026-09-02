@@ -28,7 +28,10 @@ export function WelcomeScreen({
         <p className="text-t-header-text">
           Welcome to my terminal portfolio{" "}
           {portfolioData.personal.portfolioVersion}
+          <br/>
+          Switch to the Stoick Mode from the footer if you're tired of looking into terminals. Cheers!
         </p>
+
 
         <div className="space-y-2">
           {/* "Available commands" row with inline chevron toggle */}

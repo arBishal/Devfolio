@@ -21,10 +21,10 @@ export const portfolioData: PortfolioData = {
       "Shahjalal University of Science & Technology",
     ],
     bio: [
-      "A software engineer crafting seamless, user-first experiences—driven by detail, design, and a dash of storytelling; powered by human curiosity, and aplified by AI-assisted workflows. Currently, at Dynamic Solution Innovators Ltd., supporting the digital operations of 190+ financial institutions, including credit unions and banks, impacting over 85+ million end users.",
+      "A software engineer crafting seamless, user-first experiences—driven by detail, design, and a dash of storytelling; powered by human curiosity, and amplified by AI-assisted workflows. Currently, at Dynamic Solution Innovators Ltd., supporting the digital operations of 190+ financial institutions, impacting over 85+ million end users.",
       "Engineering digital solutions for millions by day; chasing ideas through code, visuals, and words by night. Has a strong affinity for building fun, visually striking products that feel as good as they look. Always creating. Always telling stories.",
     ],
-    portfolioVersion: "v1.0.0",
+    portfolioVersion: "v2.0.1",
   },
 
   // Resume ---------------------------------------------------
@@ -35,10 +35,10 @@ export const portfolioData: PortfolioData = {
 
   // Skills ---------------------------------------------------
   skills: {
-    programming: ["JavaScript", "TypeScript", "C++", "Java"],
+    programming: ["JavaScript", "TypeScript", "C++"],
     webStack: ["React.js", "Next.js", "Vue.js", "Meteor.js", "HTML5", "CSS3", "TailwindCSS"],
     databases: ["Oracle", "PostgreSQL", "MongoDB"],
-    tools: ["Git", "SVN", "Postman", "JIRA", "Datadog", "Claude Code", "Antigravity", "Codex", "Figma"],
+    tools: ["Git", "SVN", "Postman", "JIRA", "Datadog", "Figma"],
     aiWorkflows: ["Claude Code", "Antigravity", "Codex"],
     practices: ["Agile (SCRUM)", "Cross-Team Collaboration"],
   },
@@ -48,7 +48,7 @@ export const portfolioData: PortfolioData = {
     {
       name: "Terminal-Devfolio",
       description:
-        "This is the very thing you are visiting right now, my developer portfolio living inside a terminal.",
+        "This is the very thing you are visiting right now, my developer portfolio living inside a terminal; as well a minimal stoick mode.",
       tech: ["TypeScript", "React.js", "TailwindCSS"],
       github: "https://github.com/arBishal/Terminal-Devfolio",
     },
@@ -78,7 +78,7 @@ export const portfolioData: PortfolioData = {
       company: "Dynamic Solution Innovators Ltd.",
       achievements: [
         "Accelerated development workflows by integrating AI-assisted tooling, cutting repetitive overhead and shipping features faster across multiple projects.",
-        "Mentored junior engineers through structured technical coaching, including hands-on code reviews, pair programming, and knowledge-sharing sessions, improving overall team capability.",
+        // "Mentored junior engineers through structured technical coaching, including hands-on code reviews, pair programming, and knowledge-sharing sessions, improving overall team capability.",
         "Performed in-depth security auditing and applied mitigation strategies to resolve application-level vulnerabilities.",
         "Proactively built helper tools adopted across the team to automate repetitive workflows; increasing efficiency, and reducing delivery time.",
         "Identified and resolved critical performance bottlenecks across multiple applications, optimizing API call efficiency, reducing unnecessary network calls.",

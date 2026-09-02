@@ -131,7 +131,7 @@ export function MinimalNav({
       {/* ── Sidebar (Desktop fixed, Mobile slide-out) ──────────────────────── */}
       <aside
         className={`
-          flex flex-col fixed top-0 left-0 h-dvh w-2/3 border-r border-t-border bg-t-bg/60 backdrop-blur-md z-50
+          flex flex-col fixed top-0 left-0 h-dvh w-2/3 border-r border-t-border bg-t-bg/60 backdrop-blur-sm z-50
           transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-[90%] md:translate-x-0"}
           md:w-56 lg:w-64
