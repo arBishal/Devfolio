@@ -25,11 +25,11 @@ export function WelcomeScreen({
         <pre className="text-t-accent text-sm leading-tight">
           {asciiArt}
         </pre>
-        <p className="text-t-header-text">
+        <p className="text-t-header-text text-sm">
           Welcome to my terminal portfolio{" "}
           {portfolioData.personal.portfolioVersion}
           <br/>
-          Switch to the Stoick Mode from the footer if you're tired of looking into terminals. Cheers!
+          Switch to the Stoick Mode if you're tired of looking into terminals. Cheers!
         </p>
 
 

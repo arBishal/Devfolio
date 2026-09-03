@@ -24,7 +24,15 @@ export type ViewMode = "terminal" | "minimal";
 export default function App() {
   // ── View mode ─────────────────────────────────────────────────────────
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    return (localStorage.getItem("viewMode") as ViewMode) ?? "terminal";
+    const savedViewMode = localStorage.getItem("viewMode");
+    if (savedViewMode === "terminal" || savedViewMode === "minimal") {
+      return savedViewMode;
+    }
+
+    // Match the `md` breakpoint used by the minimal layout.
+    return window.matchMedia("(max-width: 767px)").matches
+      ? "minimal"
+      : "terminal";
   });
 
   useEffect(() => {
