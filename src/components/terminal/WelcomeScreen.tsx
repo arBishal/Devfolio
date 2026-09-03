@@ -29,7 +29,7 @@ export function WelcomeScreen({
           Welcome to my terminal portfolio{" "}
           {portfolioData.personal.portfolioVersion}
           <br/>
-          Switch to the Stoick Mode if you're tired of looking into terminals. Cheers!
+          Switch to the Minimal Mode if you're tired of looking into terminals. Cheers!
         </p>
 
 

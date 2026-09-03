@@ -48,7 +48,7 @@ export const portfolioData: PortfolioData = {
     {
       name: "Devfolio",
       description:
-        "This is the very thing you are visiting right now, my developer portfolio living inside a terminal; as well a minimal stoick mode.",
+        "This is the very thing you are visiting right now, my developer portfolio living inside a terminal, as well as a minimal mode.",
       tech: ["TypeScript", "React.js", "TailwindCSS"],
       github: "https://github.com/arBishal/Terminal-Devfolio",
     },
