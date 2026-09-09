@@ -21,10 +21,9 @@ export const portfolioData: PortfolioData = {
       "Shahjalal University of Science & Technology",
     ],
     bio: [
-      "A software engineer crafting seamless, user-first experiences—driven by detail, design, and a dash of storytelling; powered by human curiosity, and amplified by AI-assisted workflows. Currently, at Dynamic Solution Innovators Ltd., supporting the digital operations of 190+ financial institutions, impacting over 85+ million end users.",
-      "Engineering digital solutions for millions by day; chasing ideas through code, visuals, and words by night. Has a strong affinity for building fun, visually striking products that feel as good as they look. Always creating. Always telling stories.",
+      "A software engineer crafting seamless, user-first experiences; driven by detail, design, and a dash of storytelling. Powered by human curiosity, and amplified by AI-assisted workflows. Currently, at Dynamic Solution Innovators Ltd., supporting the digital operations of 190+ financial institutions, impacting over 85+ million end users. Always creating. Always telling stories.",
     ],
-    portfolioVersion: "v2.0.1",
+    portfolioVersion: "v2.0.2",
   },
 
   // Resume ---------------------------------------------------
@@ -32,6 +31,38 @@ export const portfolioData: PortfolioData = {
     filePath: "/Résumé_of_Ashikur_Rahman_Bishal.pdf",
     downloadFilename: "Résumé_of_Ashikur_Rahman_Bishal.pdf",
   },
+
+  // Work Experience ------------------------------------------
+  experience: [
+    {
+      title: "Software Development Unit",
+      period: "April 2023 – Present",
+      company: "Dynamic Solution Innovators Ltd.",
+      achievements: [
+        "Accelerated development workflows by integrating AI-assisted tooling, cutting repetitive overhead and shipping features faster across multiple projects.",
+        // "Mentored junior engineers through structured technical coaching, including hands-on code reviews, pair programming, and knowledge-sharing sessions, improving overall team capability.",
+        "Audited application dependencies for security vulnerabilities, implementing compatible upgrades and Content-Security-Policy enforcement to strengthen application security.",
+        "Proactively built helper tools adopted across the team to automate repetitive workflows; increasing efficiency, and reducing delivery time.",
+        "Designed a keep-alive mechanism that enforced a maximum of ≤ 2 req/min API rate limits, eliminating redundant traffic while preserving seamless session continuity.",
+        "Diagnosed and resolved logic errors and edge-case flaws in deployed applications, averting potential escalations and client-side friction.",
+        "Led migration of legacy monolithic architecture to a modern multi-tenant platform, delivering a fully tested and documented transition across multiple services with zero critical disruptions.",
+        "Took ownership of critical production issues, minimizing downtime through swift resolution.",
+        "Demonstrated strong accountability and data ethics in handling sensitive, and high-volume banking data; strictly adhering to data privacy standards and regulatory compliance requirements.",
+        "Collaborated with cross-functional and distributed teams across multiple projects to deliver reliable, scalable, and maintainable software solutions.",
+        "Consistently produced clean, well-structured code and comprehensive documentation, upholding high engineering standards to support long-term maintainability and team knowledge sharing.",
+      ],
+    },
+    {
+      title: "Research Intern",
+      period: "January 2022 – October 2022",
+      company: "Ministry of ICT Division",
+      achievements: [
+        "Formulated the mathematical scoring model for a financial reputation engine, deriving logarithmic scoring functions over money transfer, loan repayment, and bill payment behaviour.",
+        "Designed the aggregation function combining these scores with account age, bounded to a normalized range using a modified sigmoid transformation.",
+        "Implemented the engine as recursive time-indexed algorithms with thorough documentation.",
+      ],
+    },
+  ],
 
   // Skills ---------------------------------------------------
   skills: {
@@ -48,14 +79,14 @@ export const portfolioData: PortfolioData = {
     {
       name: "Devfolio",
       description:
-        "This is the very thing you are visiting right now, my developer portfolio living inside a terminal, as well as a minimal mode.",
+        "You're looking at it: Portfolio-as-CLI. Type commands to explore my work, or switch to a minimal view if you'd rather skip the keystrokes.",
       tech: ["TypeScript", "React.js", "TailwindCSS"],
       github: "https://github.com/arBishal/Terminal-Devfolio",
     },
     {
       name: "Frontend 101",
       description:
-        "An interactive simulation platform teaching frontend fundamentals through live, manipulable demonstrations paired with written explanations. Structured topics from first principles to composition.",
+        "Frontend, but you can poke it. Live, manipulable demos teach the fundamentals. A Lab mode is next, bringing a real code sandbox.",
       tech: ["TypeScript", "Next.js", "TailwindCSS", "Shiki", "Claude Code"],
       github: "https://github.com/arBishal/frontend-101",
       live: "https://frontend101.arbishal.com",
@@ -63,40 +94,10 @@ export const portfolioData: PortfolioData = {
     {
       name: "Fireflies",
       description:
-        "This is a tribute to the near-extinction fireflies. An interactive firefly simulation, preserving their magic through generative motion and flickering light. Implemented touch/cursor reactive physics—fireflies drift, pulse, and gently attract or scatter based on interaction; with real-time controls for population, radius, speed, etc.",
+        "A love letter to a dying light. Nudge your cursor or move your thumb, and watch them drift, pulse, scatter like they know you're there.",
       tech: ["JavaScript", "Vue.js", "TailwindCSS", "Canvas API"],
       github: "https://github.com/arBishal/Fireflies",
       live: "https://fireflies.arbishal.com",
-    },
-  ],
-
-  // Work Experience ------------------------------------------
-  experience: [
-    {
-      title: "Software Development Unit",
-      period: "April 2023 – Present",
-      company: "Dynamic Solution Innovators Ltd.",
-      achievements: [
-        "Accelerated development workflows by integrating AI-assisted tooling, cutting repetitive overhead and shipping features faster across multiple projects.",
-        // "Mentored junior engineers through structured technical coaching, including hands-on code reviews, pair programming, and knowledge-sharing sessions, improving overall team capability.",
-        "Performed in-depth security auditing and applied mitigation strategies to resolve application-level vulnerabilities.",
-        "Proactively built helper tools adopted across the team to automate repetitive workflows; increasing efficiency, and reducing delivery time.",
-        "Identified and resolved critical performance bottlenecks across multiple applications, optimizing API call efficiency, reducing unnecessary network calls.",
-        "Demonstrated strong accountability and data ethics in handling sensitive, and bulk banking data; strictly adhering to data privacy standards and regulatory compliance requirements.",
-        "Led migration of legacy monolithic architecture to a modern multi-tenant platform, delivering a fully tested and documented transition across multiple services with zero critical disruptions.",
-        "Collaborated with cross-functional and distributed teams across multiple projects to deliver reliable, scalable, and maintainable software solutions.",
-        "Consistently produced clean, well-structured code and comprehensive documentation, upholding high engineering standards to support long-term maintainability and team knowledge sharing.",
-      ],
-    },
-    {
-      title: "Research Intern",
-      period: "January 2022 – October 2022",
-      company: "Ministry of ICT Division",
-      achievements: [
-        "Formulated the mathematical scoring model for a financial reputation engine, deriving logarithmic scoring functions over money transfer, loan repayment, and bill payment behaviour.",
-        "Designed the aggregation function combining these scores with account age, bounded to a normalized range using a modified sigmoid transformation.",
-        "Implemented the engine as recursive time-indexed algorithms with thorough documentation.",
-      ],
     },
   ],
 
@@ -115,6 +116,23 @@ export const portfolioData: PortfolioData = {
   interests: {
     researchFocus: "Blockchain & Distributed Systems, Practical AI Applications for Productivity",
     creativePursuits: "Storytelling & Creative Writing, Graphic Design, Photography"
+  },
+
+  // Blog Links -----------------------------------------------
+  blog: {
+    tagline: "Writing about software development, web technologies, and engineering practices.",
+    links: [
+      {
+        label: "Medium",
+        url: "https://medium.com/@arBishal",
+        display: "medium.com/@arBishal",
+      },
+      {
+        label: "Dev.to",
+        url: "https://dev.to/arBishal",
+        display: "dev.to/arBishal",
+      },
+    ],
   },
 
   // Contact --------------------------------------------------
@@ -138,23 +156,6 @@ export const portfolioData: PortfolioData = {
       },
     ],
     note: "Open to new opportunities and collaborations. Feel free to reach out!",
-  },
-
-  // Blog Links -----------------------------------------------
-  blog: {
-    tagline: "Writing about software development, web technologies, and engineering practices.",
-    links: [
-      {
-        label: "Medium",
-        url: "https://medium.com/@arBishal",
-        display: "medium.com/@arBishal",
-      },
-      {
-        label: "Dev.to",
-        url: "https://dev.to/arBishal",
-        display: "dev.to/arBishal",
-      },
-    ],
   },
 
 };
