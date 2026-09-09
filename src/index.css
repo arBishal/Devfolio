@@ -83,10 +83,10 @@
   /* color F — soft white (Win10+)       */
   --color-t-accent2: #CCCCCC;
   /* color 7 — light gray                */
-  --color-t-muted: #767676;
-  /* color 8 — dark gray (Win10+)        */
-  --color-t-error: #C50F1F;
-  /* color C — softer red (Win10+)       */
+  --color-t-muted: #7a7a7a;
+  /* color 8 — dark gray, raised for 4.56:1 contrast (was #767676, 4.31:1) */
+  --color-t-error: #E74856;
+  /* color C — bright red (Win10+) — raised for 5.09:1 contrast (was #C50F1F, 3.23:1) */
   --color-t-warning: #F2F2F2;
   /* color F — soft white (no yellow in default CMD) */
   --color-t-border: #767676;
@@ -112,8 +112,8 @@
   /* Tango Chameleon bright — Ubuntu prompt user@host green */
   --color-t-muted: #AD7FA8;
   /* Tango bright-purple           */
-  --color-t-error: #EF2929;
-  /* Tango Scarlet Red bright                */
+  --color-t-error: #F66151;
+  /* Tango light red — raised for 5.65:1 contrast (was #EF2929, 4.20:1) */
   --color-t-warning: #FCE94F;
   /* Tango bright-yellow           */
   --color-t-border: #4C0D3E;
@@ -121,8 +121,8 @@
   --color-t-header-bg: #2C001E;
   /* Ubuntu terminal header bg     */
   --color-t-header-text: #FFFFFF;
-  --color-t-btn-text: #FFFFFF;
-  /* text on accent-bg button      */
+  --color-t-btn-text: #000000;
+  /* text on accent-bg button — black for 5.75:1 on Ubuntu orange (was #FFFFFF, 3.65:1) */
 }
 
 /* ── Dracula ─────────────────────────────────────────────────
@@ -137,8 +137,8 @@
   /* Purple — signature      */
   --color-t-accent2: #8be9fd;
   /* Cyan                    */
-  --color-t-muted: #6272a4;
-  /* Comment                 */
+  --color-t-muted: #8090c4;
+  /* Comment — raised for 4.55:1 contrast (was #6272a4, 3.03:1) */
   --color-t-error: #ff5555;
   /* Red                     */
   --color-t-warning: #f1fa8c;
@@ -165,10 +165,10 @@
   /* Green                         */
   --color-t-accent2: #66D9EF;
   /* Cyan                          */
-  --color-t-muted: #75715E;
-  /* Comment / gray                */
-  --color-t-error: #F92672;
-  /* Red / pink                    */
+  --color-t-muted: #938f6e;
+  /* Comment / gray — raised for 4.53:1 contrast (was #75715E, 3.03:1) */
+  --color-t-error: #FF4C8B;
+  /* Red / pink — raised for 4.71:1 contrast (was #F92672, 3.93:1) */
   --color-t-warning: #FD971F;
   /* Orange                        */
   --color-t-border: #3E3D32;
@@ -187,24 +187,24 @@
 [data-theme="atom-one-dark"] {
   --color-t-bg: #282c34;
   /* Editor background             */
-  --color-t-text: #abb2bf;
-  /* Foreground                    */
+  --color-t-text: #c8cdd5;
+  /* Foreground — brightened for 8.77:1 contrast, widening the muted gap (was #abb2bf, 6.57:1) */
   --color-t-accent: #61afef;
   /* Blue                          */
   --color-t-accent2: #c678dd;
   /* Purple                        */
-  --color-t-muted: #5c6370;
-  /* Gutter / comment              */
-  --color-t-error: #e06c75;
-  /* Red                           */
+  --color-t-muted: #8b93a1;
+  /* Gutter / comment — raised for 4.52:1 contrast (was #5c6370, 2.32:1) */
+  --color-t-error: #e17077;
+  /* Red — raised for 4.52:1 contrast (was #e06c75, 4.38:1) */
   --color-t-warning: #e5c07b;
   /* Yellow                        */
   --color-t-border: #3e4451;
   /* Selection / border            */
   --color-t-header-bg: #21252b;
   /* Darker bg                     */
-  --color-t-header-text: #abb2bf;
-  /* Foreground                    */
+  --color-t-header-text: #c8cdd5;
+  /* Foreground — matched to brightened body text (was #abb2bf) */
   --color-t-btn-text: #282c34;
   /* Dark text on accent           */
 }
@@ -221,8 +221,8 @@
   /* accent.fg                    */
   --color-t-accent2: #3fb950;
   /* success.fg                   */
-  --color-t-muted: #6e7681;
-  /* fg.muted                     */
+  --color-t-muted: #757d87;
+  /* fg.muted — raised for 4.54:1 contrast (was #6e7681, 4.12:1) */
   --color-t-error: #f85149;
   /* danger.fg                    */
   --color-t-warning: #d29922;

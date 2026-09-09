@@ -177,6 +177,10 @@ Place your resume PDF in the `public/` folder and update `resume.filePath` accor
 1. Add a `[data-theme="mytheme"]` block in `src/index.css` using the existing tokens (`--t-bg`, `--t-accent`, etc.)
 2. Add `"mytheme"` to the `themeNames` array in `src/themes/themes.ts`
 
+> **Note on colors:** The built-in themes reproduce well-known editor/terminal palettes
+> (Dracula, Monokai, One Dark, GitHub Dark, etc.), but a few individual colors were nudged
+> brighter from their originals to meet WCAG AA contrast (4.5:1 for text).
+
 ### Adding a new command
 
 1. Create or update a renderer function in `src/commands/`
