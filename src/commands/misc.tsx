@@ -31,7 +31,7 @@ export function renderPwd() {
 export function renderWhoami() {
     return (
         <p className="text-t-text">
-            {portfolioData.personal.shortName} — {portfolioData.personal.title}
+            {portfolioData.personal.shortName}, {portfolioData.personal.title}
         </p>
     );
 }

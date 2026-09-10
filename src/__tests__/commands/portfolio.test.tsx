@@ -21,7 +21,7 @@ describe('renderAbout', () => {
     it('shows bio content', () => {
         renderOutput(renderAbout());
         // The about section renders bio paragraphs — check for partial bio text
-        expect(screen.getByText(/frontend/i)).toBeInTheDocument();
+        expect(screen.getByText(/software engineer/i)).toBeInTheDocument();
     });
 
     it('shows location', () => {
@@ -61,19 +61,21 @@ describe('renderSkills', () => {
 describe('renderProjects', () => {
     it('renders a card for each project', () => {
         renderOutput(renderProjects());
-        expect(screen.getByText('Terminal-Devfolio')).toBeInTheDocument();
+        expect(screen.getByText('Devfolio')).toBeInTheDocument();
+        expect(screen.getByText('Frontend 101')).toBeInTheDocument();
         expect(screen.getByText('Fireflies')).toBeInTheDocument();
     });
 
-    it('renders project links', () => {
+    it('renders a GitHub link for each project and a Live Demo link where available', () => {
         renderOutput(renderProjects());
-        const links = screen.getAllByRole('link', { name: /View Project/i });
-        expect(links).toHaveLength(2);
+        // Every project has a GitHub repo; two of three also have a live demo.
+        expect(screen.getAllByRole('link', { name: 'GitHub Repository' })).toHaveLength(3);
+        expect(screen.getAllByRole('link', { name: 'Live Demo' })).toHaveLength(2);
     });
 
     it('project links open in a new tab', () => {
         renderOutput(renderProjects());
-        const links = screen.getAllByRole('link', { name: /View Project/i });
+        const links = screen.getAllByRole('link');
         links.forEach(link => {
             expect(link).toHaveAttribute('target', '_blank');
             expect(link).toHaveAttribute('rel', 'noopener noreferrer');
@@ -86,19 +88,18 @@ describe('renderProjects', () => {
 describe('renderExperience', () => {
     it('renders a card for each role', () => {
         renderOutput(renderExperience());
-        expect(screen.getByText('Assistant Software Engineer')).toBeInTheDocument();
-        expect(screen.getByText('Junior Software Engineer')).toBeInTheDocument();
+        expect(screen.getByText('Software Development Unit')).toBeInTheDocument();
         expect(screen.getByText('Research Intern')).toBeInTheDocument();
     });
 
     it('shows company name', () => {
         renderOutput(renderExperience());
-        expect(screen.getAllByText(/Dynamic Solution Innovators/)).toHaveLength(2);
+        expect(screen.getByText(/Dynamic Solution Innovators/)).toBeInTheDocument();
+        expect(screen.getByText(/Ministry of ICT Division/)).toBeInTheDocument();
     });
 
     it('shows period for each role', () => {
         renderOutput(renderExperience());
-        expect(screen.getByText(/July 2024/)).toBeInTheDocument();
         expect(screen.getByText(/April 2023/)).toBeInTheDocument();
         expect(screen.getByText(/January 2022/)).toBeInTheDocument();
     });

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { CommandLine } from '@/components/CommandLine';
+import { CommandLine } from '@/components/terminal/CommandLine';
 
 function setup(overrides: Partial<React.ComponentProps<typeof CommandLine>> = {}) {
     const props: React.ComponentProps<typeof CommandLine> = {

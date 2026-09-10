@@ -1,13 +1,40 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useCommandExecutor } from '@/hooks/useCommandExecutor';
+import { useTheme } from '@/hooks/useTheme';
+import { useActiveEffect } from '@/hooks/useActiveEffect';
 
 // Stub downloadFile so tests don't create DOM <a> elements
 vi.mock('@/utils/download', () => ({ downloadFile: vi.fn() }));
 
+// Theme is persisted to localStorage, so reset it between tests to keep
+// the "default theme" assertions deterministic.
+beforeEach(() => {
+    localStorage.clear();
+});
+
+// Compose the shared theme/effect state hooks with the executor, mirroring how
+// App.tsx owns that state and passes it down. Spreading them back out keeps the
+// executor's theme/effect readable from `result.current` in the assertions.
 function setup() {
     const setIsCommandsOpen = vi.fn();
-    const { result } = renderHook(() => useCommandExecutor({ setIsCommandsOpen }));
+    const { result } = renderHook(() => {
+        const theme = useTheme();
+        const effect = useActiveEffect();
+        const executor = useCommandExecutor({
+            setIsCommandsOpen,
+            currentThemeName: theme.currentThemeName,
+            currentThemeNameRef: theme.currentThemeNameRef,
+            setCurrentThemeName: theme.setCurrentThemeName,
+            currentEffect: effect.currentEffect,
+            currentEffectRef: effect.currentEffectRef,
+            setCurrentEffect: effect.setCurrentEffect,
+            clearEffect: effect.clearEffect,
+            isMeowActive: effect.isMeowActive,
+            setIsMeowActive: effect.setIsMeowActive,
+        });
+        return { ...executor, ...theme, ...effect };
+    });
     return { result, setIsCommandsOpen };
 }
 

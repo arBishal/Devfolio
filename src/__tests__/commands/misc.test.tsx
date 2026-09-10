@@ -40,7 +40,7 @@ describe('renderWhoami', () => {
     it('shows the short name and title', () => {
         renderOutput(renderWhoami());
         expect(screen.getByText(/Bishal/)).toBeInTheDocument();
-        expect(screen.getByText(/Software Engineer/)).toBeInTheDocument();
+        expect(screen.getByText(/Coding Stories/)).toBeInTheDocument();
     });
 });
 

@@ -1,8 +1,10 @@
-import { useState, useEffect, Suspense, lazy } from "react";
+import { useState, Suspense, lazy } from "react";
 import { Terminal } from "@/components/terminal/Terminal";
 import { MinimalView } from "@/components/minimal/MinimalView";
 import { useTheme } from "@/hooks/useTheme";
 import { useActiveEffect } from "@/hooks/useActiveEffect";
+import { getInitialViewMode, persistViewMode } from "@/utils/viewMode";
+import type { ViewMode } from "@/utils/viewMode";
 import type { ThemeName } from "@/themes/themes";
 
 // Lazy-load heavy visual effects so they don't block the initial render
@@ -11,7 +13,7 @@ const MatrixRainCanvas = lazy(() => import("@/components/MatrixRainCanvas").then
 const StarfieldCanvas = lazy(() => import("@/components/StarfieldCanvas").then(m => ({ default: m.StarfieldCanvas })));
 const CatCompanion = lazy(() => import("@/components/CatCompanion").then(m => ({ default: m.CatCompanion })));
 
-export type ViewMode = "terminal" | "minimal";
+export type { ViewMode };
 
 /**
  * App is the top-level orchestrator. It owns all state that must persist
@@ -23,24 +25,15 @@ export type ViewMode = "terminal" | "minimal";
  */
 export default function App() {
   // ── View mode ─────────────────────────────────────────────────────────
-  const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    const savedViewMode = localStorage.getItem("viewMode");
-    if (savedViewMode === "terminal" || savedViewMode === "minimal") {
-      return savedViewMode;
-    }
-
-    // Match the `md` breakpoint used by the minimal layout.
-    return window.matchMedia("(max-width: 767px)").matches
-      ? "minimal"
-      : "terminal";
-  });
-
-  useEffect(() => {
-    localStorage.setItem("viewMode", viewMode);
-  }, [viewMode]);
+  const [viewMode, setViewMode] = useState<ViewMode>(getInitialViewMode);
 
   const toggleView = () =>
-    setViewMode((v) => (v === "terminal" ? "minimal" : "terminal"));
+    setViewMode((v) => {
+      const next = v === "terminal" ? "minimal" : "terminal";
+      // Persist only the explicit user choice, so it sticks across visits.
+      persistViewMode(next);
+      return next;
+    });
 
   // ── Shared theme & effect state ────────────────────────────────────────
   const { currentThemeName, currentThemeNameRef, setCurrentThemeName } = useTheme();
