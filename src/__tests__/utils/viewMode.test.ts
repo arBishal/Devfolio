@@ -1,5 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { getInitialViewMode, persistViewMode } from '@/utils/viewMode';
+import {
+    detectDevice,
+    getInitialViewMode,
+    getInitialViewState,
+    persistViewMode,
+} from '@/utils/viewMode';
 
 /** Override window.matchMedia so "(max-width: 767px)" reports the given match. */
 function setNarrowScreen(isNarrow: boolean) {
@@ -64,6 +69,70 @@ describe('getInitialViewMode', () => {
             throw new Error('localStorage unavailable');
         });
         expect(getInitialViewMode()).toBe('terminal');
+    });
+});
+
+describe('detectDevice', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it('reports "mobile" on a narrow screen', () => {
+        setNarrowScreen(true);
+        expect(detectDevice()).toBe('mobile');
+    });
+
+    it('reports "desktop" on a wide screen', () => {
+        setNarrowScreen(false);
+        expect(detectDevice()).toBe('desktop');
+    });
+});
+
+describe('getInitialViewState', () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it('auto-detects a mobile device into minimal mode from device source', () => {
+        setNarrowScreen(true);
+        expect(getInitialViewState()).toEqual({
+            mode: 'minimal',
+            device: 'mobile',
+            source: 'device',
+        });
+    });
+
+    it('auto-detects a desktop device into terminal mode from device source', () => {
+        setNarrowScreen(false);
+        expect(getInitialViewState()).toEqual({
+            mode: 'terminal',
+            device: 'desktop',
+            source: 'device',
+        });
+    });
+
+    it('reports source "saved" and the saved mode, while still detecting the real device', () => {
+        setNarrowScreen(true); // physically a mobile device …
+        localStorage.setItem('viewMode', 'terminal'); // … but the user chose terminal
+        expect(getInitialViewState()).toEqual({
+            mode: 'terminal',
+            device: 'mobile',
+            source: 'saved',
+        });
+    });
+
+    it('treats an invalid saved value as no choice (source "device")', () => {
+        setNarrowScreen(false);
+        localStorage.setItem('viewMode', 'garbage');
+        expect(getInitialViewState()).toEqual({
+            mode: 'terminal',
+            device: 'desktop',
+            source: 'device',
+        });
     });
 });
 

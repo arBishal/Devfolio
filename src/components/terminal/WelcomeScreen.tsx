@@ -1,4 +1,3 @@
-import { portfolioData } from "@/data/portfolioData";
 import { COMMANDS } from "@/data/commandRegistry";
 import { asciiArt } from "@/data/asciiArt";
 
@@ -11,6 +10,7 @@ interface WelcomeScreenProps {
   isCommandsOpen: boolean;
   onToggleCommands: () => void;
   onTogglePointerDown: () => void;
+  onToggleView: () => void;
 }
 
 export function WelcomeScreen({
@@ -18,18 +18,23 @@ export function WelcomeScreen({
   isCommandsOpen,
   onToggleCommands,
   onTogglePointerDown,
+  onToggleView,
 }: WelcomeScreenProps) {
   return (
     <div className="border-b bg-t-bg border-t-border">
-      <div className="p-4 space-y-2">
+      <div className="p-4 space-y-3">
         <pre className="text-t-accent text-sm leading-tight">
           {asciiArt}
         </pre>
-        <p className="text-t-header-text text-sm">
-          Welcome to my terminal portfolio{" "}
-          {portfolioData.personal.portfolioVersion}
-          <br/>
-          Switch to the Minimal Mode if you're tired of looking into terminals. Cheers!
+        <p className="text-t-muted text-sm">
+          Switch to the{" "}
+          <button
+            onClick={onToggleView}
+            className="text-t-accent/75 hover:text-t-accent cursor-pointer transition-colors"
+          >
+            Minimal Mode
+          </button>{" "}
+          if you're tired of looking into terminals. Cheers!
         </p>
 
 

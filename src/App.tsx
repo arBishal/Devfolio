@@ -1,9 +1,10 @@
 import { useState, Suspense, lazy } from "react";
 import { Terminal } from "@/components/terminal/Terminal";
 import { MinimalView } from "@/components/minimal/MinimalView";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import { useTheme } from "@/hooks/useTheme";
 import { useActiveEffect } from "@/hooks/useActiveEffect";
-import { getInitialViewMode, persistViewMode } from "@/utils/viewMode";
+import { getInitialViewState, persistViewMode } from "@/utils/viewMode";
 import type { ViewMode } from "@/utils/viewMode";
 import type { ThemeName } from "@/themes/themes";
 
@@ -25,7 +26,11 @@ export type { ViewMode };
  */
 export default function App() {
   // ── View mode ─────────────────────────────────────────────────────────
-  const [viewMode, setViewMode] = useState<ViewMode>(getInitialViewMode);
+  // Resolve device/mode/source once, then show a brief loading screen that
+  // previews the view being loaded before revealing it.
+  const [initialView] = useState(getInitialViewState);
+  const [viewMode, setViewMode] = useState<ViewMode>(initialView.mode);
+  const [booting, setBooting] = useState(true);
 
   const toggleView = () =>
     setViewMode((v) => {
@@ -45,6 +50,16 @@ export default function App() {
   return (
     // data-theme on the root div so both views inherit the correct CSS variables
     <div data-theme={currentThemeName as ThemeName}>
+      {/* ── Startup loading screen — overlays the view, then fades to reveal it ── */}
+      {booting && (
+        <LoadingScreen
+          mode={initialView.mode}
+          device={initialView.device}
+          source={initialView.source}
+          onComplete={() => setBooting(false)}
+        />
+      )}
+
       {/* ── Shared visual effect overlays — survive view switches ── */}
       <Suspense fallback={null}>
         {currentEffect === "fireflies" && <FirefliesCanvas onComplete={clearEffect} />}

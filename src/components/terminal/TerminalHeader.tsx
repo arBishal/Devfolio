@@ -27,8 +27,11 @@ export function TerminalHeader({ onClose }: TerminalHeaderProps) {
     <div className="px-4 py-2 shrink-0 bg-t-header-bg border-b border-t-border relative">
       {/* Row 1 — always: title left, close right */}
       <div className="flex items-center justify-between">
-        <div className="text-t-header-text text-sm">
-          {portfolioData.personal.fullName}&apos;s Terminal Portfolio
+        <div className="text-t-header-text text-sm flex items-baseline gap-2">
+          <span>{portfolioData.personal.fullName}&apos;s Terminal Portfolio</span>
+          <span className="text-t-muted text-xs italic">
+            {portfolioData.personal.portfolioVersion}
+          </span>
         </div>
 
         <button

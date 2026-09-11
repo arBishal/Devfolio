@@ -134,6 +134,7 @@ export function Terminal({
           isCommandsOpen={isCommandsOpen}
           onToggleCommands={() => setIsCommandsOpen((v) => !v)}
           onTogglePointerDown={handleTogglePointerDown}
+          onToggleView={onToggleView}
         />
 
         {/* Scrollable terminal body */}
