@@ -8,6 +8,8 @@ interface TerminalHeaderProps {
 // Hoisted static JSX — avoids re-creation on every render (rendering-hoist-jsx)
 const closeIcon = (
   <svg
+    aria-hidden="true"
+    focusable="false"
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="20"
@@ -29,7 +31,7 @@ export function TerminalHeader({ onClose }: TerminalHeaderProps) {
       {/* Row 1 — always: title left, close right */}
       <div className="flex items-center justify-between">
         <div className="text-t-header-text text-sm flex items-baseline gap-2">
-          <span>{portfolioData.personal.fullName}&apos;s Terminal Portfolio</span>
+          <h1>{portfolioData.personal.fullName}&apos;s Terminal Portfolio</h1>
           <span className="text-t-muted text-xs italic">
             {portfolioData.personal.portfolioVersion}
           </span>

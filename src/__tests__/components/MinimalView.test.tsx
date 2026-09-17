@@ -63,4 +63,11 @@ describe('MinimalView', () => {
         fireEvent.click(screen.getByRole('button', { name: /switch to terminal mode/i }));
         expect(onToggleView).toHaveBeenCalledTimes(1);
     });
+
+    it('exposes a skip link targeting the main content region', () => {
+        setup();
+        expect(screen.getByRole('link', { name: /skip to content/i }))
+            .toHaveAttribute('href', '#main-content');
+        expect(document.getElementById('main-content')?.tagName).toBe('MAIN');
+    });
 });

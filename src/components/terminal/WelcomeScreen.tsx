@@ -24,7 +24,9 @@ export function WelcomeScreen({
   return (
     <div className="border-b bg-t-bg border-t-border">
       <div className="p-4 space-y-3">
-        <pre className="text-t-accent text-sm leading-tight">
+        {/* Decorative name banner — the identity is conveyed textually by
+            TerminalHeader, so hide the raw ASCII from assistive tech. */}
+        <pre className="text-t-accent text-sm leading-tight" aria-hidden="true">
           {asciiArt}
         </pre>
         <p className="text-t-muted text-sm md:text-base">

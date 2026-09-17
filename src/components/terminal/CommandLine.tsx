@@ -103,6 +103,7 @@ export function CommandLine({
         <input
           ref={inputRef}
           type="text"
+          aria-label="Terminal command input"
           value={input}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}

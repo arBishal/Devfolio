@@ -100,6 +100,7 @@ export function CatCompanion() {
   return (
     <div
       ref={cursorRef}
+      aria-hidden="true"
       className="fixed top-0 left-0 pointer-events-none z-[var(--z-cursor)] text-t-accent font-mono text-xs leading-tight whitespace-pre"
     >
       {awakeCat}
