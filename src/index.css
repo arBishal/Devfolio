@@ -1,60 +1,74 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Terminal Theme System
+   Applied via a data-theme attribute on the terminal root element.
+
+   The @theme block below is the single source of truth for the DARK
+   palette: it registers the t-* color tokens (so `bg-t-*` / `text-t-*`
+   utilities are generated) AND emits them on :root. That makes dark both
+   the default (no data-theme) and the `dark` theme — data-theme="dark"
+   simply inherits :root. Every OTHER theme overrides via a [data-theme]
+   block further down.
+   ============================================================ */
+
 @theme {
-  /* Dark theme defaults — overridden per element by [data-theme] blocks below */
-  --color-t-bg: #171717;
-  --color-t-text: #f5f5f5;
-  --color-t-accent: #4ade80;
-  --color-t-accent2: #60a5fa;
-  --color-t-muted: #a3a3a3;
-  --color-t-error: #f87171;
-  --color-t-warning: #fbbf24;
-  --color-t-border: #404040;
-  --color-t-header-bg: #262626;
-  --color-t-header-text: #e5e5e5;
+  --color-t-bg: #171717;          /* neutral-900 */
+  --color-t-text: #f5f5f5;        /* neutral-100 */
+  --color-t-accent: #4ade80;      /* green-400   */
+  --color-t-accent2: #60a5fa;     /* blue-400    */
+  --color-t-muted: #a3a3a3;       /* neutral-400 */
+  --color-t-error: #f87171;       /* red-400     */
+  --color-t-warning: #fbbf24;     /* amber-400   */
+  --color-t-border: #404040;      /* neutral-700 */
+  --color-t-header-bg: #262626;   /* neutral-800 */
+  --color-t-header-text: #e5e5e5; /* neutral-200 */
   --color-t-btn-text: #000000;
+
+  /* Type families (loaded via <link> in index.html), all from the Ubuntu superfamily:
+     sans  → Ubuntu Sans  — app-wide UI, terminal labels, minimal-view chrome/headings
+     mono  → Ubuntu Mono  — terminal text
+     serif → Ubuntu       — minimal-view body prose. "serif" is the slot name only;
+             classic Ubuntu is a humanist sans, used here to set body apart from the
+             Ubuntu Sans chrome — hence the sans fallback stack. */
+  --font-sans: "Ubuntu Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Ubuntu Mono", ui-monospace, "Cascadia Code", "Courier New", monospace;
+  --font-serif: "Ubuntu", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Dark is the default color-scheme (native controls, scrollbars, autofill).
+   Light overrides it in its own [data-theme] block; the other dark-family
+   themes inherit this. color-scheme is an inherited property, so this cascades
+   from :root down to the themed root div and its native form controls. */
+:root {
+  color-scheme: dark;
 }
 
 /* ============================================================
-   Terminal Theme System
-   Applied via data-theme attribute on the terminal root element.
+   Z-index scale
+   One ordered source of truth for stacking, referenced via
+   `z-[var(--z-*)]`. Effects sit BELOW interactive chrome so the
+   pointer-through canvas overlays can never occlude the nav.
    ============================================================ */
-
-/* ── Dark ────────────────────────────────────────────────── */
-:root,
-[data-theme="dark"] {
-  --color-t-bg: #171717;
-  /* neutral-900 */
-  --color-t-text: #f5f5f5;
-  /* neutral-100 */
-  --color-t-accent: #4ade80;
-  /* green-400   */
-  --color-t-accent2: #60a5fa;
-  /* blue-400    */
-  --color-t-muted: #a3a3a3;
-  /* neutral-400 */
-  --color-t-error: #f87171;
-  /* red-400     */
-  --color-t-warning: #fbbf24;
-  /* amber-400   */
-  --color-t-border: #404040;
-  /* neutral-700 */
-  --color-t-header-bg: #262626;
-  /* neutral-800 */
-  --color-t-header-text: #e5e5e5;
-  /* neutral-200 */
-  --color-t-btn-text: #000000;
+:root {
+  --z-effects: 10;  /* full-screen ambient canvas overlays (pointer-events:none) */
+  --z-header: 20;   /* minimal-view sticky header */
+  --z-scrim: 30;    /* mobile nav backdrop */
+  --z-nav: 40;      /* minimal-view sidebar drawer */
+  --z-overlay: 100; /* startup loading screen */
+  --z-cursor: 9999; /* cat-companion cursor trail */
 }
 
 /* ── Light ───────────────────────────────────────────────── */
 [data-theme="light"] {
+  color-scheme: light;
   --color-t-bg: #ffffff;
   --color-t-text: #111827;
   /* gray-900   */
-  --color-t-accent: #2563eb;
-  /* blue-600   */
-  --color-t-accent2: #15803d;
-  /* green-700 — darkened from green-400 (1.7:1) to 5.0:1 contrast on white */
+  --color-t-accent: #15803d;
+  /* green-700 — accent is green to match dark mode; darkened for 5.0:1 contrast on white */
+  --color-t-accent2: #2563eb;
+  /* blue-600 — accent2 is blue to match dark mode */
   --color-t-muted: #6b7280;
   /* gray-500   */
   --color-t-error: #b91c1c;
@@ -243,5 +257,27 @@
 
 html {
   font-size: 16px;
-  scroll-behavior: smooth;
+}
+
+/* Smooth scrolling only for users who haven't asked to reduce motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================================================
+   Reduced motion
+   Respect the OS-level "reduce motion" setting (WCAG 2.3.3):
+   near-instant animations/transitions and no smooth scroll.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

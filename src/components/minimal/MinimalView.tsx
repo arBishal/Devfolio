@@ -49,7 +49,7 @@ export function MinimalView({
   };
 
   return (
-    <div className="bg-t-bg text-t-text font-mono min-h-dvh">
+    <div className="bg-t-bg text-t-text font-sans min-h-dvh">
       <MinimalNav
         currentThemeName={currentThemeName}
         setCurrentThemeName={setCurrentThemeName}
@@ -65,7 +65,7 @@ export function MinimalView({
       <div className="md:ml-56 lg:ml-64 relative">
 
         {/* GitHub style Header */}
-        <header className="sticky top-0 z-30 bg-t-bg/95 backdrop-blur-sm border-b border-t-border px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20 h-16 flex items-center justify-between">
+        <header className="sticky top-0 z-[var(--z-header)] bg-t-bg/95 backdrop-blur-sm border-b border-t-border px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20 h-16 flex items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-0 sm:gap-2 items-start sm:items-center text-sm md:text-base whitespace-nowrap overflow-hidden pr-4">
             <span className="text-t-text font-medium flex-shrink-0">{portfolioData.personal.fullName}</span>
             <span className="text-t-muted flex-shrink-0 hidden sm:inline">/</span>
@@ -81,7 +81,8 @@ export function MinimalView({
           </button>
         </header>
 
-        <main className="px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20">
+        {/* Body prose is serif (Lora); section headings opt back into sans (see MinimalSection). */}
+        <main className="px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20 font-serif">
 
           <MinimalSection id="about" title="About">
             <AboutSection />

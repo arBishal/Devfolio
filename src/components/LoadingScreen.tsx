@@ -53,7 +53,7 @@ export function LoadingScreen({ mode, device, source, onComplete }: LoadingScree
     <div
       role="status"
       aria-live="polite"
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-t-bg/60 text-t-text font-mono px-6 transition-opacity backdrop-blur-md duration-300 ${
+      className={`fixed inset-0 z-[var(--z-overlay)] flex items-center justify-center bg-t-bg/60 text-t-text font-mono px-6 transition-opacity backdrop-blur-md duration-300 ${
         fading ? "opacity-0" : "opacity-100"
       }`}
     >

@@ -27,7 +27,7 @@ export function WelcomeScreen({
         <pre className="text-t-accent text-sm leading-tight">
           {asciiArt}
         </pre>
-        <p className="text-t-muted text-sm">
+        <p className="text-t-muted text-sm md:text-base">
           Switch to the{" "}
           <button
             onClick={onToggleView}
@@ -60,7 +60,7 @@ export function WelcomeScreen({
           */}
           <div
             className={`
-              overflow-hidden transition-all duration-300 ease-in-out
+              overflow-hidden transition-[max-height] duration-300 ease-in-out
               ${isCommandsOpen ? "max-h-96" : "max-h-0"}
             `}
           >

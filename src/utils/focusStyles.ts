@@ -13,7 +13,7 @@
 export const FOCUS_CARET =
   "focus-visible:outline-none " +
   "focus-visible:before:content-['›'] focus-visible:before:mr-1 focus-visible:before:text-t-warning " +
-  "focus-visible:before:inline-block focus-visible:before:text-[1.3em] focus-visible:before:font-bold " +
+  "focus-visible:before:inline-block focus-visible:before:text-[1.3em] focus-visible:before:font-normal " +
   "focus-visible:before:leading-none focus-visible:before:align-middle";
 
 export const FOCUS_TINT = "focus-visible:outline-none focus-visible:text-t-warning";

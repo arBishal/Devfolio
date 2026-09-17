@@ -135,8 +135,8 @@ export function renderResume() {
             <div className="pl-4 space-y-1">
                 <p className="text-t-text">Downloading resume...</p>
                 <div className="flex items-center gap-2">
-                    <div className="w-48 h-2 bg-gray-700 rounded-full overflow-hidden">
-                        <div className="h-full w-full bg-t-accent text-t-btn-text animate-pulse"></div>
+                    <div className="w-48 h-2 bg-t-border rounded-full overflow-hidden">
+                        <div className="h-full w-full bg-t-accent animate-pulse"></div>
                     </div>
                     <span className="text-t-accent">100%</span>
                 </div>

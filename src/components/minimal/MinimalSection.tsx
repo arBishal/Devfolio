@@ -19,7 +19,7 @@ export function MinimalSection({ id, title, children }: MinimalSectionProps) {
       className="py-6 md:py-8 scroll-mt-16"
     >
       <div className="flex items-center gap-4 mb-6 md:mb-8">
-        <h2 className="text-t-accent text-sm md:text-base uppercase tracking-widest whitespace-nowrap">
+        <h2 className="font-sans text-t-accent text-sm md:text-base uppercase tracking-widest whitespace-nowrap">
           {title}
         </h2>
         <div className="h-px bg-t-border flex-1"></div>
