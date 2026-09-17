@@ -23,14 +23,10 @@ function setup() {
         const effect = useActiveEffect();
         const executor = useCommandExecutor({
             setIsCommandsOpen,
-            currentThemeName: theme.currentThemeName,
             currentThemeNameRef: theme.currentThemeNameRef,
             setCurrentThemeName: theme.setCurrentThemeName,
-            currentEffect: effect.currentEffect,
             currentEffectRef: effect.currentEffectRef,
             setCurrentEffect: effect.setCurrentEffect,
-            clearEffect: effect.clearEffect,
-            isMeowActive: effect.isMeowActive,
             setIsMeowActive: effect.setIsMeowActive,
         });
         return { ...executor, ...theme, ...effect };

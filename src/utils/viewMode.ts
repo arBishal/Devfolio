@@ -1,3 +1,5 @@
+import { getStorageItem, setStorageItem } from "@/utils/storage";
+
 export type ViewMode = "terminal" | "minimal";
 export type DeviceType = "mobile" | "desktop";
 
@@ -38,12 +40,8 @@ export function detectDevice(): DeviceType {
 }
 
 function readSavedMode(): ViewMode | null {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "terminal" || saved === "minimal") return saved;
-  } catch {
-    // localStorage may be unavailable (e.g. some private-browsing modes)
-  }
+  const saved = getStorageItem(STORAGE_KEY);
+  if (saved === "terminal" || saved === "minimal") return saved;
   return null;
 }
 
@@ -86,9 +84,5 @@ export function getInitialViewMode(): ViewMode {
  * (e.g. quota errors in private-browsing modes) are ignored.
  */
 export function persistViewMode(mode: ViewMode): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, mode);
-  } catch {
-    // Ignore write failures
-  }
+  setStorageItem(STORAGE_KEY, mode);
 }

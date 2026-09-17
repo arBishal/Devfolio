@@ -1,4 +1,5 @@
 import { portfolioData } from "@/data/portfolioData";
+import { FOCUS_TINT } from "@/utils/focusStyles";
 
 interface TerminalHeaderProps {
   onClose: () => void;
@@ -36,7 +37,7 @@ export function TerminalHeader({ onClose }: TerminalHeaderProps) {
 
         <button
           onClick={onClose}
-          className="text-t-muted hover:text-red-400 transition-colors"
+          className={`text-t-muted hover:text-t-error transition-colors ${FOCUS_TINT}`}
           aria-label="Close terminal"
         >
           {closeIcon}

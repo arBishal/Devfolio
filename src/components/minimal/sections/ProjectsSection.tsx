@@ -1,4 +1,5 @@
 import { portfolioData } from "@/data/portfolioData";
+import { FOCUS_TINT } from "@/utils/focusStyles";
 
 export function ProjectsSection() {
   return (
@@ -13,7 +14,7 @@ export function ProjectsSection() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-t-accent2 hover:text-t-text transition-colors flex-shrink-0"
+                  className={`text-t-accent2 hover:text-t-text transition-colors flex-shrink-0 ${FOCUS_TINT}`}
                   aria-label="GitHub Repository"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -26,7 +27,7 @@ export function ProjectsSection() {
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-t-accent2 hover:text-t-text transition-colors flex-shrink-0"
+                  className={`text-t-accent2 hover:text-t-text transition-colors flex-shrink-0 ${FOCUS_TINT}`}
                   aria-label="Live Demo"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

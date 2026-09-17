@@ -1,4 +1,7 @@
 import { portfolioData } from "@/data/portfolioData";
+import { downloadFile } from "@/utils/download";
+import { FOCUS_CARET, FOCUS_TINT } from "@/utils/focusStyles";
+import type { CommandHandler } from "@/types/terminal";
 
 export function renderAbout() {
     return (
@@ -62,7 +65,7 @@ export function renderProjects() {
                                         href={project.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-t-accent2 hover:text-t-text transition-colors"
+                                        className={`text-t-accent2 hover:text-t-text transition-colors ${FOCUS_TINT}`}
                                         aria-label="GitHub Repository"
                                     >
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -75,7 +78,7 @@ export function renderProjects() {
                                         href={project.live}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-t-accent2 hover:text-t-text transition-colors"
+                                        className={`text-t-accent2 hover:text-t-text transition-colors ${FOCUS_TINT}`}
                                         aria-label="Live Demo"
                                     >
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -141,7 +144,7 @@ export function renderResume() {
                 <a
                     href={portfolioData.resume.filePath}
                     download={portfolioData.resume.downloadFilename}
-                    className="inline-block mt-1 px-4 py-2 bg-t-accent text-t-btn-text rounded hover:opacity-80 transition-colors font-medium"
+                    className={`inline-block mt-1 px-4 py-2 bg-t-accent text-t-btn-text rounded hover:opacity-80 transition-colors font-medium ${FOCUS_CARET}`}
                 >
                     Click here if download doesn&apos;t start
                 </a>
@@ -149,6 +152,11 @@ export function renderResume() {
         </div>
     );
 }
+
+export const handleResume: CommandHandler = (args, ctx) => {
+    downloadFile(portfolioData.resume.filePath, portfolioData.resume.downloadFilename);
+    ctx.push("result", renderResume());
+};
 
 export function renderContact() {
     return (
@@ -159,7 +167,7 @@ export function renderContact() {
                     <span className="text-t-accent2">Email:</span>
                     <a
                         href={`mailto:${portfolioData.contact.email}`}
-                        className="text-t-text hover:underline"
+                        className={`text-t-text hover:underline ${FOCUS_CARET}`}
                     >
                         {portfolioData.contact.email}
                     </a>
@@ -171,7 +179,7 @@ export function renderContact() {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-t-text hover:underline"
+                            className={`text-t-text hover:underline ${FOCUS_CARET}`}
                         >
                             {item.display}
                         </a>
@@ -198,7 +206,7 @@ export function renderBlog() {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-t-text hover:underline"
+                            className={`text-t-text hover:underline ${FOCUS_CARET}`}
                         >
                             {item.display}
                         </a>

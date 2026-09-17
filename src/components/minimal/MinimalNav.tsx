@@ -1,7 +1,9 @@
 import { themeNames } from "@/themes/themes";
 import { AVAILABLE_EFFECTS } from "@/data/staticData";
+import { FOCUS_CARET, FOCUS_TINT } from "@/utils/focusStyles";
 import { useState } from "react";
 import type { ThemeName } from "@/themes/themes";
+import type { EffectName } from "@/data/staticData";
 import type { Dispatch, SetStateAction } from "react";
 
 // ── Section nav config ────────────────────────────────────────────────────────
@@ -84,8 +86,8 @@ const NAV_SECTIONS = [
 interface MinimalNavProps {
   currentThemeName: ThemeName;
   setCurrentThemeName: Dispatch<SetStateAction<ThemeName>>;
-  currentEffect: string | null;
-  setCurrentEffect: Dispatch<SetStateAction<string | null>>;
+  currentEffect: EffectName | null;
+  setCurrentEffect: Dispatch<SetStateAction<EffectName | null>>;
   clearEffect: () => void;
   isMeowActive: boolean;
   setIsMeowActive: Dispatch<SetStateAction<boolean>>;
@@ -112,7 +114,9 @@ export function MinimalNav({
 }: MinimalNavProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleEffectChange = (value: string) => {
+  // The select only ever yields "" or a valid effect name (its options are
+  // derived from AVAILABLE_EFFECTS), so the narrowing is safe.
+  const handleEffectChange = (value: EffectName | "") => {
     if (value === "") clearEffect();
     else setCurrentEffect(value);
     setIsMobileMenuOpen(false);
@@ -149,6 +153,7 @@ export function MinimalNav({
             flex items-center justify-center
             text-t-muted hover:text-t-text
             cursor-pointer
+            ${FOCUS_TINT}
           `}
           aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
         >
@@ -165,7 +170,7 @@ export function MinimalNav({
         <div className="px-[8vw] md:px-8 h-16 flex items-center border-b border-t-border flex-shrink-0">
           <button
             onClick={onToggleView}
-            className="flex items-center gap-2 text-t-text hover:text-t-accent transition-colors cursor-pointer group"
+            className={`flex items-center gap-2 text-t-text hover:text-t-accent transition-colors cursor-pointer group ${FOCUS_CARET}`}
             aria-label="Switch to terminal mode"
             title="Switch to terminal mode"
           >
@@ -184,7 +189,7 @@ export function MinimalNav({
                 <a
                   href={`#${id}`}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-2 text-sm text-t-muted hover:text-t-text transition-colors"
+                  className={`flex items-center gap-3 py-2 text-sm text-t-muted hover:text-t-text transition-colors ${FOCUS_CARET}`}
                 >
                   <span className="flex-shrink-0 opacity-70">{icon}</span>
                   {label}
@@ -198,7 +203,7 @@ export function MinimalNav({
         <div className="px-[8vw] md:px-8 py-6 pb-8 space-y-4">
           <button
             onClick={() => setIsMeowActive((prev) => !prev)}
-            className="w-full flex items-center justify-between text-sm text-t-muted hover:text-t-text transition-colors cursor-pointer"
+            className={`w-full flex items-center justify-between text-sm text-t-muted hover:text-t-text transition-colors cursor-pointer ${FOCUS_TINT}`}
             aria-label={isMeowActive ? "Dismiss Cat Companion" : "Summon Cat Companion"}
           >
             {isMeowActive ? "Dismiss Cat" : "Summon Cat"}
@@ -210,7 +215,7 @@ export function MinimalNav({
             <select
               value={currentThemeName}
               onChange={(e) => { setCurrentThemeName(e.target.value as ThemeName); setIsMobileMenuOpen(false); }}
-              className="w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors focus:outline-none"
+              className={`w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors ${FOCUS_TINT} focus-visible:border-t-warning`}
             >
               {themeNames.map((t) => (
                 <option key={t} value={t} className="bg-t-bg text-t-text">{t}</option>
@@ -223,8 +228,8 @@ export function MinimalNav({
             <p className="text-t-muted text-xs lg:text-sm opacity-60">effect</p>
             <select
               value={currentEffect ?? ""}
-              onChange={(e) => handleEffectChange(e.target.value)}
-              className="w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors focus:outline-none"
+              onChange={(e) => handleEffectChange(e.target.value as EffectName | "")}
+              className={`w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors ${FOCUS_TINT} focus-visible:border-t-warning`}
             >
               <option value="" className="bg-t-bg text-t-text">none</option>
               {AVAILABLE_EFFECTS.map((e) => (

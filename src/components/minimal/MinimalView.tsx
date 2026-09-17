@@ -10,14 +10,16 @@ import { ContactSection } from "@/components/minimal/sections/ContactSection";
 import { BlogSection } from "@/components/minimal/sections/BlogSection";
 import { portfolioData } from "@/data/portfolioData";
 import { downloadFile } from "@/utils/download";
+import { FOCUS_CARET } from "@/utils/focusStyles";
 import type { ThemeName } from "@/themes/themes";
+import type { EffectName } from "@/data/staticData";
 import type { Dispatch, SetStateAction } from "react";
 
 interface MinimalViewProps {
   currentThemeName: ThemeName;
   setCurrentThemeName: Dispatch<SetStateAction<ThemeName>>;
-  currentEffect: string | null;
-  setCurrentEffect: Dispatch<SetStateAction<string | null>>;
+  currentEffect: EffectName | null;
+  setCurrentEffect: Dispatch<SetStateAction<EffectName | null>>;
   clearEffect: () => void;
   isMeowActive: boolean;
   setIsMeowActive: Dispatch<SetStateAction<boolean>>;
@@ -71,7 +73,7 @@ export function MinimalView({
           </div>
           <button
             onClick={handleResumeDownload}
-            className="text-xs md:text-sm bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0"
+            className={`text-xs md:text-sm bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0 ${FOCUS_CARET}`}
           >
             <span className="md:hidden">Resume</span>
             <span className="hidden md:inline">Download Resume</span>

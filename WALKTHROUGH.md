@@ -349,41 +349,36 @@ receives the shared theme/effect state from `App` (via `Terminal`) as options. I
 ```tsx
 useCommandExecutor({
   setIsCommandsOpen,
-  currentThemeName, currentThemeNameRef, setCurrentThemeName,
-  currentEffect,    currentEffectRef,    setCurrentEffect,
-  clearEffect,
-  isMeowActive, setIsMeowActive,
+  currentThemeNameRef, setCurrentThemeName,
+  currentEffectRef,    setCurrentEffect,
+  setIsMeowActive,
 }): { history, commandHistory, historyIndex, setHistoryIndex, executeCommand }
 ```
 
 Note it **returns only terminal history + the executor**—theme/effect are inputs now, owned by
-`App`, not outputs of this hook.
+`App`, not outputs of this hook. Current values are read through the refs; the setters apply
+changes from handlers.
 
-### The handlers registry (module scope)
+### The handlers registry (derived from the command registry)
 
-Instead of a giant `switch`, commands live in a `HANDLERS` map created **once** at module scope:
+Instead of a giant `switch`, the executor dispatches through a `HANDLERS` map. That map is no
+longer hand-maintained here—it is **derived** from the single `COMMAND_REGISTRY` in
+`data/commandRegistry.tsx` (each entry carries its own `handler` + optional `aliases`), so the hook
+just imports it:
 
 ```tsx
-const HANDLERS: Record<string, CommandHandler> = {
-  "theme": handleTheme,
-  "fun": handleFun,
-  "about": (a, c) => c.push("result", renderAbout()),
-  "skills": (a, c) => c.push("result", renderSkills()),
-  "clear": (a, c) => { c.setHistory([]); c.setIsMeowActive(false); },
-  // …
-};
-
-// Multi-word aliases point at the same handler
-HANDLERS["ls -la"]      = HANDLERS["ls"];
-HANDLERS["hack the planet"] = HANDLERS["hack"];
+import { HANDLERS } from "@/data/commandRegistry";
 ```
+
+This makes name↔handler drift impossible: a command can't be advertised without a handler, or
+handled while invisible, because help, autocomplete, and dispatch all flow from one array.
 
 ### The `CommandContext`
 
 Every handler receives `(args, ctx, rawArgs)`. `ctx` (typed as `CommandContext` in
 `types/terminal.ts`) is the unified API handlers use to touch terminal state—`push`,
 `executeCommand`, `setHistory`, `setIsCommandsOpen`, `commandHistory`, `currentThemeName` /
-`setCurrentThemeName`, `currentEffect` / `setCurrentEffect`, `isMeowActive` / `setIsMeowActive`.
+`setCurrentThemeName`, `currentEffect` / `setCurrentEffect`, `setIsMeowActive`.
 This keeps handlers pure and decoupled from React.
 
 - `args`—space-split, lowercased arguments (e.g. `["light"]` for `theme light`).
@@ -402,7 +397,7 @@ else if (HANDLERS[commandName]) HANDLERS[commandName](argsArray, ctx, rawArgs);
 else ctx.push("error", `Command not found: ${cmd}. Type 'help' for available commands.`);
 ```
 
-Adding a command = add one entry to `HANDLERS` (and one to the registry for discoverability).
+Adding a command = add one entry to `COMMAND_REGISTRY` in `data/commandRegistry.tsx`; `HANDLERS`, `COMMANDS`, and `ALL_COMMAND_NAMES` all derive from it.
 
 ### Guardrails
 
@@ -499,16 +494,18 @@ export const portfolioData = {
 };
 ```
 
-### `src/data/commandRegistry.ts`—command definitions
-The single source of truth for every command. Public entries carry a `description`; hidden ones
-(easter eggs / unix-style) don't. Two derived exports drive the UI:
+### `src/data/commandRegistry.tsx`—command definitions
+The single source of truth for every command. Each entry carries `name`, an optional
+`description` (public commands only), `hidden`, its `handler`, and optional `aliases`. Three
+derived exports flow from it:
 
 ```ts
-export const COMMANDS: CommandInfo[]        // public (help + welcome grid)
-export const ALL_COMMAND_NAMES: string[]    // every name, sorted (autocomplete)
+export const COMMANDS: CommandInfo[]         // public (help + welcome grid)
+export const ALL_COMMAND_NAMES: string[]     // every name + alias, sorted (autocomplete)
+export const HANDLERS: Record<string, CommandHandler> // name/alias → handler (executor dispatch)
 ```
 
-Adding a command to the registry surfaces it in help, the welcome grid, and autocomplete at once.
+Adding one entry to the registry surfaces the command in help, the welcome grid, and autocomplete **and** wires up its handler at once — there is no separate dispatch table to keep in sync.
 
 ### `src/data/staticData.ts`—visual effects list
 ```ts

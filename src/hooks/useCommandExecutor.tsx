@@ -1,88 +1,32 @@
 import { useCallback } from "react";
-import { themeNames } from "@/themes/themes";
 import type { ThemeName } from "@/themes/themes";
-
-// Command renderers and handlers
-import {
-  renderAbout, renderSkills, renderProjects, renderExperience,
-  renderPublications, renderInterests,
-  renderResume, renderContact, renderBlog,
-} from "@/commands/portfolio";
-import { downloadFile } from "@/utils/download";
-import { portfolioData } from "@/data/portfolioData";
-import { renderHelp } from "@/commands/help";
-import { handleTheme, handleFun } from "@/commands/visuals";
-import {
-  renderLs, renderPwd, renderWhoami, renderDate, renderSudo,
-  renderHack, renderExit, renderHello, renderHistory,
-  handleCat, handleEcho, handleMeow,
-} from "@/commands/misc";
-
+import { HANDLERS } from "@/data/commandRegistry";
 import { useTerminalHistory } from "./useTerminalHistory";
-
-import type { OutputLine, CommandContext, CommandHandler } from "@/types/terminal";
+import type { OutputLine, CommandContext } from "@/types/terminal";
+import type { EffectName } from "@/data/staticData";
 
 // Hoisted regex — avoids recreation on every command execution
 const WHITESPACE_RE = /\s+/;
 
-// Maximum number of output lines kept in memory.
-// Oldest lines are trimmed when the limit is exceeded.
+// Maximum number of entries kept in the output history and command history.
+// Oldest entries are trimmed when the limit is exceeded.
 const MAX_HISTORY = 400;
 
-// ── Handlers Registry (module-scoped — created once) ──────────────────────────
-const HANDLERS: Record<string, CommandHandler> = {
-  "theme": handleTheme,
-  "fun": handleFun,
-  "cat": handleCat,
-  "echo": handleEcho,
-  "meow": handleMeow,
-  // Portfolio
-  "help": (a, c) => c.push("result", renderHelp()),
-  "about": (a, c) => c.push("result", renderAbout()),
-  "skills": (a, c) => c.push("result", renderSkills()),
-  "projects": (a, c) => c.push("result", renderProjects()),
-  "experience": (a, c) => c.push("result", renderExperience()),
-  "publications": (a, c) => c.push("result", renderPublications()),
-  "interests": (a, c) => c.push("result", renderInterests()),
-  "resume": (a, c) => { downloadFile(portfolioData.resume.filePath, portfolioData.resume.downloadFilename); c.push("result", renderResume()); },
-  "contact": (a, c) => c.push("result", renderContact()),
-  "blog": (a, c) => c.push("result", renderBlog()),
-  // Terminal control
-  "clear": (a, c) => { c.setHistory([]); c.setIsMeowActive(false); },
-  "hide": (a, c) => { c.setIsCommandsOpen(false); c.push("result", <p className="text-t-muted">Commands hidden. Type <span className="text-t-accent">show</span> to bring them back.</p>); },
-  "show": (a, c) => { c.setIsCommandsOpen(true); c.push("result", <p className="text-t-muted">Commands visible.</p>); },
-  // Unix-style / easter eggs
-  "ls": (a, c) => c.push("result", renderLs()),
-  "pwd": (a, c) => c.push("result", renderPwd()),
-  "whoami": (a, c) => c.push("result", renderWhoami()),
-  "date": (a, c) => c.push("result", renderDate()),
-  "sudo": (a, c) => c.push("error", renderSudo()),
-  "hack": (a, c) => c.push("result", renderHack()),
-  "exit": (a, c) => c.push("result", renderExit()),
-  "quit": (a, c) => c.push("result", renderExit()),
-  "hello": (a, c) => c.push("result", renderHello()),
-  "hi": (a, c) => c.push("result", renderHello()),
-  "history": (a, c) => c.push("result", renderHistory(c.commandHistory)),
-};
-
-// Aliases — point multi-word commands to their base handler
-HANDLERS["ls -la"] = HANDLERS["ls"];
-HANDLERS["ls -l"] = HANDLERS["ls"];
-HANDLERS["sudo rm -rf /"] = HANDLERS["sudo"];
-HANDLERS["rm -rf /"] = HANDLERS["sudo"];
-HANDLERS["hack the planet"] = HANDLERS["hack"];
+// Appends an item to a list, trimming the oldest entries past MAX_HISTORY.
+function appendCapped<T>(list: T[], item: T): T[] {
+  const next = [...list, item];
+  return next.length > MAX_HISTORY ? next.slice(-MAX_HISTORY) : next;
+}
 
 export interface CommandExecutorOptions {
   setIsCommandsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  // Shared state from App.tsx — owned externally so theme/effect persist across view switches
-  currentThemeName: ThemeName;
+  // Shared state from App.tsx — owned externally so theme/effect persist across
+  // view switches. The executor reads current values via the refs; the setters
+  // apply changes from command handlers.
   currentThemeNameRef: React.MutableRefObject<ThemeName>;
   setCurrentThemeName: React.Dispatch<React.SetStateAction<ThemeName>>;
-  currentEffect: string | null;
-  currentEffectRef: React.MutableRefObject<string | null>;
-  setCurrentEffect: React.Dispatch<React.SetStateAction<string | null>>;
-  clearEffect: () => void;
-  isMeowActive: boolean;
+  currentEffectRef: React.MutableRefObject<EffectName | null>;
+  setCurrentEffect: React.Dispatch<React.SetStateAction<EffectName | null>>;
   setIsMeowActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -105,9 +49,9 @@ export interface CommandExecutor {
  */
 export function useCommandExecutor({
   setIsCommandsOpen,
-  currentThemeName, currentThemeNameRef, setCurrentThemeName,
-  currentEffect, currentEffectRef, setCurrentEffect,
-  isMeowActive, setIsMeowActive,
+  currentThemeNameRef, setCurrentThemeName,
+  currentEffectRef, setCurrentEffect,
+  setIsMeowActive,
 }: CommandExecutorOptions): CommandExecutor {
   const {
     history, setHistory,
@@ -117,20 +61,14 @@ export function useCommandExecutor({
 
   const executeCommand = useCallback((cmd: string) => {
     function push(type: OutputLine["type"], content: OutputLine["content"]) {
-      setHistory((prev) => {
-        const next = [...prev, { type, content }];
-        return next.length > MAX_HISTORY ? next.slice(-MAX_HISTORY) : next;
-      });
+      setHistory((prev) => appendCapped(prev, { type, content }));
     }
 
     const trimmedCmd = cmd.trim().toLowerCase();
     if (trimmedCmd === "") return;
 
-    setHistory((prev) => {
-      const next: OutputLine[] = [...prev, { type: "command", content: cmd }];
-      return next.length > MAX_HISTORY ? next.slice(-MAX_HISTORY) : next;
-    });
-    setCommandHistory((prev) => [...prev, cmd]);
+    setHistory((prev) => appendCapped<OutputLine>(prev, { type: "command", content: cmd }));
+    setCommandHistory((prev) => appendCapped(prev, cmd));
     setHistoryIndex(-1);
 
     // Build context
@@ -144,7 +82,6 @@ export function useCommandExecutor({
       setCurrentThemeName,
       currentEffect: currentEffectRef.current,
       setCurrentEffect,
-      isMeowActive,
       setIsMeowActive,
     };
 

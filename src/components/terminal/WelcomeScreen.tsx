@@ -1,5 +1,6 @@
 import { COMMANDS } from "@/data/commandRegistry";
 import { asciiArt } from "@/data/asciiArt";
+import { FOCUS_CARET, FOCUS_TINT } from "@/utils/focusStyles";
 
 const SORTED_COMMANDS = [...COMMANDS].sort((a, b) =>
   a.name.localeCompare(b.name),
@@ -30,7 +31,7 @@ export function WelcomeScreen({
           Switch to the{" "}
           <button
             onClick={onToggleView}
-            className="text-t-accent/75 hover:text-t-accent cursor-pointer transition-colors"
+            className={`text-t-accent/75 hover:text-t-accent focus-visible:text-t-accent cursor-pointer transition-colors ${FOCUS_CARET}`}
           >
             Minimal Mode
           </button>{" "}
@@ -45,7 +46,7 @@ export function WelcomeScreen({
             <button
               onClick={onToggleCommands}
               onPointerDown={onTogglePointerDown}
-              className="text-t-muted hover:opacity-80 transition-opacity text-xs leading-none"
+              className={`text-t-muted hover:opacity-80 focus-visible:opacity-100 transition-colors text-xs leading-none ${FOCUS_TINT}`}
               aria-label={isCommandsOpen ? "Collapse commands" : "Expand commands"}
               title={isCommandsOpen ? "Collapse commands" : "Expand commands"}
             >
@@ -68,7 +69,7 @@ export function WelcomeScreen({
                 <div key={cmd.name}>
                   <button
                     onClick={() => onCommandClick(cmd.name)}
-                    className="text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors"
+                    className={`text-t-accent hover:opacity-80 hover:underline focus-visible:opacity-80 focus-visible:underline cursor-pointer transition-colors ${FOCUS_CARET}`}
                   >
                     {cmd.name}
                   </button>

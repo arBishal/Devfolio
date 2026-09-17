@@ -2,6 +2,7 @@ import { portfolioData } from "@/data/portfolioData";
 // Force HMR
 import { downloadFile } from "@/utils/download";
 import { renderAbout, renderContact, renderExperience, renderResume, renderPublications, renderInterests } from "./portfolio";
+import { FOCUS_CARET } from "@/utils/focusStyles";
 import type { CommandHandler } from "@/types/terminal";
 
 export function renderLs() {
@@ -142,7 +143,7 @@ export const handleMeow: CommandHandler = (args, ctx) => {
             <p className="text-t-muted">
                 ✓ Meow! A wild cursor companion appeared. You can pet it by clicking. To clear it, run:{" "}
                 <button
-                    className="text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors text-sm"
+                    className={`text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors text-sm ${FOCUS_CARET}`}
                     onClick={() => ctx.executeCommand(`meow clear`)}
                 >
                     meow clear

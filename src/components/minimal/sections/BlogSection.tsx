@@ -1,4 +1,5 @@
 import { portfolioData } from "@/data/portfolioData";
+import { FOCUS_CARET } from "@/utils/focusStyles";
 
 export function BlogSection() {
   const { tagline, links } = portfolioData.blog;
@@ -12,7 +13,7 @@ export function BlogSection() {
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-t-text hover:text-t-accent2 hover:underline transition-colors"
+            className={`text-t-text hover:text-t-accent2 hover:underline transition-colors ${FOCUS_CARET}`}
           >
             {item.display}
           </a>

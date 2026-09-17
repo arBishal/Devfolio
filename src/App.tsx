@@ -2,6 +2,7 @@ import { useState, Suspense, lazy } from "react";
 import { Terminal } from "@/components/terminal/Terminal";
 import { MinimalView } from "@/components/minimal/MinimalView";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useTheme } from "@/hooks/useTheme";
 import { useActiveEffect } from "@/hooks/useActiveEffect";
 import { getInitialViewState, persistViewMode } from "@/utils/viewMode";
@@ -68,34 +69,32 @@ export default function App() {
         {isMeowActive && <CatCompanion />}
       </Suspense>
 
-      {/* ── View routing ──────────────────────────────────────────── */}
-      {viewMode === "terminal" && (
-        <Terminal
-          currentThemeName={currentThemeName}
-          currentThemeNameRef={currentThemeNameRef}
-          setCurrentThemeName={setCurrentThemeName}
-          currentEffect={currentEffect}
-          currentEffectRef={currentEffectRef}
-          setCurrentEffect={setCurrentEffect}
-          clearEffect={clearEffect}
-          isMeowActive={isMeowActive}
-          setIsMeowActive={setIsMeowActive}
-          onToggleView={toggleView}
-        />
-      )}
+      {/* ── View routing (guarded so a throwing renderer degrades gracefully) ── */}
+      <ErrorBoundary>
+        {viewMode === "terminal" && (
+          <Terminal
+            currentThemeNameRef={currentThemeNameRef}
+            setCurrentThemeName={setCurrentThemeName}
+            currentEffectRef={currentEffectRef}
+            setCurrentEffect={setCurrentEffect}
+            setIsMeowActive={setIsMeowActive}
+            onToggleView={toggleView}
+          />
+        )}
 
-      {viewMode === "minimal" && (
-        <MinimalView
-          currentThemeName={currentThemeName}
-          setCurrentThemeName={setCurrentThemeName}
-          currentEffect={currentEffect}
-          setCurrentEffect={setCurrentEffect}
-          clearEffect={clearEffect}
-          isMeowActive={isMeowActive}
-          setIsMeowActive={setIsMeowActive}
-          onToggleView={toggleView}
-        />
-      )}
+        {viewMode === "minimal" && (
+          <MinimalView
+            currentThemeName={currentThemeName}
+            setCurrentThemeName={setCurrentThemeName}
+            currentEffect={currentEffect}
+            setCurrentEffect={setCurrentEffect}
+            clearEffect={clearEffect}
+            isMeowActive={isMeowActive}
+            setIsMeowActive={setIsMeowActive}
+            onToggleView={toggleView}
+          />
+        )}
+      </ErrorBoundary>
     </div>
   );
 }

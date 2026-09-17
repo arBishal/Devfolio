@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { defaultTheme, themeNames } from "@/themes/themes";
+import { getStorageItem, setStorageItem } from "@/utils/storage";
 import type { ThemeName } from "@/themes/themes";
 
 export interface TerminalTheme {
@@ -12,7 +13,7 @@ const THEME_STORAGE_KEY = "themeName";
 
 export function useTheme(): TerminalTheme {
   const [currentThemeName, setCurrentThemeName] = useState<ThemeName>(() => {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    const stored = getStorageItem(THEME_STORAGE_KEY);
     // Validate that the stored value is still a valid theme name
     if (stored && (themeNames as readonly string[]).includes(stored)) {
       return stored as ThemeName;
@@ -21,7 +22,7 @@ export function useTheme(): TerminalTheme {
   });
 
   useEffect(() => {
-    localStorage.setItem(THEME_STORAGE_KEY, currentThemeName);
+    setStorageItem(THEME_STORAGE_KEY, currentThemeName);
   }, [currentThemeName]);
 
   // Mirrors currentThemeName so executeCommand can read latest value

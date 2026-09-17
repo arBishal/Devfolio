@@ -1,3 +1,5 @@
+import { FOCUS_CARET } from "@/utils/focusStyles";
+
 interface TerminalFooterProps {
   onToggleView: () => void;
 }
@@ -11,7 +13,7 @@ export function TerminalFooter({ onToggleView }: TerminalFooterProps) {
       <p className="hidden">Tip: Double-tap for autocomplete</p>
       <button
         onClick={onToggleView}
-        className="flex items-center gap-1.5 text-t-muted hover:text-t-accent transition-colors text-sm cursor-pointer ml-auto md:ml-0"
+        className={`flex items-center gap-1.5 text-t-muted hover:text-t-accent transition-colors text-sm cursor-pointer ml-auto md:ml-0 ${FOCUS_CARET}`}
         aria-label="Switch to minimal mode"
         title="Switch to minimal mode"
       >

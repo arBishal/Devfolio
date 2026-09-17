@@ -125,7 +125,7 @@ src/
 │
 ├── data/
 │   ├── portfolioData.ts    # All portfolio content
-│   ├── commandRegistry.ts  # Single source of truth for all commands
+│   ├── commandRegistry.tsx # Single source of truth for all commands (names, handlers, aliases)
 │   ├── staticData.ts       # Visual effects list
 │   └── asciiArt.ts         # Welcome-banner ASCII art
 │
@@ -205,8 +205,9 @@ Place your resume PDF in the `public/` folder and update `resume.filePath` accor
 ### Adding a new command
 
 1. Create or update a renderer function in `src/commands/`
-2. Add an entry to the `HANDLERS` registry in `src/hooks/useCommandExecutor.tsx`
-3. Add it to `COMMAND_REGISTRY` in `src/data/commandRegistry.ts` to surface it in autocomplete, help, and the welcome screen
+2. Add one entry to `COMMAND_REGISTRY` in `src/data/commandRegistry.tsx` with its `name`, `description`, `hidden`, `handler`, and optional `aliases`
+
+That single entry surfaces the command in autocomplete, help, and the welcome screen **and** wires up its handler — `COMMANDS`, `ALL_COMMAND_NAMES`, and the executor's `HANDLERS` are all derived from it.
 
 ### Adding a new visual effect
 

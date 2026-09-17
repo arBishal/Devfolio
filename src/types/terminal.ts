@@ -1,5 +1,6 @@
 import type { ReactNode, Dispatch, SetStateAction } from "react";
 import type { ThemeName } from "@/themes/themes";
+import type { EffectName } from "@/data/staticData";
 
 export interface OutputLine {
   type: "command" | "result" | "error";
@@ -19,9 +20,8 @@ export interface CommandContext {
   commandHistory: string[];
   currentThemeName: ThemeName;
   setCurrentThemeName: (name: ThemeName) => void;
-  currentEffect: string | null;
-  setCurrentEffect: (name: string | null) => void;
-  isMeowActive: boolean;
+  currentEffect: EffectName | null;
+  setCurrentEffect: (name: EffectName | null) => void;
   setIsMeowActive: Dispatch<SetStateAction<boolean>>;
 }
 

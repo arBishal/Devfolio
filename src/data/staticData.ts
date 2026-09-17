@@ -12,8 +12,13 @@ export interface EffectInfo {
     status?: "done" | "planning";
 }
 
-export const AVAILABLE_EFFECTS: EffectInfo[] = [
+// `as const satisfies` keeps the literal names (for EffectName) while still
+// validating each entry against EffectInfo.
+export const AVAILABLE_EFFECTS = [
     { name: "fireflies", status: "done" },
     { name: "matrix-rain", status: "done" },
     { name: "starfield", status: "done" },
-];
+] as const satisfies readonly EffectInfo[];
+
+/** Union of valid effect names, derived from AVAILABLE_EFFECTS. */
+export type EffectName = (typeof AVAILABLE_EFFECTS)[number]["name"];

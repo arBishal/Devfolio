@@ -5,17 +5,15 @@ import { TerminalHeader } from "@/components/terminal/TerminalHeader";
 import { TerminalFooter } from "@/components/terminal/TerminalFooter";
 import { WelcomeScreen } from "@/components/terminal/WelcomeScreen";
 import { useCommandExecutor } from "@/hooks/useCommandExecutor";
+import { FOCUS_CARET } from "@/utils/focusStyles";
 import type { ThemeName } from "@/themes/themes";
+import type { EffectName } from "@/data/staticData";
 
 interface TerminalProps {
-  currentThemeName: ThemeName;
   currentThemeNameRef: React.MutableRefObject<ThemeName>;
   setCurrentThemeName: React.Dispatch<React.SetStateAction<ThemeName>>;
-  currentEffect: string | null;
-  currentEffectRef: React.MutableRefObject<string | null>;
-  setCurrentEffect: React.Dispatch<React.SetStateAction<string | null>>;
-  clearEffect: () => void;
-  isMeowActive: boolean;
+  currentEffectRef: React.MutableRefObject<EffectName | null>;
+  setCurrentEffect: React.Dispatch<React.SetStateAction<EffectName | null>>;
   setIsMeowActive: React.Dispatch<React.SetStateAction<boolean>>;
   onToggleView: () => void;
 }
@@ -27,14 +25,10 @@ interface TerminalProps {
  * Terminal ↔ Minimal view switches.
  */
 export function Terminal({
-  currentThemeName,
   currentThemeNameRef,
   setCurrentThemeName,
-  currentEffect,
   currentEffectRef,
   setCurrentEffect,
-  clearEffect,
-  isMeowActive,
   setIsMeowActive,
   onToggleView,
 }: TerminalProps) {
@@ -61,14 +55,10 @@ export function Terminal({
     executeCommand,
   } = useCommandExecutor({
     setIsCommandsOpen,
-    currentThemeName,
     currentThemeNameRef,
     setCurrentThemeName,
-    currentEffect,
     currentEffectRef,
     setCurrentEffect,
-    clearEffect,
-    isMeowActive,
     setIsMeowActive,
   });
 
@@ -116,7 +106,7 @@ export function Terminal({
           <p className="text-t-text text-xl">Terminal closed</p>
           <button
             onClick={() => setIsClosed(false)}
-            className="px-4 py-2 bg-t-accent text-t-btn-text rounded hover:opacity-80 transition-colors"
+            className={`px-4 py-2 bg-t-accent text-t-btn-text rounded hover:opacity-80 transition-colors ${FOCUS_CARET}`}
           >
             Reopen Terminal
           </button>
