@@ -23,7 +23,7 @@ export const portfolioData: PortfolioData = {
     bio: [
       "A software engineer crafting seamless, user-first experiences; driven by detail, design, and a dash of storytelling. Powered by human curiosity, and amplified by AI-assisted workflows. Currently, at Dynamic Solution Innovators Ltd., supporting the digital operations of 190+ financial institutions, impacting over 85+ million end users. Always creating. Always telling stories.",
     ],
-    portfolioVersion: "v2.0.2",
+    portfolioVersion: "v2.1.0",
   },
 
   // Resume ---------------------------------------------------
