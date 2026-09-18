@@ -4,7 +4,7 @@ import { FOCUS_TINT } from "@/utils/focusStyles";
 export function ProjectsSection() {
   return (
     <div className="space-y-6 md:space-y-10">
-      {portfolioData.projects.map((project, i) => (
+      {portfolioData.projects.map((project) => (
         <div key={project.name}>
           <div className="flex items-baseline justify-between gap-4 flex-wrap">
             <p className="text-t-accent2 text-sm md:text-base font-medium">{project.name}</p>

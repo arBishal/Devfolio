@@ -49,10 +49,6 @@ function getStarCount(): number {
     return Math.floor(BASE_STAR_COUNT * mult);
 }
 
-function mapRange(v: number, a: number, b: number, c: number, d: number): number {
-    return c + ((v - a) / (b - a)) * (d - c);
-}
-
 /**
  * Spawn a star at a random z depth with x,y chosen so the star is
  * within the visible frustum at that depth.
