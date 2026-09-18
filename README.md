@@ -73,6 +73,7 @@ src/
 │
 ├── __tests__/
 │   ├── setup.ts                         # jest-dom matchers + jsdom stubs
+│   ├── App.test.tsx
 │   ├── commands/
 │   │   ├── help.test.tsx
 │   │   ├── misc.test.tsx
@@ -87,8 +88,15 @@ src/
 │   │   └── useTheme.test.ts
 │   ├── components/
 │   │   ├── CommandLine.test.tsx
-│   │   └── TerminalOutput.test.tsx
+│   │   ├── ErrorBoundary.test.tsx
+│   │   ├── LoadingScreen.test.tsx
+│   │   ├── MinimalView.test.tsx
+│   │   ├── TerminalOutput.test.tsx
+│   │   └── WelcomeScreen.test.tsx
+│   ├── data/
+│   │   └── commandRegistry.test.ts
 │   └── utils/
+│       ├── storage.test.ts
 │       └── viewMode.test.ts
 │
 ├── commands/          # One file per command group
@@ -101,7 +109,8 @@ src/
 │   ├── minimal/              # The traditional/minimal UI mode
 │   │   ├── MinimalView.tsx
 │   │   ├── MinimalNav.tsx    # Sidebar: section links + theme/effect pickers
-│   │   ├── MinimalSection.tsx# Reusable section wrapper
+│   │   ├── MinimalSection.tsx# Reusable section wrapper (optional hidden heading)
+│   │   ├── Select.tsx        # Accessible, theme-styled custom dropdown
 │   │   └── sections/         # One component per area (About, Projects, etc.)
 │   ├── terminal/             # The terminal emulator UI mode
 │   │   ├── Terminal.tsx      # Terminal root layout
@@ -111,6 +120,8 @@ src/
 │   │   ├── WelcomeScreen.tsx
 │   │   └── TerminalFooter.tsx
 │   ├── CatCompanion.tsx      # Easter egg pet companion
+│   ├── ErrorBoundary.tsx     # Catches render errors, shows fallback UI
+│   ├── LoadingScreen.tsx     # Initial startup / loading overlay
 │   ├── FirefliesCanvas.tsx   # Canvas: ambient firefly particle animation
 │   ├── MatrixRainCanvas.tsx  # Canvas: Bangla + Katakana digital rain
 │   └── StarfieldCanvas.tsx   # Canvas: 3D perspective warp-speed starfield
@@ -121,7 +132,8 @@ src/
 │   ├── useTheme.ts             # currentThemeName state (persisted)
 │   ├── useActiveEffect.ts      # currentEffect + isMeowActive state
 │   ├── useAutocomplete.ts      # ghost-text suggestion logic
-│   └── useHistoryNavigation.ts # ↑/↓ command-history navigation
+│   ├── useHistoryNavigation.ts # ↑/↓ command-history navigation
+│   └── useCanvasResize.ts      # DPR-aware canvas resize handling for effects
 │
 ├── data/
 │   ├── portfolioData.ts    # All portfolio content
@@ -137,8 +149,10 @@ src/
 │   └── themes.ts  # themeNames array + ThemeName type + defaultTheme
 │
 ├── utils/
-│   ├── download.ts  # Generic file download utility
-│   └── viewMode.ts  # Device-aware initial view + persistence
+│   ├── download.ts    # Generic file download utility
+│   ├── focusStyles.ts # Shared keyboard-focus affordance class strings
+│   ├── storage.ts     # Safe localStorage read/write wrappers
+│   └── viewMode.ts    # Device-aware initial view + persistence
 │
 └── index.css   # Tailwind v4 @theme tokens + per-theme data-theme overrides
 ```
@@ -228,7 +242,7 @@ npm run test:watch      # watch mode (re-runs on file save)
 npm run test:coverage   # generate coverage report in coverage/
 ```
 
-163 tests across 13 files covering command renderers, custom hooks, UI components, and utilities.
+184 tests across 20 files covering command renderers, the command registry, custom hooks, UI components, and utilities.
 
 ---
 

@@ -167,8 +167,8 @@ classes. Each theme then overrides those same variables, scoped to a `data-theme
 
 `dark` (default), `light`, `windows-cmd`, `ubuntu-gnome`, `sublime-monokai`, `atom-one-dark`,
 `github-dark`, `dracula`. Several faithfully reproduce well-known editor/terminal palettes; a few
-individual colors were brightened from their originals to meet WCAG AA contrast—see
-[`CONTRAST_AUDIT.md`](CONTRAST_AUDIT.md).
+individual colors were brightened from their originals to meet WCAG AA contrast (4.5:1 for text) —
+the per-color rationale is annotated inline in `src/index.css`.
 
 ### The token set
 
@@ -213,6 +213,7 @@ App                              ← owns viewMode + theme/effect/meow state
 │
 └── MinimalView                  ← when viewMode === "minimal"
     ├── MinimalNav               ← sidebar: section links, theme/effect pickers, "switch to terminal"
+    │   └── Select × 2           ← accessible, theme-styled dropdown (replaces native <select>)
     └── MinimalSection × N       ← About, Experience, Skills, Projects, Publications,
         └── <XxxSection />           Interests, Blog, Contact
 ```
@@ -225,7 +226,7 @@ Three small single-responsibility hooks, **called by `App`** and their values th
 
 | Hook | File | Owns | Notes |
 |---|---|---|---|
-| `useTheme` | `hooks/useTheme.ts` | `currentThemeName` | Persists to `localStorage` (`themeName`); validates stored value against `themeNames` |
+| `useTheme` | `hooks/useTheme.ts` | `currentThemeName` | Persists to `localStorage` (key `themeName`) via the `utils/storage.ts` safe wrappers; validates the stored value against `themeNames` |
 | `useActiveEffect` | `hooks/useActiveEffect.ts` | `currentEffect`, `isMeowActive` | Provides `clearEffect()` |
 | `useTerminalHistory` | `hooks/useTerminalHistory.ts` | `history`, `commandHistory`, `historyIndex` | Called *inside* `useCommandExecutor`, not `App` |
 
@@ -456,12 +457,24 @@ A traditional, scroll-based layout reading from the **same `portfolioData`** as 
 
 ### `MinimalNav.tsx`
 The sidebar: anchor links to each section (with icons), a **theme picker** and **effect picker**
-(`<select>`s driving the same shared state), a **Summon/Dismiss Cat** toggle, and a **"switch to
-terminal"** button. On mobile it's an off-canvas drawer opened by a chevron tab at the screen edge.
+(each a custom `Select` component driving the same shared state), a **Summon/Dismiss Cat** toggle,
+and a **"switch to terminal"** button. On mobile it's an off-canvas drawer opened by a chevron tab
+at the screen edge.
+
+### `Select.tsx`
+An accessible, fully theme-styled dropdown that replaces the native `<select>`—whose popup can't be
+restyled to match the active palette. It follows the WAI-ARIA *select-only combobox* pattern: a
+trigger button owns `aria-activedescendant`, and the popup is a `role="listbox"` of `role="option"`
+rows painted with the theme tokens. Supports ↑/↓/Home/End navigation, type-ahead, `Esc`/click-outside
+dismissal (via `pointerdown`, so it works on touch), and opens upward (drop-up) since both pickers sit
+at the bottom of the sidebar.
 
 ### `MinimalSection.tsx`
 Reusable wrapper giving each section an `id` (for anchor scrolling), a consistent heading
 (title + a rule filling the row), and `scroll-mt-16` so the sticky header doesn't overlap targets.
+An optional `headingHidden` prop keeps the title as an `sr-only` `<h2>` (preserving the anchor and
+document outline) while hiding the visible heading + rule—used by the **About** section, which shows
+its content with no visible header.
 
 ### `sections/*.tsx`
 One presentational component per area (`AboutSection`, `ExperienceSection`, `SkillsSection`,
@@ -542,6 +555,15 @@ signature that decouple handlers from the executor.
 ### `src/utils/download.ts`
 `downloadFile(path, filename)`—creates a hidden `<a download>` and clicks it. Kept out of
 renderers so JSX functions stay pure.
+
+### `src/utils/storage.ts`
+`getStorageItem(key)` / `setStorageItem(key, value)`—safe `localStorage` wrappers that swallow
+access errors (storage disabled/blocked, quota). Used by `useTheme` and `viewMode` so a throwing
+`localStorage` can't crash the app.
+
+### `src/utils/focusStyles.ts`
+Shared keyboard-focus affordance class strings (`FOCUS_CARET`, `FOCUS_TINT`), applied
+`focus-visible` only so the cue shows on keyboard focus but never on mouse click.
 
 ---
 
@@ -673,7 +695,9 @@ can't be activated). All three current effects are `"done"`.
 ### The canvases
 
 Self-contained components rendering via the Canvas API, each calling `onComplete` (→ `clearEffect`)
-when finished, and each set `pointer-events: none` so the UI underneath stays interactive:
+when finished, and each set `pointer-events: none` so the UI underneath stays interactive. All three
+share `hooks/useCanvasResize.ts`, which keeps each canvas sized to the viewport (device-pixel-ratio
+aware) across window resizes:
 
 - **`FirefliesCanvas`**—drifting, pulsing fireflies with a glow; constants ported from the
   [Fireflies](https://github.com/arBishal/Fireflies) project.
@@ -706,11 +730,12 @@ test: {
 
 `setup.ts` loads jest-dom matchers and stubs `window.matchMedia` (jsdom doesn't implement it).
 
-### Layout—13 files
+### Layout—20 files
 
 ```
 src/__tests__/
 ├── setup.ts
+├── App.test.tsx              # view routing + shared state across toggles
 ├── commands/                 # pure renderer functions
 │   ├── help.test.tsx
 │   ├── misc.test.tsx
@@ -725,8 +750,15 @@ src/__tests__/
 │   └── useTheme.test.ts
 ├── components/               # UI components
 │   ├── CommandLine.test.tsx
-│   └── TerminalOutput.test.tsx
+│   ├── ErrorBoundary.test.tsx
+│   ├── LoadingScreen.test.tsx
+│   ├── MinimalView.test.tsx
+│   ├── TerminalOutput.test.tsx
+│   └── WelcomeScreen.test.tsx
+├── data/
+│   └── commandRegistry.test.ts   # registry integrity: names/handlers/aliases
 └── utils/
+    ├── storage.test.ts       # safe localStorage wrappers
     └── viewMode.test.ts      # device detection + persistence
 ```
 
@@ -734,18 +766,23 @@ src/__tests__/
 
 | Layer | Focus |
 |---|---|
+| `App` | View routing, persisted view mode, shared state surviving a Terminal ↔ Minimal toggle |
 | `commands/*` | Renderer output—content, link attributes, edge cases |
+| `data/commandRegistry` | Registry integrity—every advertised name/alias resolves to a handler (no drift) |
 | `hooks/useTheme`, `useActiveEffect`, `useTerminalHistory` | State init, updates, ref-mirror sync |
 | `hooks/useAutocomplete`, `useHistoryNavigation` | Ghost-text filtering; ↑/↓ index logic |
 | `hooks/useCommandExecutor` | Dispatch, prefix handlers, theme/effect/history wiring (harness composes `useTheme`+`useActiveEffect` like `App`) |
 | `components/CommandLine` | Input, submit, autocomplete, history nav, focus callbacks |
 | `components/TerminalOutput` | Entry types, `data-cmd`, JSX content, empty state |
+| `components/WelcomeScreen`, `MinimalView` | Command grid render/click; minimal-view sections render |
+| `components/ErrorBoundary`, `LoadingScreen` | Fallback UI on render error; startup overlay |
 | `utils/viewMode` | Device branch, saved-choice precedence, auto-default *not* persisted, throwing `localStorage` |
+| `utils/storage` | Safe read/write; failures swallowed when `localStorage` throws |
 
 ### Running
 
 ```bash
-npm run test            # single run (163 tests across 13 files)
+npm run test            # single run (184 tests across 20 files)
 npm run test:watch      # watch mode
 npm run test:coverage   # coverage report → coverage/
 ```
@@ -754,9 +791,9 @@ npm run test:coverage   # coverage report → coverage/
 
 - The effect canvases (`FirefliesCanvas`, `MatrixRainCanvas`, `StarfieldCanvas`)—canvas animation
   needs a canvas mock or visual-regression tooling.
-- `Terminal` / `MinimalView` full integration (scroll, keyboard routing, view switching)—better
-  suited to an e2e tool like Playwright.
-- Presentational pieces (`WelcomeScreen`, minimal `sections/*`)—low risk, low priority.
+- `Terminal` deep integration (scroll behaviour, keyboard routing, live view switching)—better
+  suited to an e2e tool like Playwright. (`MinimalView` has component-level render coverage.)
+- Individual minimal `sections/*` components—low risk, low priority.
 
 ### Adding a new effect
 
