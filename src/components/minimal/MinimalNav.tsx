@@ -192,7 +192,7 @@ export function MinimalNav({
         </div>
 
         {/* Section links */}
-        <nav className="flex-1 overflow-y-auto px-[8vw] md:px-8 pt-4">
+        <nav className="flex-1 overflow-y-auto px-[8vw] md:px-8 pt-4 md:pt-6">
           <ul className="space-y-1 lg:space-y-2">
             {NAV_SECTIONS.map(({ id, label, icon }) => (
               <li key={id}>

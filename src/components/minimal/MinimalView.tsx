@@ -92,7 +92,7 @@ export function MinimalView({
         {/* tabIndex=-1 makes this a programmatic focus target for the skip link. */}
         <main id="main-content" tabIndex={-1} className="px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20 font-serif focus:outline-none">
 
-          <MinimalSection id="about" title="About">
+          <MinimalSection id="about" title="About" headingHidden>
             <AboutSection />
           </MinimalSection>
 
