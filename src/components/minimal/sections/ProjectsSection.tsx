@@ -40,7 +40,7 @@ export function ProjectsSection() {
             </div>
           </div>
           <p className="text-t-text text-sm md:text-base mt-1 md:mt-2">{project.description}</p>
-          <p className="text-t-muted text-xs md:text-sm mt-2 md:mt-3">{project.tech.join(" · ")}</p>
+          <p className="text-t-text/80 text-xs md:text-sm mt-2 md:mt-3">{project.tech.join(" · ")}</p>
         </div>
       ))}
     </div>

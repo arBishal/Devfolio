@@ -160,7 +160,7 @@ export function MinimalNav({
             bg-t-bg/80 backdrop-blur-sm
             rounded-full
             flex items-center justify-center
-            text-t-muted hover:text-t-text
+            text-t-text/80 hover:text-t-text
             cursor-pointer
             ${FOCUS_TINT}
           `}
@@ -184,7 +184,7 @@ export function MinimalNav({
             aria-label="Switch to terminal mode"
             title="Switch to terminal mode"
           >
-            <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity">
+            <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-80 group-hover:opacity-100 transition-opacity">
               <polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" />
             </svg>
             <span className="text-sm">switch to terminal</span>
@@ -199,9 +199,9 @@ export function MinimalNav({
                 <a
                   href={`#${id}`}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 py-2 text-sm text-t-muted hover:text-t-text transition-colors ${FOCUS_CARET}`}
+                  className={`flex items-center gap-3 py-2 text-sm text-t-text/80 hover:text-t-text transition-colors ${FOCUS_CARET}`}
                 >
-                  <span className="flex-shrink-0 opacity-70">{icon}</span>
+                  <span className="flex-shrink-0">{icon}</span>
                   {label}
                 </a>
               </li>
@@ -213,7 +213,7 @@ export function MinimalNav({
         <div className="px-[8vw] md:px-8 py-6 pb-8 space-y-4">
           <button
             onClick={() => setIsMeowActive((prev) => !prev)}
-            className={`w-full flex items-center justify-between text-sm text-t-muted hover:text-t-text transition-colors cursor-pointer ${FOCUS_TINT}`}
+            className={`w-full flex items-center justify-between text-sm text-t-text/80 hover:text-t-text transition-colors cursor-pointer ${FOCUS_TINT}`}
             aria-label={isMeowActive ? "Dismiss Cat Companion" : "Summon Cat Companion"}
           >
             {isMeowActive ? "Dismiss Cat" : "Summon Cat"}

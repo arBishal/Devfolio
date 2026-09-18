@@ -24,7 +24,7 @@ export function ContactSection() {
           </a>
         </div>
       ))}
-      <p className="text-t-muted text-xs md:text-sm pt-3 md:pt-6">{note}</p>
+      <p className="text-t-text/80 text-xs md:text-sm pt-3 md:pt-6">{note}</p>
     </div>
   );
 }

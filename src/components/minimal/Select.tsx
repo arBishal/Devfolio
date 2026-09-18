@@ -133,7 +133,7 @@ export function Select<T extends string>({ label, value, options, onChange }: Se
 
   return (
     <div ref={rootRef} className="space-y-1">
-      <span id={labelId} className="block text-t-muted text-xs lg:text-sm opacity-60">{label}</span>
+      <span id={labelId} className="block text-t-text/80 text-xs lg:text-sm">{label}</span>
       <div className="relative">
         <button
           ref={buttonRef}
@@ -146,14 +146,14 @@ export function Select<T extends string>({ label, value, options, onChange }: Se
           aria-activedescendant={hasActive ? optionId(activeIndex) : undefined}
           onClick={() => (open ? close() : openList())}
           onKeyDown={onKeyDown}
-          className={`w-full flex items-center justify-between gap-2 bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors ${FOCUS_TINT} focus-visible:border-t-warning`}
+          className={`w-full flex items-center justify-between gap-2 bg-transparent text-t-text/80 text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors ${FOCUS_TINT} focus-visible:border-t-warning`}
         >
           <span id={valueId}>{selectedLabel}</span>
           <svg
             aria-hidden="true" focusable="false"
             width="14" height="14" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            className={`flex-shrink-0 opacity-70 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+            className={`flex-shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           >
             <polyline points="6 9 12 15 18 9" />
           </svg>
@@ -178,7 +178,7 @@ export function Select<T extends string>({ label, value, options, onChange }: Se
                   aria-selected={isSelected}
                   onClick={() => choose(i)}
                   onMouseMove={() => setActiveIndex(i)}
-                  className={`flex items-center justify-between gap-2 px-3 py-1.5 text-sm cursor-pointer transition-colors ${isActive ? "bg-t-header-bg" : ""} ${isSelected ? "text-t-accent" : "text-t-muted"}`}
+                  className={`flex items-center justify-between gap-2 px-3 py-1.5 text-sm cursor-pointer transition-colors ${isActive ? "bg-t-header-bg" : ""} ${isSelected ? "text-t-accent" : "text-t-text/80"}`}
                 >
                   <span>{opt.label}</span>
                   {isSelected && (
