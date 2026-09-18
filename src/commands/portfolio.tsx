@@ -1,4 +1,7 @@
 import { portfolioData } from "@/data/portfolioData";
+import { downloadFile } from "@/utils/download";
+import { FOCUS_CARET, FOCUS_TINT } from "@/utils/focusStyles";
+import type { CommandHandler } from "@/types/terminal";
 
 export function renderAbout() {
     return (
@@ -62,10 +65,10 @@ export function renderProjects() {
                                         href={project.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-t-accent2 hover:text-t-text transition-colors"
+                                        className={`text-t-accent2 hover:text-t-text transition-colors ${FOCUS_TINT}`}
                                         aria-label="GitHub Repository"
                                     >
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                                         </svg>
                                     </a>
@@ -75,10 +78,10 @@ export function renderProjects() {
                                         href={project.live}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-t-accent2 hover:text-t-text transition-colors"
+                                        className={`text-t-accent2 hover:text-t-text transition-colors ${FOCUS_TINT}`}
                                         aria-label="Live Demo"
                                     >
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                                             <polyline points="15 3 21 3 21 9" />
                                             <line x1="10" y1="14" x2="21" y2="3" />
@@ -132,8 +135,8 @@ export function renderResume() {
             <div className="pl-4 space-y-1">
                 <p className="text-t-text">Downloading resume...</p>
                 <div className="flex items-center gap-2">
-                    <div className="w-48 h-2 bg-gray-700 rounded-full overflow-hidden">
-                        <div className="h-full w-full bg-t-accent text-t-btn-text animate-pulse"></div>
+                    <div className="w-48 h-2 bg-t-border rounded-full overflow-hidden">
+                        <div className="h-full w-full bg-t-accent animate-pulse"></div>
                     </div>
                     <span className="text-t-accent">100%</span>
                 </div>
@@ -141,7 +144,7 @@ export function renderResume() {
                 <a
                     href={portfolioData.resume.filePath}
                     download={portfolioData.resume.downloadFilename}
-                    className="inline-block mt-1 px-4 py-2 bg-t-accent text-t-btn-text rounded hover:opacity-80 transition-colors font-medium"
+                    className={`inline-block mt-1 px-4 py-2 bg-t-accent text-t-btn-text rounded hover:opacity-80 transition-colors font-medium ${FOCUS_CARET}`}
                 >
                     Click here if download doesn&apos;t start
                 </a>
@@ -149,6 +152,11 @@ export function renderResume() {
         </div>
     );
 }
+
+export const handleResume: CommandHandler = (args, ctx) => {
+    downloadFile(portfolioData.resume.filePath, portfolioData.resume.downloadFilename);
+    ctx.push("result", renderResume());
+};
 
 export function renderContact() {
     return (
@@ -159,7 +167,7 @@ export function renderContact() {
                     <span className="text-t-accent2">Email:</span>
                     <a
                         href={`mailto:${portfolioData.contact.email}`}
-                        className="text-t-text hover:underline"
+                        className={`text-t-text hover:underline ${FOCUS_CARET}`}
                     >
                         {portfolioData.contact.email}
                     </a>
@@ -171,7 +179,7 @@ export function renderContact() {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-t-text hover:underline"
+                            className={`text-t-text hover:underline ${FOCUS_CARET}`}
                         >
                             {item.display}
                         </a>
@@ -198,7 +206,7 @@ export function renderBlog() {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-t-text hover:underline"
+                            className={`text-t-text hover:underline ${FOCUS_CARET}`}
                         >
                             {item.display}
                         </a>

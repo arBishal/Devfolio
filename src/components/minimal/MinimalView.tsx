@@ -10,14 +10,16 @@ import { ContactSection } from "@/components/minimal/sections/ContactSection";
 import { BlogSection } from "@/components/minimal/sections/BlogSection";
 import { portfolioData } from "@/data/portfolioData";
 import { downloadFile } from "@/utils/download";
+import { FOCUS_CARET } from "@/utils/focusStyles";
 import type { ThemeName } from "@/themes/themes";
+import type { EffectName } from "@/data/staticData";
 import type { Dispatch, SetStateAction } from "react";
 
 interface MinimalViewProps {
   currentThemeName: ThemeName;
   setCurrentThemeName: Dispatch<SetStateAction<ThemeName>>;
-  currentEffect: string | null;
-  setCurrentEffect: Dispatch<SetStateAction<string | null>>;
+  currentEffect: EffectName | null;
+  setCurrentEffect: Dispatch<SetStateAction<EffectName | null>>;
   clearEffect: () => void;
   isMeowActive: boolean;
   setIsMeowActive: Dispatch<SetStateAction<boolean>>;
@@ -47,7 +49,14 @@ export function MinimalView({
   };
 
   return (
-    <div className="bg-t-bg text-t-text font-mono min-h-dvh">
+    <div className="bg-t-bg text-t-text font-sans min-h-dvh">
+      {/* Skip link — first tab stop; slides in on keyboard focus, bypasses the sidebar nav. */}
+      <a
+        href="#main-content"
+        className="fixed top-2 left-2 z-[var(--z-overlay)] -translate-y-[150%] focus:translate-y-0 rounded border border-t-border bg-t-header-bg px-4 py-2 text-t-accent transition-transform focus:outline-none"
+      >
+        Skip to content
+      </a>
       <MinimalNav
         currentThemeName={currentThemeName}
         setCurrentThemeName={setCurrentThemeName}
@@ -63,25 +72,27 @@ export function MinimalView({
       <div className="md:ml-56 lg:ml-64 relative">
 
         {/* GitHub style Header */}
-        <header className="sticky top-0 z-30 bg-t-bg/95 backdrop-blur-sm border-b border-t-border px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20 h-16 flex items-center justify-between">
+        <header className="sticky top-0 z-[var(--z-header)] bg-t-bg/95 backdrop-blur-sm border-b border-t-border px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20 h-16 flex items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-0 sm:gap-2 items-start sm:items-center text-sm md:text-base whitespace-nowrap overflow-hidden pr-4">
-            <span className="text-t-text font-medium flex-shrink-0">{portfolioData.personal.fullName}</span>
-            <span className="text-t-muted flex-shrink-0 hidden sm:inline">/</span>
-            <span className="text-t-muted font-medium truncate text-xs sm:text-base">{portfolioData.personal.title}</span>
+            <h1 className="text-t-text font-medium flex-shrink-0">{portfolioData.personal.fullName}</h1>
+            <span className="text-t-text/80 flex-shrink-0 hidden sm:inline">/</span>
+            <span className="text-t-text/80 font-medium truncate text-xs sm:text-base">{portfolioData.personal.title}</span>
           </div>
           <button
             onClick={handleResumeDownload}
-            className="text-xs md:text-sm bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0"
+            className={`text-xs md:text-sm bg-t-bg hover:bg-t-border text-t-text border border-t-border px-3 py-1.5 rounded transition-colors cursor-pointer font-medium flex items-center gap-1.5 shadow-sm flex-shrink-0 ${FOCUS_CARET}`}
           >
             <span className="md:hidden">Resume</span>
             <span className="hidden md:inline">Download Resume</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+            <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
           </button>
         </header>
 
-        <main className="px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20">
+        {/* Body prose is serif (Lora); section headings opt back into sans (see MinimalSection). */}
+        {/* tabIndex=-1 makes this a programmatic focus target for the skip link. */}
+        <main id="main-content" tabIndex={-1} className="px-6 ml-[6.67vw] md:ml-0 md:px-12 lg:px-20 font-serif focus:outline-none">
 
-          <MinimalSection id="about" title="About">
+          <MinimalSection id="about" title="About" headingHidden>
             <AboutSection />
           </MinimalSection>
 

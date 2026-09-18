@@ -36,13 +36,18 @@ export function CommandLine({
     setInput
   );
 
-  // On desktop (pointer: fine), keep the input always focused.
-  // Re-focus immediately on blur so the cursor never stops blinking.
+  // On desktop (pointer: fine), keep the input focused so the cursor keeps
+  // blinking — but only pull focus back on a background click. When focus is
+  // moving to another control (relatedTarget set), leave it alone so keyboard
+  // users can Tab to the welcome-screen buttons and the Minimal Mode link.
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return;
     const input = inputRef.current;
     input?.focus();
-    const refocus = () => input?.focus();
+    const refocus = (e: FocusEvent) => {
+      if (e.relatedTarget) return;
+      input?.focus();
+    };
     input?.addEventListener("blur", refocus);
     return () => input?.removeEventListener("blur", refocus);
   }, []);
@@ -68,7 +73,10 @@ export function CommandLine({
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       navigateHistory("down");
-    } else if (e.key === "Tab") {
+    } else if (e.key === "Tab" && ghostText) {
+      // Tab autocompletes only when there's a suggestion to apply. With none
+      // (e.g. empty input), let Tab do its default job — moving focus — so
+      // keyboard users can reach the welcome-screen buttons and Minimal link.
       e.preventDefault();
       applyFirstSuggestion();
     }
@@ -95,6 +103,7 @@ export function CommandLine({
         <input
           ref={inputRef}
           type="text"
+          aria-label="Terminal command input"
           value={input}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}

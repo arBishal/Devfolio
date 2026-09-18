@@ -28,7 +28,6 @@ const ALPHA_MIN   = 0.15;
 const ALPHA_MAX   = 1.0;
 
 const STARFIELD_DURATION_MS = 10_000;
-const CANVAS_OPACITY        = 0.85;
 const SPAWN_INTERVAL        = 1; // frames between each new star — fills in ~3s on desktop
 
 const BP_SM = 640;
@@ -50,10 +49,6 @@ function getStarCount(): number {
     return Math.floor(BASE_STAR_COUNT * mult);
 }
 
-function mapRange(v: number, a: number, b: number, c: number, d: number): number {
-    return c + ((v - a) / (b - a)) * (d - c);
-}
-
 /**
  * Spawn a star at a random z depth with x,y chosen so the star is
  * within the visible frustum at that depth.
@@ -65,15 +60,6 @@ function createStar(w: number, h: number, zOverride?: number): Star {
     const y       = (Math.random() * 2 - 1) * z * aspect;
     return { x, y, z, isNew: true, done: false };
 }
-
-// ── Static style ──────────────────────────────────────────────────────────────
-const CANVAS_STYLE: React.CSSProperties = {
-    position:      "fixed",
-    inset:         0,
-    zIndex:        50,
-    pointerEvents: "none",
-    opacity:       CANVAS_OPACITY,
-};
 
 // ── Component ─────────────────────────────────────────────────────────────────
 interface StarfieldCanvasProps {
@@ -214,5 +200,6 @@ export function StarfieldCanvas({ onComplete }: StarfieldCanvasProps) {
         };
     }, [animate]);
 
-    return <canvas ref={canvasRef} style={CANVAS_STYLE} />;
+    // opacity-[0.85] softens the field slightly against the terminal background
+    return <canvas ref={canvasRef} className="fixed inset-0 z-[var(--z-effects)] pointer-events-none opacity-[0.85]" />;
 }

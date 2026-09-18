@@ -1,6 +1,6 @@
-import { portfolioData } from "@/data/portfolioData";
 import { COMMANDS } from "@/data/commandRegistry";
 import { asciiArt } from "@/data/asciiArt";
+import { FOCUS_CARET, FOCUS_TINT } from "@/utils/focusStyles";
 
 const SORTED_COMMANDS = [...COMMANDS].sort((a, b) =>
   a.name.localeCompare(b.name),
@@ -11,6 +11,7 @@ interface WelcomeScreenProps {
   isCommandsOpen: boolean;
   onToggleCommands: () => void;
   onTogglePointerDown: () => void;
+  onToggleView: () => void;
 }
 
 export function WelcomeScreen({
@@ -18,18 +19,25 @@ export function WelcomeScreen({
   isCommandsOpen,
   onToggleCommands,
   onTogglePointerDown,
+  onToggleView,
 }: WelcomeScreenProps) {
   return (
     <div className="border-b bg-t-bg border-t-border">
-      <div className="p-4 space-y-2">
-        <pre className="text-t-accent text-sm leading-tight">
+      <div className="p-4 space-y-3">
+        {/* Decorative name banner — the identity is conveyed textually by
+            TerminalHeader, so hide the raw ASCII from assistive tech. */}
+        <pre className="text-t-accent text-sm leading-tight" aria-hidden="true">
           {asciiArt}
         </pre>
-        <p className="text-t-header-text text-sm">
-          Welcome to my terminal portfolio{" "}
-          {portfolioData.personal.portfolioVersion}
-          <br/>
-          Switch to the Minimal Mode if you're tired of looking into terminals. Cheers!
+        <p className="text-t-muted text-sm md:text-base">
+          Switch to the{" "}
+          <button
+            onClick={onToggleView}
+            className={`text-t-accent/75 hover:text-t-accent focus-visible:text-t-accent cursor-pointer transition-colors ${FOCUS_CARET}`}
+          >
+            Minimal Mode
+          </button>{" "}
+          if you're tired of looking into terminals. Cheers!
         </p>
 
 
@@ -40,7 +48,7 @@ export function WelcomeScreen({
             <button
               onClick={onToggleCommands}
               onPointerDown={onTogglePointerDown}
-              className="text-t-muted hover:opacity-80 transition-opacity text-xs leading-none"
+              className={`text-t-muted hover:opacity-80 focus-visible:opacity-100 transition-colors text-xs leading-none ${FOCUS_TINT}`}
               aria-label={isCommandsOpen ? "Collapse commands" : "Expand commands"}
               title={isCommandsOpen ? "Collapse commands" : "Expand commands"}
             >
@@ -54,7 +62,7 @@ export function WelcomeScreen({
           */}
           <div
             className={`
-              overflow-hidden transition-all duration-300 ease-in-out
+              overflow-hidden transition-[max-height] duration-300 ease-in-out
               ${isCommandsOpen ? "max-h-96" : "max-h-0"}
             `}
           >
@@ -63,7 +71,7 @@ export function WelcomeScreen({
                 <div key={cmd.name}>
                   <button
                     onClick={() => onCommandClick(cmd.name)}
-                    className="text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors"
+                    className={`text-t-accent hover:opacity-80 hover:underline focus-visible:opacity-80 focus-visible:underline cursor-pointer transition-colors ${FOCUS_CARET}`}
                   >
                     {cmd.name}
                   </button>

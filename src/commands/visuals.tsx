@@ -1,6 +1,8 @@
 import { themeNames } from "@/themes/themes";
 import { AVAILABLE_EFFECTS } from "@/data/staticData";
+import { FOCUS_CARET } from "@/utils/focusStyles";
 import type { ThemeName } from "@/themes/themes";
+import type { EffectName } from "@/data/staticData";
 import type { CommandHandler } from "@/types/terminal";
 
 /** Renders the interactive theme picker shown by the `theme` command. */
@@ -18,7 +20,7 @@ export function renderThemeList(
                         <div key={name} className="flex items-center gap-3">
                             <button
                                 onClick={() => executeCommand(`theme ${name}`)}
-                                className="text-t-accent hover:underline cursor-pointer transition-colors"
+                                className={`text-t-accent hover:underline cursor-pointer transition-colors ${FOCUS_CARET}`}
                             >
                                 {name}
                             </button>
@@ -42,7 +44,7 @@ export function renderThemeList(
  * with an "under development" label.
  */
 export function renderFunList(
-    currentEffect: string | null,
+    currentEffect: EffectName | null,
     executeCommand: (cmd: string) => void,
 ) {
     return (
@@ -56,7 +58,7 @@ export function renderFunList(
                             {effect.status === "done" ? (
                                 <button
                                     onClick={() => executeCommand(`fun ${effect.name}`)}
-                                    className="text-t-accent2 hover:underline cursor-pointer transition-colors"
+                                    className={`text-t-accent2 hover:underline cursor-pointer transition-colors ${FOCUS_CARET}`}
                                 >
                                     {effect.name}
                                 </button>
@@ -80,13 +82,17 @@ export function renderFunList(
     );
 }
 
+// Validates a raw arg against the theme list, narrowing to ThemeName on success.
+const isThemeName = (value: string): value is ThemeName =>
+    (themeNames as readonly string[]).includes(value);
+
 export const handleTheme: CommandHandler = (args, ctx) => {
-    const name = args[0] as ThemeName;
+    const name = args[0];
     if (!name) {
         ctx.push("result", renderThemeList(ctx.currentThemeName, ctx.executeCommand));
         return;
     }
-    if (themeNames.includes(name)) {
+    if (isThemeName(name)) {
         ctx.setCurrentThemeName(name);
         ctx.push("result", <p className="text-t-muted">✓ Theme changed to &apos;{name}&apos;</p>);
     } else {
@@ -122,7 +128,7 @@ export const handleFun: CommandHandler = (args, ctx) => {
                     <p className="text-t-muted">
                         Effect &apos;{name}&apos; is already active. To clear it, run:{" "}
                         <button
-                            className="text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors"
+                            className={`text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors ${FOCUS_CARET}`}
                             onClick={() => ctx.executeCommand(`fun ${name} clear`)}
                         >
                             fun {name} clear
@@ -130,13 +136,13 @@ export const handleFun: CommandHandler = (args, ctx) => {
                     </p>
                 );
             } else {
-                ctx.setCurrentEffect(name);
+                ctx.setCurrentEffect(effect.name);
                 ctx.push(
                     "result",
                     <p className="text-t-muted">
                         ✓ Effect &apos;{name}&apos; activated! To clear it, run:{" "}
                         <button
-                            className="text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors text-sm"
+                            className={`text-t-accent hover:opacity-80 hover:underline cursor-pointer transition-colors text-sm ${FOCUS_CARET}`}
                             onClick={() => ctx.executeCommand(`fun ${name} clear`)}
                         >
                             fun {name} clear

@@ -8,7 +8,7 @@
 - Unidirectional data flow: Terminal owns state, passes callbacks down.
 
 ## Instructions
-- Always follow SOLID, DRY, KISS, YAGNI.
-- Always follow standard coding practices.
-- Don't install or change anything without confirming first.
-- Don't run test on all changes. If needed, ask me first.
+- Ensure SOLID, DRY, KISS, YAGNI.
+- Always ask and confirm first before a decision.
+- Run tests when explicitly asked, not for every changes.
+- Update the README.md and WALKTHROUGH.md upon feature changes.

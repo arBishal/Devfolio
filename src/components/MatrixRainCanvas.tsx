@@ -84,15 +84,6 @@ function createColumn(x: number, canvasH: number): Column {
     };
 }
 
-// ── Static canvas style ───────────────────────────────────────────────────────
-const CANVAS_STYLE: React.CSSProperties = {
-    position: "fixed",
-    inset: 0,
-    zIndex: 50,
-    pointerEvents: "none",
-    opacity: 0.45, // subtle background — raise for more presence
-};
-
 // ── Component ─────────────────────────────────────────────────────────────────
 interface MatrixRainCanvasProps {
     onComplete: () => void;
@@ -225,5 +216,6 @@ export function MatrixRainCanvas({ onComplete }: MatrixRainCanvasProps) {
         };
     }, [animate]);
 
-    return <canvas ref={canvasRef} style={CANVAS_STYLE} />;
+    // opacity-[0.45] keeps the rain a subtle background — raise for more presence
+    return <canvas ref={canvasRef} className="fixed inset-0 z-[var(--z-effects)] pointer-events-none opacity-[0.45]" />;
 }

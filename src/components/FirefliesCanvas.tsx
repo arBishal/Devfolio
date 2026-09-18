@@ -77,13 +77,6 @@ interface FirefliesCanvasProps {
     onComplete: () => void;
 }
 
-const CANVAS_STYLE: React.CSSProperties = {
-    position:      "fixed",
-    inset:         0,
-    zIndex:        50,
-    pointerEvents: "none",
-};
-
 export function FirefliesCanvas({ onComplete }: FirefliesCanvasProps) {
     const canvasRef     = useRef<HTMLCanvasElement>(null);
     const activeRef     = useRef<Firefly[]>([]);   // currently visible flies
@@ -187,7 +180,7 @@ export function FirefliesCanvas({ onComplete }: FirefliesCanvasProps) {
     return (
         <canvas
             ref={canvasRef}
-            style={CANVAS_STYLE}
+            className="fixed inset-0 z-[var(--z-effects)] pointer-events-none"
         />
     );
 }

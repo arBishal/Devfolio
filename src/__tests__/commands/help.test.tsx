@@ -9,26 +9,26 @@ function renderOutput(jsx: React.ReactNode) {
 
 describe('renderHelp', () => {
     it('shows the "Available commands" header', () => {
-        renderOutput(renderHelp());
+        renderOutput(renderHelp(COMMANDS));
         expect(screen.getByText(/Available commands/i)).toBeInTheDocument();
     });
 
     it('renders every public command name', () => {
-        renderOutput(renderHelp());
+        renderOutput(renderHelp(COMMANDS));
         for (const cmd of COMMANDS) {
             expect(screen.getByText(cmd.name)).toBeInTheDocument();
         }
     });
 
     it('renders every public command description', () => {
-        renderOutput(renderHelp());
+        renderOutput(renderHelp(COMMANDS));
         for (const cmd of COMMANDS) {
             expect(screen.getByText(new RegExp(cmd.description))).toBeInTheDocument();
         }
     });
 
     it('does not show hidden commands', () => {
-        renderOutput(renderHelp());
+        renderOutput(renderHelp(COMMANDS));
         // These are hidden easter-egg commands that should not appear in help
         expect(screen.queryByText('ls')).not.toBeInTheDocument();
         expect(screen.queryByText('pwd')).not.toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('renderHelp', () => {
     });
 
     it('renders commands in alphabetical order', () => {
-        renderOutput(renderHelp());
+        renderOutput(renderHelp(COMMANDS));
         const commandNames = COMMANDS.map((c) => c.name).sort((a, b) => a.localeCompare(b));
         const renderedNames = screen.getAllByText(new RegExp(commandNames.join('|')));
         // Verify first and last alphabetical entries appear

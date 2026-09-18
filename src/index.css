@@ -1,60 +1,74 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Terminal Theme System
+   Applied via a data-theme attribute on the terminal root element.
+
+   The @theme block below is the single source of truth for the DARK
+   palette: it registers the t-* color tokens (so `bg-t-*` / `text-t-*`
+   utilities are generated) AND emits them on :root. That makes dark both
+   the default (no data-theme) and the `dark` theme — data-theme="dark"
+   simply inherits :root. Every OTHER theme overrides via a [data-theme]
+   block further down.
+   ============================================================ */
+
 @theme {
-  /* Dark theme defaults — overridden per element by [data-theme] blocks below */
-  --color-t-bg: #171717;
-  --color-t-text: #f5f5f5;
-  --color-t-accent: #4ade80;
-  --color-t-accent2: #60a5fa;
-  --color-t-muted: #a3a3a3;
-  --color-t-error: #f87171;
-  --color-t-warning: #fbbf24;
-  --color-t-border: #404040;
-  --color-t-header-bg: #262626;
-  --color-t-header-text: #e5e5e5;
+  --color-t-bg: #171717;          /* neutral-900 */
+  --color-t-text: #f5f5f5;        /* neutral-100 */
+  --color-t-accent: #4ade80;      /* green-400   */
+  --color-t-accent2: #60a5fa;     /* blue-400    */
+  --color-t-muted: #a3a3a3;       /* neutral-400 */
+  --color-t-error: #f87171;       /* red-400     */
+  --color-t-warning: #fbbf24;     /* amber-400   */
+  --color-t-border: #404040;      /* neutral-700 */
+  --color-t-header-bg: #262626;   /* neutral-800 */
+  --color-t-header-text: #e5e5e5; /* neutral-200 */
   --color-t-btn-text: #000000;
+
+  /* Type families (loaded via <link> in index.html), all from the Ubuntu superfamily:
+     sans  → Ubuntu Sans  — app-wide UI, terminal labels, minimal-view chrome/headings
+     mono  → Ubuntu Mono  — terminal text
+     serif → Ubuntu       — minimal-view body prose. "serif" is the slot name only;
+             classic Ubuntu is a humanist sans, used here to set body apart from the
+             Ubuntu Sans chrome — hence the sans fallback stack. */
+  --font-sans: "Ubuntu Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Ubuntu Mono", ui-monospace, "Cascadia Code", "Courier New", monospace;
+  --font-serif: "Ubuntu", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Dark is the default color-scheme (native controls, scrollbars, autofill).
+   Light overrides it in its own [data-theme] block; the other dark-family
+   themes inherit this. color-scheme is an inherited property, so this cascades
+   from :root down to the themed root div and its native form controls. */
+:root {
+  color-scheme: dark;
 }
 
 /* ============================================================
-   Terminal Theme System
-   Applied via data-theme attribute on the terminal root element.
+   Z-index scale
+   One ordered source of truth for stacking, referenced via
+   `z-[var(--z-*)]`. Effects sit BELOW interactive chrome so the
+   pointer-through canvas overlays can never occlude the nav.
    ============================================================ */
-
-/* ── Dark ────────────────────────────────────────────────── */
-:root,
-[data-theme="dark"] {
-  --color-t-bg: #171717;
-  /* neutral-900 */
-  --color-t-text: #f5f5f5;
-  /* neutral-100 */
-  --color-t-accent: #4ade80;
-  /* green-400   */
-  --color-t-accent2: #60a5fa;
-  /* blue-400    */
-  --color-t-muted: #a3a3a3;
-  /* neutral-400 */
-  --color-t-error: #f87171;
-  /* red-400     */
-  --color-t-warning: #fbbf24;
-  /* amber-400   */
-  --color-t-border: #404040;
-  /* neutral-700 */
-  --color-t-header-bg: #262626;
-  /* neutral-800 */
-  --color-t-header-text: #e5e5e5;
-  /* neutral-200 */
-  --color-t-btn-text: #000000;
+:root {
+  --z-effects: 10;  /* full-screen ambient canvas overlays (pointer-events:none) */
+  --z-header: 20;   /* minimal-view sticky header */
+  --z-scrim: 30;    /* mobile nav backdrop */
+  --z-nav: 40;      /* minimal-view sidebar drawer */
+  --z-overlay: 100; /* startup loading screen */
+  --z-cursor: 9999; /* cat-companion cursor trail */
 }
 
 /* ── Light ───────────────────────────────────────────────── */
 [data-theme="light"] {
+  color-scheme: light;
   --color-t-bg: #ffffff;
   --color-t-text: #111827;
   /* gray-900   */
-  --color-t-accent: #2563eb;
-  /* blue-600   */
-  --color-t-accent2: #15803d;
-  /* green-700 — darkened from green-400 (1.7:1) to 5.0:1 contrast on white */
+  --color-t-accent: #15803d;
+  /* green-700 — accent is green to match dark mode; darkened for 5.0:1 contrast on white */
+  --color-t-accent2: #2563eb;
+  /* blue-600 — accent2 is blue to match dark mode */
   --color-t-muted: #6b7280;
   /* gray-500   */
   --color-t-error: #b91c1c;
@@ -83,10 +97,10 @@
   /* color F — soft white (Win10+)       */
   --color-t-accent2: #CCCCCC;
   /* color 7 — light gray                */
-  --color-t-muted: #767676;
-  /* color 8 — dark gray (Win10+)        */
-  --color-t-error: #C50F1F;
-  /* color C — softer red (Win10+)       */
+  --color-t-muted: #7a7a7a;
+  /* color 8 — dark gray, raised for 4.56:1 contrast (was #767676, 4.31:1) */
+  --color-t-error: #E74856;
+  /* color C — bright red (Win10+) — raised for 5.09:1 contrast (was #C50F1F, 3.23:1) */
   --color-t-warning: #F2F2F2;
   /* color F — soft white (no yellow in default CMD) */
   --color-t-border: #767676;
@@ -112,8 +126,8 @@
   /* Tango Chameleon bright — Ubuntu prompt user@host green */
   --color-t-muted: #AD7FA8;
   /* Tango bright-purple           */
-  --color-t-error: #EF2929;
-  /* Tango Scarlet Red bright                */
+  --color-t-error: #F66151;
+  /* Tango light red — raised for 5.65:1 contrast (was #EF2929, 4.20:1) */
   --color-t-warning: #FCE94F;
   /* Tango bright-yellow           */
   --color-t-border: #4C0D3E;
@@ -121,8 +135,8 @@
   --color-t-header-bg: #2C001E;
   /* Ubuntu terminal header bg     */
   --color-t-header-text: #FFFFFF;
-  --color-t-btn-text: #FFFFFF;
-  /* text on accent-bg button      */
+  --color-t-btn-text: #000000;
+  /* text on accent-bg button — black for 5.75:1 on Ubuntu orange (was #FFFFFF, 3.65:1) */
 }
 
 /* ── Dracula ─────────────────────────────────────────────────
@@ -137,8 +151,8 @@
   /* Purple — signature      */
   --color-t-accent2: #8be9fd;
   /* Cyan                    */
-  --color-t-muted: #6272a4;
-  /* Comment                 */
+  --color-t-muted: #8090c4;
+  /* Comment — raised for 4.55:1 contrast (was #6272a4, 3.03:1) */
   --color-t-error: #ff5555;
   /* Red                     */
   --color-t-warning: #f1fa8c;
@@ -165,10 +179,10 @@
   /* Green                         */
   --color-t-accent2: #66D9EF;
   /* Cyan                          */
-  --color-t-muted: #75715E;
-  /* Comment / gray                */
-  --color-t-error: #F92672;
-  /* Red / pink                    */
+  --color-t-muted: #938f6e;
+  /* Comment / gray — raised for 4.53:1 contrast (was #75715E, 3.03:1) */
+  --color-t-error: #FF4C8B;
+  /* Red / pink — raised for 4.71:1 contrast (was #F92672, 3.93:1) */
   --color-t-warning: #FD971F;
   /* Orange                        */
   --color-t-border: #3E3D32;
@@ -187,24 +201,24 @@
 [data-theme="atom-one-dark"] {
   --color-t-bg: #282c34;
   /* Editor background             */
-  --color-t-text: #abb2bf;
-  /* Foreground                    */
+  --color-t-text: #c8cdd5;
+  /* Foreground — brightened for 8.77:1 contrast, widening the muted gap (was #abb2bf, 6.57:1) */
   --color-t-accent: #61afef;
   /* Blue                          */
   --color-t-accent2: #c678dd;
   /* Purple                        */
-  --color-t-muted: #5c6370;
-  /* Gutter / comment              */
-  --color-t-error: #e06c75;
-  /* Red                           */
+  --color-t-muted: #8b93a1;
+  /* Gutter / comment — raised for 4.52:1 contrast (was #5c6370, 2.32:1) */
+  --color-t-error: #e17077;
+  /* Red — raised for 4.52:1 contrast (was #e06c75, 4.38:1) */
   --color-t-warning: #e5c07b;
   /* Yellow                        */
   --color-t-border: #3e4451;
   /* Selection / border            */
   --color-t-header-bg: #21252b;
   /* Darker bg                     */
-  --color-t-header-text: #abb2bf;
-  /* Foreground                    */
+  --color-t-header-text: #c8cdd5;
+  /* Foreground — matched to brightened body text (was #abb2bf) */
   --color-t-btn-text: #282c34;
   /* Dark text on accent           */
 }
@@ -221,8 +235,8 @@
   /* accent.fg                    */
   --color-t-accent2: #3fb950;
   /* success.fg                   */
-  --color-t-muted: #6e7681;
-  /* fg.muted                     */
+  --color-t-muted: #757d87;
+  /* fg.muted — raised for 4.54:1 contrast (was #6e7681, 4.12:1) */
   --color-t-error: #f85149;
   /* danger.fg                    */
   --color-t-warning: #d29922;
@@ -243,5 +257,27 @@
 
 html {
   font-size: 16px;
-  scroll-behavior: smooth;
+}
+
+/* Smooth scrolling only for users who haven't asked to reduce motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================================================
+   Reduced motion
+   Respect the OS-level "reduce motion" setting (WCAG 2.3.3):
+   near-instant animations/transitions and no smooth scroll.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

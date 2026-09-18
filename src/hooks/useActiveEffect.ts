@@ -1,16 +1,17 @@
 import { useState, useRef, useCallback } from "react";
+import type { EffectName } from "@/data/staticData";
 
 export interface ActiveEffect {
-  currentEffect: string | null;
-  currentEffectRef: React.MutableRefObject<string | null>;
-  setCurrentEffect: React.Dispatch<React.SetStateAction<string | null>>;
+  currentEffect: EffectName | null;
+  currentEffectRef: React.MutableRefObject<EffectName | null>;
+  setCurrentEffect: React.Dispatch<React.SetStateAction<EffectName | null>>;
   clearEffect: () => void;
   isMeowActive: boolean;
   setIsMeowActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function useActiveEffect(): ActiveEffect {
-  const [currentEffect, setCurrentEffect] = useState<string | null>(null);
+  const [currentEffect, setCurrentEffect] = useState<EffectName | null>(null);
   const [isMeowActive, setIsMeowActive] = useState<boolean>(false);
 
   // Mirrors currentEffect so executeCommand can read latest value

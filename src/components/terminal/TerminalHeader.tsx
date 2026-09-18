@@ -1,4 +1,5 @@
 import { portfolioData } from "@/data/portfolioData";
+import { FOCUS_TINT } from "@/utils/focusStyles";
 
 interface TerminalHeaderProps {
   onClose: () => void;
@@ -7,6 +8,8 @@ interface TerminalHeaderProps {
 // Hoisted static JSX — avoids re-creation on every render (rendering-hoist-jsx)
 const closeIcon = (
   <svg
+    aria-hidden="true"
+    focusable="false"
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="20"
@@ -27,13 +30,16 @@ export function TerminalHeader({ onClose }: TerminalHeaderProps) {
     <div className="px-4 py-2 shrink-0 bg-t-header-bg border-b border-t-border relative">
       {/* Row 1 — always: title left, close right */}
       <div className="flex items-center justify-between">
-        <div className="text-t-header-text text-sm">
-          {portfolioData.personal.fullName}&apos;s Terminal Portfolio
+        <div className="text-t-header-text text-sm flex items-baseline gap-2">
+          <h1>{portfolioData.personal.fullName}&apos;s Terminal Portfolio</h1>
+          <span className="text-t-muted text-xs italic">
+            {portfolioData.personal.portfolioVersion}
+          </span>
         </div>
 
         <button
           onClick={onClose}
-          className="text-t-muted hover:text-red-400 transition-colors"
+          className={`text-t-muted hover:text-t-error transition-colors ${FOCUS_TINT}`}
           aria-label="Close terminal"
         >
           {closeIcon}

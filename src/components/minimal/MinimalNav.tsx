@@ -1,7 +1,11 @@
 import { themeNames } from "@/themes/themes";
 import { AVAILABLE_EFFECTS } from "@/data/staticData";
+import { FOCUS_CARET, FOCUS_TINT } from "@/utils/focusStyles";
+import { Select } from "@/components/minimal/Select";
 import { useState } from "react";
 import type { ThemeName } from "@/themes/themes";
+import type { EffectName } from "@/data/staticData";
+import type { SelectOption } from "@/components/minimal/Select";
 import type { Dispatch, SetStateAction } from "react";
 
 // ── Section nav config ────────────────────────────────────────────────────────
@@ -10,7 +14,7 @@ const NAV_SECTIONS = [
     id: "about",
     label: "About",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
       </svg>
     ),
@@ -19,7 +23,7 @@ const NAV_SECTIONS = [
     id: "experience",
     label: "Experience",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="7" width="20" height="14" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
       </svg>
     ),
@@ -28,7 +32,7 @@ const NAV_SECTIONS = [
     id: "skills",
     label: "Skills",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
       </svg>
     ),
@@ -37,7 +41,7 @@ const NAV_SECTIONS = [
     id: "projects",
     label: "Projects",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
         <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
       </svg>
@@ -47,7 +51,7 @@ const NAV_SECTIONS = [
     id: "publications",
     label: "Publications",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
       </svg>
     ),
@@ -56,7 +60,7 @@ const NAV_SECTIONS = [
     id: "interests",
     label: "Interests",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
       </svg>
     ),
@@ -65,7 +69,7 @@ const NAV_SECTIONS = [
     id: "blog",
     label: "Blog",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 20h9" /><path d="M16.5 3.5l4 4L7 21l-4 1 1-4Z" />
       </svg>
     ),
@@ -74,18 +78,25 @@ const NAV_SECTIONS = [
     id: "contact",
     label: "Contact",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 4h16v13H4z" /><polyline points="22,4 12,13 2,4" />
       </svg>
     ),
   },
 ];
 
+// Picker options — hoisted to module scope (derived from static data).
+const THEME_OPTIONS: SelectOption<ThemeName>[] = themeNames.map((t) => ({ value: t, label: t }));
+const EFFECT_OPTIONS: SelectOption<EffectName | "">[] = [
+  { value: "", label: "none" },
+  ...AVAILABLE_EFFECTS.map((e) => ({ value: e.name, label: e.name })),
+];
+
 interface MinimalNavProps {
   currentThemeName: ThemeName;
   setCurrentThemeName: Dispatch<SetStateAction<ThemeName>>;
-  currentEffect: string | null;
-  setCurrentEffect: Dispatch<SetStateAction<string | null>>;
+  currentEffect: EffectName | null;
+  setCurrentEffect: Dispatch<SetStateAction<EffectName | null>>;
   clearEffect: () => void;
   isMeowActive: boolean;
   setIsMeowActive: Dispatch<SetStateAction<boolean>>;
@@ -112,7 +123,9 @@ export function MinimalNav({
 }: MinimalNavProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleEffectChange = (value: string) => {
+  // The select only ever yields "" or a valid effect name (its options are
+  // derived from AVAILABLE_EFFECTS), so the narrowing is safe.
+  const handleEffectChange = (value: EffectName | "") => {
     if (value === "") clearEffect();
     else setCurrentEffect(value);
     setIsMobileMenuOpen(false);
@@ -123,7 +136,7 @@ export function MinimalNav({
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity"
+          className="md:hidden fixed inset-0 z-[var(--z-scrim)] bg-t-bg/70 backdrop-blur-sm transition-opacity"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -131,7 +144,7 @@ export function MinimalNav({
       {/* ── Sidebar (Desktop fixed, Mobile slide-out) ──────────────────────── */}
       <aside
         className={`
-          flex flex-col fixed top-0 left-0 h-dvh w-2/3 border-r border-t-border bg-t-bg/60 backdrop-blur-sm z-50
+          flex flex-col fixed top-0 left-0 h-dvh w-2/3 border-r border-t-border bg-t-bg/60 backdrop-blur-sm z-[var(--z-nav)]
           transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-[90%] md:translate-x-0"}
           md:w-56 lg:w-64
@@ -147,12 +160,14 @@ export function MinimalNav({
             bg-t-bg/80 backdrop-blur-sm
             rounded-full
             flex items-center justify-center
-            text-t-muted hover:text-t-text
+            text-t-text/80 hover:text-t-text
             cursor-pointer
+            ${FOCUS_TINT}
           `}
           aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
         >
           <svg
+            aria-hidden="true" focusable="false"
             width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
             className={`transition-transform duration-300 ${isMobileMenuOpen ? "rotate-180" : ""}`}
@@ -165,11 +180,11 @@ export function MinimalNav({
         <div className="px-[8vw] md:px-8 h-16 flex items-center border-b border-t-border flex-shrink-0">
           <button
             onClick={onToggleView}
-            className="flex items-center gap-2 text-t-text hover:text-t-accent transition-colors cursor-pointer group"
+            className={`flex items-center gap-2 text-t-text hover:text-t-accent transition-colors cursor-pointer group ${FOCUS_CARET}`}
             aria-label="Switch to terminal mode"
             title="Switch to terminal mode"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity">
+            <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-80 group-hover:opacity-100 transition-opacity">
               <polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" />
             </svg>
             <span className="text-sm">switch to terminal</span>
@@ -177,16 +192,16 @@ export function MinimalNav({
         </div>
 
         {/* Section links */}
-        <nav className="flex-1 overflow-y-auto px-[8vw] md:px-8 pt-4">
+        <nav className="flex-1 overflow-y-auto px-[8vw] md:px-8 pt-4 md:pt-6">
           <ul className="space-y-1 lg:space-y-2">
             {NAV_SECTIONS.map(({ id, label, icon }) => (
               <li key={id}>
                 <a
                   href={`#${id}`}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-2 text-sm text-t-muted hover:text-t-text transition-colors"
+                  className={`flex items-center gap-3 py-2 text-sm text-t-text/80 hover:text-t-text transition-colors ${FOCUS_CARET}`}
                 >
-                  <span className="flex-shrink-0 opacity-70">{icon}</span>
+                  <span className="flex-shrink-0">{icon}</span>
                   {label}
                 </a>
               </li>
@@ -198,40 +213,27 @@ export function MinimalNav({
         <div className="px-[8vw] md:px-8 py-6 pb-8 space-y-4">
           <button
             onClick={() => setIsMeowActive((prev) => !prev)}
-            className="w-full flex items-center justify-between text-sm text-t-muted hover:text-t-text transition-colors cursor-pointer"
+            className={`w-full flex items-center justify-between text-sm text-t-text/80 hover:text-t-text transition-colors cursor-pointer ${FOCUS_TINT}`}
             aria-label={isMeowActive ? "Dismiss Cat Companion" : "Summon Cat Companion"}
           >
             {isMeowActive ? "Dismiss Cat" : "Summon Cat"}
           </button>
 
           {/* Theme picker */}
-          <div className="space-y-1">
-            <p className="text-t-muted text-xs lg:text-sm opacity-60">theme</p>
-            <select
-              value={currentThemeName}
-              onChange={(e) => { setCurrentThemeName(e.target.value as ThemeName); setIsMobileMenuOpen(false); }}
-              className="w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors focus:outline-none"
-            >
-              {themeNames.map((t) => (
-                <option key={t} value={t} className="bg-t-bg text-t-text">{t}</option>
-              ))}
-            </select>
-          </div>
+          <Select
+            label="theme"
+            value={currentThemeName}
+            options={THEME_OPTIONS}
+            onChange={(v) => { setCurrentThemeName(v); setIsMobileMenuOpen(false); }}
+          />
 
           {/* Effect picker */}
-          <div className="space-y-1.5">
-            <p className="text-t-muted text-xs lg:text-sm opacity-60">effect</p>
-            <select
-              value={currentEffect ?? ""}
-              onChange={(e) => handleEffectChange(e.target.value)}
-              className="w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors focus:outline-none"
-            >
-              <option value="" className="bg-t-bg text-t-text">none</option>
-              {AVAILABLE_EFFECTS.map((e) => (
-                <option key={e.name} value={e.name} className="bg-t-bg text-t-text">{e.name}</option>
-              ))}
-            </select>
-          </div>
+          <Select
+            label="effect"
+            value={currentEffect ?? ""}
+            options={EFFECT_OPTIONS}
+            onChange={handleEffectChange}
+          />
         </div>
       </aside>
 
