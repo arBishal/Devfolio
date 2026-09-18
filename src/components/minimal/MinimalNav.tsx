@@ -1,9 +1,11 @@
 import { themeNames } from "@/themes/themes";
 import { AVAILABLE_EFFECTS } from "@/data/staticData";
 import { FOCUS_CARET, FOCUS_TINT } from "@/utils/focusStyles";
+import { Select } from "@/components/minimal/Select";
 import { useState } from "react";
 import type { ThemeName } from "@/themes/themes";
 import type { EffectName } from "@/data/staticData";
+import type { SelectOption } from "@/components/minimal/Select";
 import type { Dispatch, SetStateAction } from "react";
 
 // ── Section nav config ────────────────────────────────────────────────────────
@@ -81,6 +83,13 @@ const NAV_SECTIONS = [
       </svg>
     ),
   },
+];
+
+// Picker options — hoisted to module scope (derived from static data).
+const THEME_OPTIONS: SelectOption<ThemeName>[] = themeNames.map((t) => ({ value: t, label: t }));
+const EFFECT_OPTIONS: SelectOption<EffectName | "">[] = [
+  { value: "", label: "none" },
+  ...AVAILABLE_EFFECTS.map((e) => ({ value: e.name, label: e.name })),
 ];
 
 interface MinimalNavProps {
@@ -211,33 +220,20 @@ export function MinimalNav({
           </button>
 
           {/* Theme picker */}
-          <div className="space-y-1">
-            <p className="text-t-muted text-xs lg:text-sm opacity-60">theme</p>
-            <select
-              value={currentThemeName}
-              onChange={(e) => { setCurrentThemeName(e.target.value as ThemeName); setIsMobileMenuOpen(false); }}
-              className={`w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors ${FOCUS_TINT} focus-visible:border-t-warning`}
-            >
-              {themeNames.map((t) => (
-                <option key={t} value={t} className="bg-t-bg text-t-text">{t}</option>
-              ))}
-            </select>
-          </div>
+          <Select
+            label="theme"
+            value={currentThemeName}
+            options={THEME_OPTIONS}
+            onChange={(v) => { setCurrentThemeName(v); setIsMobileMenuOpen(false); }}
+          />
 
           {/* Effect picker */}
-          <div className="space-y-1.5">
-            <p className="text-t-muted text-xs lg:text-sm opacity-60">effect</p>
-            <select
-              value={currentEffect ?? ""}
-              onChange={(e) => handleEffectChange(e.target.value as EffectName | "")}
-              className={`w-full bg-transparent text-t-muted text-sm border-b border-t-border px-2 py-1 cursor-pointer hover:text-t-text transition-colors ${FOCUS_TINT} focus-visible:border-t-warning`}
-            >
-              <option value="" className="bg-t-bg text-t-text">none</option>
-              {AVAILABLE_EFFECTS.map((e) => (
-                <option key={e.name} value={e.name} className="bg-t-bg text-t-text">{e.name}</option>
-              ))}
-            </select>
-          </div>
+          <Select
+            label="effect"
+            value={currentEffect ?? ""}
+            options={EFFECT_OPTIONS}
+            onChange={handleEffectChange}
+          />
         </div>
       </aside>
 
