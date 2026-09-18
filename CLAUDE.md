@@ -13,3 +13,4 @@
 - Always ask and confirm first before a decision.
 - Run tests when explicitly asked, not for every changes.
 - Update the README.md and WALKTHROUGH.md upon feature changes.
+- On a version bump, add a `CHANGELOG.md` entry for the new version (covering changes since the last version).
