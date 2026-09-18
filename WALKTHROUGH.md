@@ -26,6 +26,7 @@ single shared data source and state layer.
 16. [Mobile UX](#16-mobile-ux)
 17. [Visual Effects System](#17-visual-effects-system)
 18. [Testing](#18-testing)
+19. [Performance, SEO & Social Previews](#19-performance-seo--social-previews)
 
 ---
 
@@ -125,13 +126,19 @@ keep running across a toggle:
     {isMeowActive && <CatCompanion />}
   </Suspense>
 
-  {viewMode === "terminal" && <Terminal … />}
-  {viewMode === "minimal"  && <MinimalView … />}
+  <ErrorBoundary>
+    <Suspense fallback={null}>
+      {viewMode === "terminal" && <Terminal … />}
+      {viewMode === "minimal"  && <MinimalView … />}
+    </Suspense>
+  </ErrorBoundary>
 </div>
 ```
 
-The effect canvases and `CatCompanion` are **lazy-loaded** (`React.lazy`) so their code doesn't block
-the initial render—they're only fetched when first activated.
+Both **views** *and* the effect canvases + `CatCompanion` are **lazy-loaded** (`React.lazy`) so their
+code doesn't block the initial render. The views split into separate chunks, so only the active view
+is fetched on first paint (the other loads on toggle); the effects/cat are fetched only when first
+activated. See [§19](#19-performance-seo--social-previews) for the bundle impact.
 
 ### `data-theme` at the root
 
@@ -802,3 +809,46 @@ npm run test:coverage   # coverage report → coverage/
 3. Add a conditional render in `App.tsx`:
    `{currentEffect === "…" && <YourCanvas onComplete={clearEffect} />}` (lazy-import it alongside the
    others).
+
+---
+
+## 19. Performance, SEO & Social Previews
+
+### Lighthouse (production build)
+
+| Category | Desktop | Mobile |
+|---|---|---|
+| Performance | 99 | 91 |
+| Accessibility | 100 | 100 |
+| Best Practices | 100 † | 100 † |
+| SEO | 100 | 100 |
+
+Core Web Vitals — **desktop:** FCP 0.8 s · LCP 0.8 s · TBT 0 ms · CLS 0.006 · Speed Index 0.9 s ·
+TTI 0.8 s. **mobile:** FCP 2.8 s · LCP 2.8 s · TBT 0 ms · CLS 0 · Speed Index 3.2 s (median of 3 runs).
+
+† Best Practices is 100 on the deployed HTTPS origin; a local `http://localhost` preview reports 81
+because of the "does not use HTTPS" audit alone (a localhost artifact, not a code issue). The mobile
+Performance score is lower than desktop purely because Lighthouse's mobile pass applies simulated
+slow-4G + 4× CPU throttling—there are no render-blocking resources (fonts load with `display=swap`
+behind `preconnect`) and layout shift is zero.
+
+**What earns the scores**
+
+- **Performance**—**each view is `React.lazy`** (`Terminal` and `MinimalView` are split into their own
+  chunks, so only the active view's code ships on first paint—on mobile the entire terminal command
+  subsystem is deferred); the effect canvases and `CatCompanion` are likewise code-split; the shared
+  chunk is ~49 KB gzipped (mostly React) with per-view chunks of ~5–7 KB gzipped; theming is a pure
+  CSS-variable swap so a theme change repaints without any React re-render; layout shift is near zero.
+- **Accessibility**—both views expose a `<main>` landmark (the terminal wraps its scroll body in
+  `<main>`; the minimal view uses `<main id="main-content">`), plus a skip-to-content link,
+  `focus-visible` affordances (see `utils/focusStyles.ts`), and WCAG-AA-tuned theme colors.
+- **SEO**—a static `<title>` + `description`, a canonical URL, and a valid `public/robots.txt`.
+
+### Social link previews
+
+`index.html` carries **static** Open Graph + Twitter Card tags, so link-unfurling crawlers (which
+don't execute JS) get a rich card even though the app is a client-rendered SPA. The card image is
+`public/og-image.png`—a 1200×630 terminal-styled graphic served from the site root
+(`https://dev.arbishal.com/og-image.png`); `twitter:card` is `summary_large_image` for the wide
+banner. Because `og:image` is an absolute URL, the image only resolves once deployed—after deploying,
+re-scrape via the Facebook / LinkedIn / X debuggers to bust any cached preview.

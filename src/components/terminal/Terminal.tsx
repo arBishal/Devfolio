@@ -128,22 +128,24 @@ export function Terminal({
         />
 
         {/* Scrollable terminal body */}
-        <div
-          ref={terminalRef}
-          role="log"
-          aria-label="Terminal output"
-          aria-live="polite"
-          className="p-4 flex-1 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-black bg-t-bg"
-        >
-          <TerminalOutput history={history} />
-          <CommandLine
-            onExecute={executeCommand}
-            commandHistory={commandHistory}
-            historyIndex={historyIndex}
-            setHistoryIndex={setHistoryIndex}
-            onFocusChange={handleFocusChange}
-          />
-        </div>
+        <main className="flex-1 min-h-0 flex flex-col" aria-label="Terminal">
+          <div
+            ref={terminalRef}
+            role="log"
+            aria-label="Terminal output"
+            aria-live="polite"
+            className="p-4 flex-1 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-black bg-t-bg"
+          >
+            <TerminalOutput history={history} />
+            <CommandLine
+              onExecute={executeCommand}
+              commandHistory={commandHistory}
+              historyIndex={historyIndex}
+              setHistoryIndex={setHistoryIndex}
+              onFocusChange={handleFocusChange}
+            />
+          </div>
+        </main>
 
         <TerminalFooter onToggleView={onToggleView} />
       </div>

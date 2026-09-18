@@ -21,6 +21,7 @@ A dual-mode developer portfolio built with React, TypeScript, Vite and Tailwind 
 - **Eight themes**—`dark` (default), `light`, `windows-cmd`, `ubuntu-gnome`, `sublime-monokai`, `atom-one-dark`, `github-dark`, and `dracula`—switch live with `theme <name>`
 - **Mobile-friendly**—touch-optimised keyboard UX, commands panel auto-collapses on focus
 - **Responsive layout**—works from small to widescreen
+- **Fast, accessible & shareable**—Lighthouse 99 performance / 100 accessibility / 100 SEO (desktop, production build), with rich Open Graph link previews
 
 ---
 
@@ -229,6 +230,24 @@ That single entry surfaces the command in autocomplete, help, and the welcome sc
 2. Add a new entry to `AVAILABLE_EFFECTS` in `src/data/staticData.ts` with `status: "done"`
 3. Add a lazy-loaded conditional render in `App.tsx` for the new effect name (alongside the existing effect overlays)
 4. Set `status: "planning"` while in development—the UI will show it as "under development" and prevent activation
+
+---
+
+## Performance & SEO
+
+Measured with Lighthouse against a production build:
+
+| Category | Desktop | Mobile |
+|---|---|---|
+| Performance | 99 | 91 |
+| Accessibility | 100 | 100 |
+| Best Practices | 100 * | 100 * |
+| SEO | 100 | 100 |
+
+**Core Web Vitals** — *desktop:* FCP 0.8 s · LCP 0.8 s · TBT 0 ms · CLS 0.006 · Speed Index 0.9 s ·
+*mobile:* FCP 2.8 s · LCP 2.8 s · TBT 0 ms · CLS 0 · Speed Index 3.2 s.
+
+**Social link previews.** `index.html` carries static Open Graph + Twitter Card tags.
 
 ---
 

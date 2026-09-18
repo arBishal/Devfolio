@@ -1,6 +1,4 @@
 import { useState, Suspense, lazy } from "react";
-import { Terminal } from "@/components/terminal/Terminal";
-import { MinimalView } from "@/components/minimal/MinimalView";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useTheme } from "@/hooks/useTheme";
@@ -8,6 +6,12 @@ import { useActiveEffect } from "@/hooks/useActiveEffect";
 import { getInitialViewState, persistViewMode } from "@/utils/viewMode";
 import type { ViewMode } from "@/utils/viewMode";
 import type { ThemeName } from "@/themes/themes";
+
+// Lazy-load each view so only the active one is fetched on first load — the
+// non-active view's code (e.g. the whole terminal command subsystem on mobile)
+// is deferred until the user toggles to it.
+const Terminal = lazy(() => import("@/components/terminal/Terminal").then(m => ({ default: m.Terminal })));
+const MinimalView = lazy(() => import("@/components/minimal/MinimalView").then(m => ({ default: m.MinimalView })));
 
 // Lazy-load heavy visual effects so they don't block the initial render
 const FirefliesCanvas = lazy(() => import("@/components/FirefliesCanvas").then(m => ({ default: m.FirefliesCanvas })));
@@ -70,30 +74,35 @@ export default function App() {
       </Suspense>
 
       {/* ── View routing (guarded so a throwing renderer degrades gracefully) ── */}
+      {/* Suspense sits inside the boundary so a chunk-load failure degrades too;
+          fallback is null because the booting LoadingScreen already covers the
+          first paint while the active view's chunk streams in. */}
       <ErrorBoundary>
-        {viewMode === "terminal" && (
-          <Terminal
-            currentThemeNameRef={currentThemeNameRef}
-            setCurrentThemeName={setCurrentThemeName}
-            currentEffectRef={currentEffectRef}
-            setCurrentEffect={setCurrentEffect}
-            setIsMeowActive={setIsMeowActive}
-            onToggleView={toggleView}
-          />
-        )}
+        <Suspense fallback={null}>
+          {viewMode === "terminal" && (
+            <Terminal
+              currentThemeNameRef={currentThemeNameRef}
+              setCurrentThemeName={setCurrentThemeName}
+              currentEffectRef={currentEffectRef}
+              setCurrentEffect={setCurrentEffect}
+              setIsMeowActive={setIsMeowActive}
+              onToggleView={toggleView}
+            />
+          )}
 
-        {viewMode === "minimal" && (
-          <MinimalView
-            currentThemeName={currentThemeName}
-            setCurrentThemeName={setCurrentThemeName}
-            currentEffect={currentEffect}
-            setCurrentEffect={setCurrentEffect}
-            clearEffect={clearEffect}
-            isMeowActive={isMeowActive}
-            setIsMeowActive={setIsMeowActive}
-            onToggleView={toggleView}
-          />
-        )}
+          {viewMode === "minimal" && (
+            <MinimalView
+              currentThemeName={currentThemeName}
+              setCurrentThemeName={setCurrentThemeName}
+              currentEffect={currentEffect}
+              setCurrentEffect={setCurrentEffect}
+              clearEffect={clearEffect}
+              isMeowActive={isMeowActive}
+              setIsMeowActive={setIsMeowActive}
+              onToggleView={toggleView}
+            />
+          )}
+        </Suspense>
       </ErrorBoundary>
     </div>
   );
